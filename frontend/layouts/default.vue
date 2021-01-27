@@ -18,7 +18,7 @@
         <v-btn small @click="logout()"> Logout </v-btn>
       </template>
 
-      <v-btn v-else color="#7289DA" href="http://127.0.0.1:8000/api/login">
+      <v-btn v-else color="#7289DA" href="/api/login">
         <img style="max-width: 25px; max-height: 25px" src="https://discord.com/assets/1c8a54f25d101bdc607cec7228247a9a.svg" />
         Login with discord
       </v-btn>
