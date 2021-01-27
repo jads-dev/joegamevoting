@@ -18,6 +18,7 @@
             missing, you can ping me on discord
           </p>
           <p>Voting is restricted to people that have the twitch or patreon roles on discord. This is done to limit people manipulating votes with bots/etc.</p>
+          <p>The site is probably a bit rough around the edges, but should be at the very minimum functional :P</p>
         </v-card-text>
       </v-card>
     </v-col>
