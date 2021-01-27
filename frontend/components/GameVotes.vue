@@ -41,8 +41,9 @@ export default {
   },
   methods: {
     goto_game: async function (vote) {
-      console.log(vote);
-      window.location.href = "/game/" + vote.game_id;
+      this.$router.push({
+        path: "/game/" + vote.game_id,
+      });
     },
   },
 };
