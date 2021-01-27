@@ -41,7 +41,7 @@
       </v-row>
     </v-card>
     <v-row>
-      <v-col cols="6" class="pr-1">
+      <v-col cols="12" md="6" class="px-1">
         <v-card class="mt-2">
           <v-card-title> Why users think joe should play this game </v-card-title>
           <v-card-text>
@@ -71,7 +71,7 @@
           </v-card-text>
         </v-card>
       </v-col>
-      <v-col cols="6" class="pl-1">
+      <v-col cols="12" md="6" class="pl-1">
         <v-card class="mt-2">
           <v-card-title> Users that voted for this game </v-card-title>
           <v-card-text>

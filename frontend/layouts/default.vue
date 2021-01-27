@@ -25,10 +25,10 @@
     </v-app-bar>
     <v-main>
       <v-row class="mr-2 mt-2" no-gutters>
-        <v-col cols="2">
+        <v-col class="" cols="6" md="2">
           <game-votes />
         </v-col>
-        <v-col cols="10">
+        <v-col cols="6" md="10">
           <nuxt />
         </v-col>
       </v-row>
