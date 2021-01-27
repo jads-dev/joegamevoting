@@ -60,9 +60,7 @@ export default {
   },
 
   data() {
-    return {
-      loginurl: "",
-    };
+    return {};
   },
 
   methods: {
