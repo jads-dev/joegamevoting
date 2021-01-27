@@ -39,18 +39,14 @@ export default {
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    baseURL: development
-      ? "http://127.0.0.1:8000"
-      : "https://joegames.nodja.com"
+    baseURL: "https://joegames.nodja.com"
   },
   io: {
     // module options
     sockets: [
       {
         name: "joevotes",
-        url: development
-          ? "http://127.0.0.1:8000"
-          : "https://joegames.nodja.com"
+        url: "https://joegames.nodja.com"
       }
     ]
   },
