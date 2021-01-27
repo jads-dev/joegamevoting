@@ -29,8 +29,7 @@ SECRET_KEY = "***REMOVED***"
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 525600  # 1 year
 
-if "http://" in OAUTH2_REDIRECT_URI:
-    os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "true"
+os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "true"
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token", auto_error=False)
 
