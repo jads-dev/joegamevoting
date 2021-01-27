@@ -31,9 +31,10 @@ export default {
     votes: {},
   }),
 
-  mounted() {
+  created() {
     this.socket = this.$nuxtSocket({
       channel: "/gamevotes",
+      persist: true,
     });
     this.socket.on("votes", (msg, cb) => {
       this.votes = msg;

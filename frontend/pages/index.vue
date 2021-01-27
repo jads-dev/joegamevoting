@@ -5,6 +5,9 @@
       <v-card>
         <v-card-title class="headline">What's this? </v-card-title>
         <v-card-text>
+          <p class="text-h4 font-weight-black">The voting here is unofficial and just to gauge interest!</p>
+          <p class="text-h4 font-weight-black">You can vote on more than one game!</p>
+          <p class="text-h4 font-weight-black">You can add any game to the list by searching for it and voting on it!</p>
           <p>
             This website is for people to vote on which game they would like for Joe to play on stream. This page is not officially endorsed by Joe (I haven't
             asked him) and should be treated as a fan page.
