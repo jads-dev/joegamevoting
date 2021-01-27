@@ -1,0 +1,11 @@
+{
+    "python.pythonPath": "C:\\Users\\Nodja\\AppData\\Local\\pypoetry\\Cache\\virtualenvs\\joegames-hqd27UWl-py3.8\\Scripts\\python.exe",
+    "prettier.printWidth": 160,
+    "editor.minimap.maxColumn": 160,
+    "vetur.format.defaultFormatterOptions": {
+        "prettier": {
+          // Prettier option here
+          "printWidth": 160
+        }
+      }
+}
