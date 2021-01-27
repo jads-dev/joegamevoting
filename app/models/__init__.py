@@ -1,6 +1,6 @@
 import sqlite3
 
-dbc = sqlite3.connect("gamevotes.db")
+dbc = sqlite3.connect("data/gamevotes.db")
 
 
 def row_to_dictionary(cursor, row):
