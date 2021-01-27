@@ -19,7 +19,11 @@ router = APIRouter()
 
 OAUTH2_CLIENT_ID = "687854633443655814"
 OAUTH2_CLIENT_SECRET = "***REMOVED***"
-OAUTH2_REDIRECT_URI = "https://joegames.nodja.com/discord_callback"
+
+if os.environ.get("ISDOCKER", False):
+    OAUTH2_REDIRECT_URI = "https://joegames.nodja.com/discord_callback"
+else:
+    OAUTH2_REDIRECT_URI = "http://127.0.0.1:3000/discord_callback"
 
 API_BASE_URL = "https://discordapp.com/api"
 AUTHORIZATION_BASE_URL = API_BASE_URL + "/oauth2/authorize"

@@ -49,7 +49,7 @@
               <v-card-text class="text-center"> No one has written a pitch for this game yet.</v-card-text>
             </v-card>
             <v-card outlined class="mt-3" elevation="12" v-for="pitch in game_pitches" v-bind:key="pitch.user_id">
-              <v-card-text> {{ pitch.pitch }}</v-card-text>
+              <v-card-text style="white-space: pre-wrap"> {{ pitch.pitch }}</v-card-text>
               <v-card-title class="justify-center">
                 <v-avatar left size="35">
                   <v-img :src="pitch.avatar_url" :alt="pitch.username"></v-img>

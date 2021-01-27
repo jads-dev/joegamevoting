@@ -6,7 +6,7 @@
         <v-card-title class="headline">What's this? </v-card-title>
         <v-card-text>
           <p>
-            This page is for people to vote on which game they would like for Joe to play next on stream. This page is not officially endorsed by Joe (I haven't
+            This website is for people to vote on which game they would like for Joe to play on stream. This page is not officially endorsed by Joe (I haven't
             asked him) and should be treated as a fan page.
           </p>
           <p>
