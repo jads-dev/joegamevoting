@@ -1,5 +1,3 @@
-import os
-
 import socketio
 
 
@@ -11,12 +9,7 @@ origins = [
 ]
 
 
-if os.environ.get("ISDOCKER", False):
-    manager = socketio.AsyncRedisManager("redis://joegames-redis")
-    sio = socketio.AsyncServer(async_mode="asgi", cors_allowed_origins=[], client_manager=manager)
-else:
-    sio = socketio.AsyncServer(async_mode="asgi", cors_allowed_origins=[])
-
+sio = socketio.AsyncServer(async_mode="asgi", cors_allowed_origins=[])
 socket_app = socketio.ASGIApp(sio, static_files={"/": "app.html"})
 
 

@@ -21,9 +21,6 @@ services:
         restart: always
         environment:
             - MAX_WORKERS=1
-    redis:
-        image: redis
-        container_name: joegames-redis
     nginx:
         image: nginx:latest
         container_name: joegames-nginx
