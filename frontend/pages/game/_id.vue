@@ -48,7 +48,7 @@
             <v-card outlined elevation="12" v-if="game_pitches.length == 0">
               <v-card-text class="text-center"> No one has written a pitch for this game yet.</v-card-text>
             </v-card>
-            <v-card outlined class="mt-3"  elevation="12" v-for="pitch in game_pitches" v-bind:key="pitch.user_id">
+            <v-card outlined class="mt-3" elevation="12" v-for="pitch in game_pitches" v-bind:key="pitch.user_id">
               <v-card-text> {{ pitch.pitch }}</v-card-text>
               <v-card-title class="justify-center">
                 <v-avatar left size="35">

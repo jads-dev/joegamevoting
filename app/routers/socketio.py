@@ -1,4 +1,7 @@
+import os
+
 import socketio
+
 
 from app.models import votes
 
@@ -7,7 +10,13 @@ origins = [
     "http://127.0.0.1:3000",
 ]
 
-sio = socketio.AsyncServer(async_mode="asgi", cors_allowed_origins=[])
+
+if os.environ.get("ISDOCKER", False):
+    manager = socketio.AsyncRedisManager("redis://")
+    sio = socketio.AsyncServer(async_mode="asgi", cors_allowed_origins=[], client_manager=manager)
+else:
+    sio = socketio.AsyncServer(async_mode="asgi", cors_allowed_origins=[])
+
 socket_app = socketio.ASGIApp(sio, static_files={"/": "app.html"})
 
 

@@ -5,8 +5,8 @@ let development = process.env.NODE_ENV !== "production";
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: "%s - joegames",
-    title: "joegames",
+    titleTemplate: "%s",
+    title: "Joe stream game voting",
     htmlAttrs: {
       lang: "en"
     },
@@ -49,9 +49,8 @@ export default {
       {
         name: "joevotes",
         url: development
-      ? "http://127.0.0.1:8000"
-      : "https://joegames.nodja.com"
-        
+          ? "http://127.0.0.1:8000"
+          : "https://joegames.nodja.com"
       }
     ]
   },
