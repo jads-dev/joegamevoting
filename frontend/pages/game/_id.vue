@@ -35,7 +35,7 @@
             </template>
           </v-card-subtitle>
           <v-card-text>
-            {{ game_data.summary }}
+            <div class="overflow-y-auto" style="white-space: pre-wrap; max-height: 200px">{{ game_data.summary }}</div>
           </v-card-text>
         </v-col>
       </v-row>

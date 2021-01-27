@@ -80,3 +80,26 @@ export default {
   },
 };
 </script>
+
+
+<style>
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #424242;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #757575;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #BDBDBD;
+}
+
+html {
+  overflow-y: auto !important;
+}
+</style>
