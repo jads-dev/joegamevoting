@@ -17,6 +17,8 @@ services:
             dockerfile: Dockerfile-backend
         container_name: joegames-backend
         restart: always
+        environment:
+            - MAX_WORKERS=1
     redis:
         image: redis
         container_name: joegames-redis
