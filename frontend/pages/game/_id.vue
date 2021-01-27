@@ -75,7 +75,7 @@
         <v-card class="mt-2">
           <v-card-title> Users that voted for this game </v-card-title>
           <v-card-text>
-            <v-chip pill v-for="voter in game_voters" v-bind:key="voter.user_id">
+            <v-chip pill class="ml-1 mb-1" v-for="voter in game_voters" v-bind:key="voter.user_id">
               <v-avatar left>
                 <v-img :src="voter.avatar_url" :alt="voter.username"></v-img>
               </v-avatar>

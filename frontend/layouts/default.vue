@@ -9,7 +9,7 @@
       <v-spacer />
 
       <template v-if="user.username">
-        <v-chip pill>
+        <v-chip pill class="mr-1">
           <v-avatar left>
             <v-img :src="user.avatar_url" :alt="user.username"></v-img>
           </v-avatar>
@@ -24,16 +24,14 @@
       </v-btn>
     </v-app-bar>
     <v-main>
-      <v-container no-gutters>
-        <v-row no-gutters>
-          <v-col cols="2">
-            <game-votes />
-          </v-col>
-          <v-col cols="10">
-            <nuxt />
-          </v-col>
-        </v-row>
-      </v-container>
+      <v-row class="mr-2 mt-2" no-gutters>
+        <v-col cols="2">
+          <game-votes />
+        </v-col>
+        <v-col cols="10">
+          <nuxt />
+        </v-col>
+      </v-row>
     </v-main>
   </v-app>
 </template>
@@ -43,7 +41,7 @@ import GameSearchBar from "../components/GameSearchBar.vue";
 import GameVotes from "../components/GameVotes.vue";
 export default {
   components: { GameSearchBar, GameVotes },
-  mounted: async function () {
+  created: async function () {
     const token = this.$store.state.localStorage.user.token;
     const username = this.$store.state.localStorage.user.username;
     if (token) {
@@ -62,7 +60,9 @@ export default {
   },
 
   data() {
-    return {};
+    return {
+      loginurl: "",
+    };
   },
 
   methods: {
@@ -96,7 +96,7 @@ export default {
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #BDBDBD;
+  background: #bdbdbd;
 }
 
 html {
