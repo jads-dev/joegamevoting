@@ -36,12 +36,12 @@ def register_user(user_id, username, avatar_url):
     dbc.commit()
 
 
-def set_can_vote(user_id):
+def set_can_vote(user_id, can_vote):
     cursor = dbc.cursor()
     sql = """
         update users 
-        set can_vote = 1
+        set can_vote = ?
         where user_id = ?
     """
-    cursor.execute(sql, (user_id,))
+    cursor.execute(sql, (can_vote, user_id))
     dbc.commit()

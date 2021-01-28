@@ -111,8 +111,10 @@ async def discord_callback(request: Request, state: str, code: str):
         register_user(user_id=user_data["id"], username=user_data["username"], avatar_url=avatar_url)
         user_db = get_user(user_id=user_data["id"])
 
-    if not user_db["can_vote"] and await can_vote(user_db["user_id"]):
-        set_can_vote(user_db["user_id"])
+    if not user_db["can_vote"]:
+        _can_vote = await can_vote(user_db["user_id"])
+        if _can_vote is not None:
+            set_can_vote(user_db["user_id"], _can_vote)
 
     access_token = create_access_token(data={"sub": str(user_db["user_id"])}, expires_delta=timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES))
     return {"access_token": access_token, "token_type": "Bearer"}
