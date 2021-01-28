@@ -21,6 +21,7 @@ allowed_roles = [
 async def can_vote(user_id):
     guild = bot.get_guild(308515582817468420)
     user = guild.get_member(user_id)
-    result = any(role.id in allowed_roles for role in user.roles)
-    print(result)
-    return result
+    if not user:
+        return
+    else:
+        return any(role.id in allowed_roles for role in user.roles)
