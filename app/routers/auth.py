@@ -11,7 +11,7 @@ from jose import JWTError, jwt
 from requests_oauthlib import OAuth2Session
 from starlette.responses import RedirectResponse
 
-from app.models.auth import TokenData, User, get_user, register_user, set_can_vote
+from app.models.auth import TokenData, User, get_user, register_user, set_can_vote, can_vote_messages
 from app.discordbot import can_vote
 
 
@@ -112,7 +112,7 @@ async def discord_callback(request: Request, state: str, code: str):
         user_db = get_user(user_id=user_data["id"])
 
     if not user_db["can_vote"]:
-        _can_vote = await can_vote(user_db["user_id"])
+        _can_vote = can_vote_messages(user_db["user_id"]) or await can_vote(user_db["user_id"])
         if _can_vote is not None:
             set_can_vote(user_db["user_id"], _can_vote)
 

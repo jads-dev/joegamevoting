@@ -1,13 +1,22 @@
 <template>
   <v-row justify="center" align="center">
     <v-col cols="12" md="6">
-      <div class="text-center"></div>
+      <v-card>
+        <v-card-title class="headline">Read this:</v-card-title>
+        <v-card-text class="text-center">
+          <p class="text-h5 font-weight-bold">
+            <span style="color: red">New:</span> People with more than 100 posts in #dragons-den before Jan 27 can now vote as well.
+          </p>
+          <p class="text-h5 font-weight-bold">The voting here is unofficial and just to gauge interest.</p>
+          <p class="text-h5 font-weight-bold">You can vote on more than one game.</p>
+          <p class="text-h6 font-weight-bold">You can add any game to the list by searching for it and voting on it.</p>
+        </v-card-text>
+      </v-card>
+    </v-col>
+    <v-col>
       <v-card>
         <v-card-title class="headline">What's this? </v-card-title>
         <v-card-text>
-          <p class="text-h4 font-weight-black">The voting here is unofficial and just to gauge interest!</p>
-          <p class="text-h4 font-weight-black">You can vote on more than one game!</p>
-          <p class="text-h4 font-weight-black">You can add any game to the list by searching for it and voting on it!</p>
           <p>
             This website is for people to vote on which game they would like for Joe to play on stream. This page is not officially endorsed by Joe (I haven't
             asked him) and should be treated as a fan page.

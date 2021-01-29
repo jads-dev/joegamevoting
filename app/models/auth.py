@@ -36,6 +36,23 @@ def register_user(user_id, username, avatar_url):
     dbc.commit()
 
 
+def can_vote_messages(user_id):
+    cursor = dbc.cursor()
+
+    sql = """
+        select message_count
+        from message_counts
+        where user_id = ?
+    """
+
+    cursor.execute(sql, (user_id,))
+
+    count = cursor.fetchone()
+    count = row_to_dictionary(cursor, count)
+    if count:
+        return count['message_count'] >= 100
+
+
 def set_can_vote(user_id, can_vote):
     cursor = dbc.cursor()
     sql = """
