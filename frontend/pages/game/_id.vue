@@ -103,9 +103,6 @@ export default {
 
   methods: {
     get_data: async function () {
-      const game_data = await this.$axios.$get(`/api/game/${this.$route.params.id}`);
-      this.game_data = game_data;
-
       const game_platforms = await this.$axios.$get(`/api/game/platforms/${this.$route.params.id}`);
       this.game_platforms = game_platforms.map(function (obj) {
         return obj.name;
@@ -151,6 +148,30 @@ export default {
       },
       set(value) {},
     },
+  },
+
+  asyncData(context) {
+    return context.$axios.get(`/api/game/${context.route.params.id}`).then((res) => {
+      return { game_data: res.data };
+    });
+  },
+
+  head() {
+    return {
+      title: "Joevotes - " + this.game_data.name,
+      meta: [
+        {
+          hid: "description",
+          name: "description",
+          content: this.game_data.summary.substring(0, 200),
+        },
+        {
+          hid: "image",
+          name: "image",
+          content: this.game_data.cover_url_big,
+        },
+      ],
+    };
   },
 };
 </script>
