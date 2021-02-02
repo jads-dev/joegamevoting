@@ -166,8 +166,13 @@ export default {
           content: this.game_data.summary.substring(0, 200),
         },
         {
-          hid: "image",
-          name: "image",
+          hid: "description",
+          name: "description",
+          content: this.game_data.summary.substring(0, 200),
+        },
+        {
+          hid: "og:image",
+          name: "og:image",
           content: this.game_data.cover_url_big,
         },
       ],
