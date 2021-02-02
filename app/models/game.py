@@ -133,7 +133,7 @@ def get_game_pitches(game_id):
         from game_pitches as gp
         left join users as u on u.user_id = gp.user_id
         where gp.game_id = ?
-        order by gp.rowid
+        order by gp.pinned desc, gp.rowid
     """
 
     cursor.execute(sql, (game_id,))

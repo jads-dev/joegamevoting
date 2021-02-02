@@ -48,13 +48,23 @@
             <v-card outlined elevation="12" v-if="game_pitches.length == 0">
               <v-card-text class="text-center"> No one has written a pitch for this game yet.</v-card-text>
             </v-card>
-            <v-card outlined class="mt-3" elevation="12" v-for="pitch in game_pitches" v-bind:key="pitch.user_id">
+            <v-card
+              v-for="pitch in game_pitches"
+              v-bind:key="pitch.user_id"
+              outlined
+              class="mt-3"
+              elevation="12"
+              :style="pitch.pinned ? 'border: 1px solid green;' : ''"
+            >
+              <div class="text-center my-n3" v-if="pitch.pinned">
+                <span class="px-1" :style="pitch.pinned ? 'color: green; background: #1E1E1E' : ''"> Pinned </span>
+              </div>
               <v-card-text style="white-space: pre-wrap">{{ pitch.pitch }}</v-card-text>
               <v-card-title class="justify-center">
                 <v-avatar left size="35">
                   <v-img :src="pitch.avatar_url" :alt="pitch.username"></v-img>
                 </v-avatar>
-                {{ pitch.username }}
+                <span class="ml-1">{{ pitch.username }}</span>
               </v-card-title>
             </v-card>
           </v-card-text>
