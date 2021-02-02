@@ -103,6 +103,9 @@ export default {
 
   methods: {
     get_data: async function () {
+      const game_data = await this.$axios.$get(`/api/game/${this.$route.params.id}`);
+      this.game_data = game_data;
+
       const game_platforms = await this.$axios.$get(`/api/game/platforms/${this.$route.params.id}`);
       this.game_platforms = game_platforms.map(function (obj) {
         return obj.name;
