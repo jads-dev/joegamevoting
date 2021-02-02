@@ -98,39 +98,40 @@ export default {
     pitch: "",
   }),
   created: async function () {
-    this.get_data();
+    const game_data = await this.$axios.$get(`/api/game/${this.$route.params.id}`);
+    this.game_data = game_data;
+
+    const game_platforms = await this.$axios.$get(`/api/game/platforms/${this.$route.params.id}`);
+    this.game_platforms = game_platforms.map(function (obj) {
+      return obj.name;
+    });
+
+    const game_voters = await this.$axios.$get(`/api/game/${this.$route.params.id}/voters`);
+    this.game_voters = game_voters;
+
+    const game_pitches = await this.$axios.$get(`/api/game/${this.$route.params.id}/pitches`);
+    this.game_pitches = game_pitches;
   },
 
   methods: {
-    get_data: async function () {
-      const game_data = await this.$axios.$get(`/api/game/${this.$route.params.id}`);
-      this.game_data = game_data;
-
-      const game_platforms = await this.$axios.$get(`/api/game/platforms/${this.$route.params.id}`);
-      this.game_platforms = game_platforms.map(function (obj) {
-        return obj.name;
-      });
-
-      const game_voters = await this.$axios.$get(`/api/game/${this.$route.params.id}/voters`);
-      this.game_voters = game_voters;
-
-      const game_pitches = await this.$axios.$get(`/api/game/${this.$route.params.id}/pitches`);
-      this.game_pitches = game_pitches;
-    },
-
     vote_game: async function (upvote) {
       var params = {
         upvote: upvote,
       };
       await this.$axios.$post(`/api/game/${this.$route.params.id}/vote`, params);
       this.game_data.vote = upvote;
+
+      const game_voters = await this.$axios.$get(`/api/game/${this.$route.params.id}/voters`);
+      this.game_voters = game_voters;
     },
     pitch_game: async function () {
       var params = {
         pitch: this.pitch,
       };
       await this.$axios.$post(`/api/game/${this.$route.params.id}/pitch`, params);
-      await this.get_data();
+
+      const game_pitches = await this.$axios.$get(`/api/game/${this.$route.params.id}/pitches`);
+      this.game_pitches = game_pitches;
     },
   },
 
