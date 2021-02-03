@@ -23,12 +23,12 @@
         Login with discord
       </v-btn>
     </v-app-bar>
-    <v-main>
-      <v-row class="mr-2 mt-2" no-gutters>
-        <v-col class="" cols="6" md="2">
+    <v-main style="height: 100vh">
+      <v-row style="height: 100%" no-gutters>
+        <v-col cols="6" md="2" style="height: 100%" class="overflow-y-auto">
           <game-votes />
         </v-col>
-        <v-col cols="6" md="10">
+        <v-col cols="6" md="10" style="height: 100%" class="overflow-y-auto pr-3">
           <nuxt />
         </v-col>
       </v-row>
@@ -98,6 +98,6 @@ export default {
 }
 
 html {
-  overflow-y: auto !important;
+  overflow-y: hidden !important;
 }
 </style>
