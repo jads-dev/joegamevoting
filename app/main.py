@@ -5,7 +5,7 @@ from starlette.middleware.cors import CORSMiddleware
 
 from .discordbot import bot
 from .models.game import calc_votes
-from .routers import auth, game
+from .routers import auth, game, game_discord
 from .routers.socketio import socket_app
 
 
@@ -27,6 +27,7 @@ app.add_middleware(
 
 app.include_router(auth.router, prefix="/api", tags=["auth"])
 app.include_router(game.router, prefix="/api", tags=["game"])
+app.include_router(game_discord.router, prefix="/api", tags=["game_discord"])
 
 app.mount("/", socket_app)
 

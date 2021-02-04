@@ -2,7 +2,8 @@
   <v-app dark>
     <v-app-bar fixed app>
       <v-btn to="/"> Home </v-btn>
-      <v-switch v-model="official" label="Show Official Discord votes"> </v-switch>
+
+      <v-switch hide-details v-model="official" label="Show Official Discord votes" class="ml-2" @change="on_official_change"> </v-switch>
 
       <template v-if="!official">
         <v-spacer />
@@ -28,10 +29,10 @@
     <v-main style="height: 100vh">
       <v-row style="height: 100%" no-gutters>
         <v-col cols="6" md="2" style="height: 100%" class="overflow-y-auto">
-          <game-votes-discord v-if="official" />
-          <game-votes v-else />
+          <game-votes-discord v-if="official" class="ma-0 pa-0" />
+          <game-votes v-else class="ma-0 pa-0" />
         </v-col>
-        <v-col cols="6" md="10" style="height: 100%" class="overflow-y-auto pr-3">
+        <v-col cols="6" md="10" style="height: 100%" class="overflow-y-auto pl-2 pr-3">
           <nuxt />
         </v-col>
       </v-row>
@@ -57,7 +58,6 @@ export default {
           avatar_url: response["avatar_url"],
           can_vote: response["can_vote"],
         };
-
         this.$store.commit("localStorage/set_user", user);
       }
     }
@@ -70,6 +70,12 @@ export default {
   methods: {
     logout() {
       this.$store.commit("localStorage/reset_state", !this.adding_event);
+    },
+    on_official_change() {
+      console.log("test");
+      this.$router.push({
+        path: "/",
+      });
     },
   },
   computed: {

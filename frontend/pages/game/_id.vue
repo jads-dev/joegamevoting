@@ -108,6 +108,7 @@ export default {
     pitch: "",
   }),
   created: async function () {
+    this.$store.commit("localStorage/set_official", false);
     const game_data = await this.$axios.$get(`/api/game/${this.$route.params.id}`);
     this.game_data = game_data;
 
@@ -174,11 +175,6 @@ export default {
     return {
       title: "Joevotes - " + this.game_data.name,
       meta: [
-        {
-          hid: "description",
-          name: "description",
-          content: this.game_data.summary.substring(0, 200),
-        },
         {
           hid: "description",
           name: "description",

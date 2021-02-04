@@ -1,6 +1,7 @@
 <template>
   <v-container>
     <v-card>
+      <v-card-title class="ma-0 pa-0 ml-2"> Unofficial poll results: </v-card-title>
       <v-progress-linear
         v-for="vote in votes"
         v-bind:key="vote.game_id"

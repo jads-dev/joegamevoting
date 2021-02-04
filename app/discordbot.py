@@ -45,7 +45,7 @@ class DiscordBot(discord.Client):
         end_dt = datetime.datetime(2017, 11, 4, 4, 24, 59)
 
         async for message in channel.history(after=start_dt, before=end_dt, limit=500):
-            print(message.id, message.created_at, message.content)
+            # print(message.id, message.created_at, message.content)
             messages.append(message)
 
         self.valid_message_ids = [message.id for message in messages]

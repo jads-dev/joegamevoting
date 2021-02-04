@@ -1,6 +1,7 @@
 <template>
   <v-container>
     <v-card>
+      <v-card-title class="ma-0 pa-0 ml-2"> Discord poll results: </v-card-title>
       <v-progress-linear
         v-for="vote in vote_list"
         v-bind:key="vote.message_id"
@@ -8,7 +9,7 @@
         height="25"
         color="#7289da"
         :value="(vote.votes / vote_list[0].votes) * 100"
-        @click="goto_game(vote.message_id)"
+        @click="goto_game(vote)"
       >
         <template v-slot:default>
           <v-tooltip top open-delay="200">
@@ -47,8 +48,6 @@ export default {
     this.socket.on("votes_discord", (msg, cb) => {
       const partial = msg.partial;
       delete msg.partial;
-
-      console.log(partial);
       if (partial) {
         this.$set(this.votes, msg.message_id, msg);
       } else {
@@ -65,13 +64,14 @@ export default {
 
       _vote_list.sort(comparator);
       this.vote_list = _vote_list;
+      this.$store.commit("set_discord_games", _vote_list);
     });
     this.socket.emit("votes_pls", "discordvotes");
   },
   methods: {
-    goto_game: async function (message_id) {
+    goto_game: async function (game) {
       this.$router.push({
-        path: "/game_discord/" + message_id,
+        path: "/game_discord/" + game.message_id,
       });
     },
   },
