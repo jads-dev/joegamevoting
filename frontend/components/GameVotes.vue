@@ -28,10 +28,10 @@
 <script>
 export default {
   data: () => ({
-    votes: {},
+    votes: [],
   }),
 
-  created() {
+  mounted() {
     this.socket = this.$nuxtSocket({
       channel: "/gamevotes",
       persist: true,
@@ -39,6 +39,7 @@ export default {
     this.socket.on("votes", (msg, cb) => {
       this.votes = msg;
     });
+    this.socket.emit("votes_pls", "fanvotes");
   },
   methods: {
     goto_game: async function (vote) {

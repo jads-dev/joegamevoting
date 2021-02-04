@@ -4,7 +4,8 @@ export const state = () => ({
     username: "",
     avatar_url: "",
     can_vote: false
-  }
+  },
+  official: true
 });
 
 export const mutations = {
@@ -23,5 +24,8 @@ export const mutations = {
       avatar_url: "",
       can_vote: false
     };
+  },
+  set_official(state, official) {
+    state.official = official;
   }
 };

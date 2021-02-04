@@ -2,31 +2,34 @@
   <v-app dark>
     <v-app-bar fixed app>
       <v-btn to="/"> Home </v-btn>
-      <v-spacer />
+      <v-switch v-model="official" label="Show Official Discord votes"> </v-switch>
 
-      <game-search-bar />
+      <template v-if="!official">
+        <v-spacer />
 
-      <v-spacer />
+        <game-search-bar />
 
-      <template v-if="user.username">
-        <v-chip pill class="mr-1">
-          <v-avatar left>
-            <v-img :src="user.avatar_url" :alt="user.username"></v-img>
-          </v-avatar>
-          {{ user.username }}
-        </v-chip>
-        <v-btn small @click="logout()"> Logout </v-btn>
+        <v-spacer />
+        <template v-if="user.username">
+          <v-chip pill class="mr-1">
+            <v-avatar left>
+              <v-img :src="user.avatar_url" :alt="user.username"></v-img>
+            </v-avatar>
+            {{ user.username }}
+          </v-chip>
+          <v-btn small @click="logout()"> Logout </v-btn>
+        </template>
+        <v-btn v-else color="#7289DA" href="/api/login">
+          <img style="max-width: 25px; max-height: 25px" src="https://discord.com/assets/1c8a54f25d101bdc607cec7228247a9a.svg" />
+          Login with discord
+        </v-btn>
       </template>
-
-      <v-btn v-else color="#7289DA" href="/api/login">
-        <img style="max-width: 25px; max-height: 25px" src="https://discord.com/assets/1c8a54f25d101bdc607cec7228247a9a.svg" />
-        Login with discord
-      </v-btn>
     </v-app-bar>
     <v-main style="height: 100vh">
       <v-row style="height: 100%" no-gutters>
         <v-col cols="6" md="2" style="height: 100%" class="overflow-y-auto">
-          <game-votes />
+          <game-votes-discord v-if="official" />
+          <game-votes v-else />
         </v-col>
         <v-col cols="6" md="10" style="height: 100%" class="overflow-y-auto pr-3">
           <nuxt />
@@ -39,8 +42,9 @@
 <script>
 import GameSearchBar from "../components/GameSearchBar.vue";
 import GameVotes from "../components/GameVotes.vue";
+import GameVotesDiscord from "../components/GameVotesDiscord.vue";
 export default {
-  components: { GameSearchBar, GameVotes },
+  components: { GameSearchBar, GameVotes, GameVotesDiscord },
   created: async function () {
     const token = this.$store.state.localStorage.user.token;
     const username = this.$store.state.localStorage.user.username;
@@ -74,6 +78,14 @@ export default {
         return this.$store.state.localStorage.user;
       },
       set(value) {},
+    },
+    official: {
+      get() {
+        return this.$store.state.localStorage.official;
+      },
+      set(value) {
+        this.$store.commit("localStorage/set_official", value);
+      },
     },
   },
 };
