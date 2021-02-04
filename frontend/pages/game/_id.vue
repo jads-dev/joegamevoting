@@ -34,6 +34,7 @@
               </template>
             </template>
           </v-card-subtitle>
+          <v-card-subtitle class="mt-n3 pt-0"> This is <span style="color: red; font-weight: bold">not</span> an official vote. </v-card-subtitle>
           <v-card-text>
             <div class="overflow-y-auto" style="white-space: pre-wrap; max-height: 200px">{{ game_data.summary }}</div>
           </v-card-text>
