@@ -50,23 +50,29 @@ class DiscordBot(discord.Client):
             end_dt = datetime.datetime(2021, 2, 5, 17, 55, 27)
 
             async for message in channel.history(after=start_dt, before=end_dt, limit=1000):
-                # print(message.id, message.created_at, message.content)
+                print(f"{message.id}\t{message.created_at}\t{message.content}")
                 messages.append(message)
 
             self.valid_message_ids = [message.id for message in messages]
 
+            _votes = {}
+            _voters = {}
             for message in messages:
                 # print(message)
                 key = str(message.id)  # socketio glitch(?) workaround (last 2 digits go to 0)
-                self.votes[key] = {"game": message.content, "yay": 0, "yay_voters": []}
+                _votes[key] = {"game": message.content, "yay": 0, "yay_voters": []}
 
                 for reaction in message.reactions:
-                    self.votes[key]["yay"] = reaction.count
+                    _votes[key]["yay"] = reaction.count
                     reactors = await reaction.users().flatten()
                     for reactor in reactors:
                         # print(reactor.name, reactor.avatar_url)
-                        self.voters[key] = {reactor.id: {"name": reactor.name, "avatar_url": reactor.avatar_url._url} for reactor in reactors}
-            self.votes["partial"] = False
+                        _voters[key] = {reactor.id: {"name": reactor.name, "avatar_url": reactor.avatar_url._url} for reactor in reactors}
+            _votes["partial"] = False
+
+            self.votes = _votes
+            self.voters = _voters
+
             await sio.emit("votes_discord", data=self.votes, namespace="/gamevotes")
             print("Done fetching votes")
             self.ready = True

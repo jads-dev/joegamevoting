@@ -15,6 +15,11 @@
               {{ game_platforms.join(", ") }}
             </span>
           </v-card-subtitle>
+          <v-card-subtitle>
+            <v-btn color="#7289da" :href="`https://discord.com/channels/308515582817468420/807289103920922684/${this.$route.params.id}`" target="_blank"
+              >Discord Message
+            </v-btn>
+          </v-card-subtitle>
           <v-card-text>
             <div class="overflow-y-auto" style="white-space: pre-wrap; max-height: 200px">{{ game_data.summary }}</div>
           </v-card-text>
