@@ -17,6 +17,12 @@ def get_game(message_id, user_id=0):
     return row_to_dictionary(cursor, game)
 
 
+def get_game_voters(message_id):
+    from app.discordbot import bot
+
+    return bot.voters[str(message_id)]
+
+
 def get_game_platforms(id):
     cursor = dbc.cursor()
 

@@ -27,7 +27,7 @@
         <v-card class="mt-2">
           <v-card-title> Users that voted for this game </v-card-title>
           <v-card-text>
-            <v-chip pill class="ml-1 mb-1" v-for="voter in selected_game.voters" v-bind:key="voter.user_id">
+            <v-chip pill class="ml-1 mb-1" v-for="voter in game_voters" v-bind:key="voter.user_id">
               <v-avatar left>
                 <v-img :src="'//cdn.discordapp.com' + voter.avatar_url" :alt="voter.name"></v-img>
               </v-avatar>
@@ -46,6 +46,7 @@ export default {
     game_data: {},
     game_platforms: [],
     game_pitches: [],
+    game_voters: [],
     pitch: "",
   }),
   created: async function () {
@@ -57,6 +58,9 @@ export default {
     this.game_platforms = game_platforms.map(function (obj) {
       return obj.name;
     });
+
+    const game_voters = await this.$axios.$get(`/api/game_discord/${this.$route.params.id}/voters`);
+    this.game_voters = game_voters;
 
     const game_pitches = await this.$axios.$get(`/api/game_discord/${this.$route.params.id}/pitches`);
     this.game_pitches = game_pitches;

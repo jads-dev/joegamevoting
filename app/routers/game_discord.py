@@ -1,7 +1,7 @@
 from os import name
 from fastapi import Depends, APIRouter
 
-from app.models.game_discord import get_game, get_game_platforms, pitch_game, get_game_pitches
+from app.models.game_discord import get_game, get_game_platforms, pitch_game, get_game_pitches, get_game_voters
 from app.routers.auth import User, get_userid, get_optional_current_user
 from pydantic import BaseModel, constr
 
@@ -22,9 +22,14 @@ router = APIRouter()
 async def _get_game(id: int, user_id: int = Depends(get_userid)):
     game_data = get_game(id, user_id)
     if not game_data:
-        return {"id": 0, "name": "Unmapped game", "summary": "Game needs to be mapped by Nodja :(", "release_date": None}
+        return {"id": 0, "name": "Unmapped game", "summary": "", "release_date": None}
     else:
         return game_data
+
+
+@router.get("/game_discord/{id}/voters")
+async def _get_game_voters(id: int):
+    return get_game_voters(message_id=id)
 
 
 @router.get("/game_discord/{id}/pitches")
