@@ -3,23 +3,20 @@
     <v-card>
       <v-card-title class="ma-0 pa-0 ml-2"> Discord poll results: </v-card-title>
 
-      <v-virtual-scroll :items="vote_list" :item-height="25" height="800px"  bench="3">
-        <template v-slot:default="{ item }">
-          <v-progress-linear background-opacity="0" height="25" color="#7289da" :value="(item.votes / vote_list[0].votes) * 100" @click="goto_game(item)">
-            <template v-slot:default>
-              <v-tooltip top open-delay="200">
-                <template v-slot:activator="{ on, attrs }">
-                  <div v-bind="attrs" v-on="on" class="px-1" style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap; cursor: pointer">
-                    {{ item.votes }} votes - {{ item.name }}
-                  </div>
-                </template>
-                <span>{{ item.name }}</span>
-              </v-tooltip>
-              <v-spacer></v-spacer>
+      <v-progress-linear background-opacity="0" height="25" color="#7289da" :value="(item.votes / vote_list[0].votes) * 100" @click="goto_game(item)">
+        <template v-slot:default>
+          <v-tooltip top open-delay="200">
+            <template v-slot:activator="{ on, attrs }">
+              <div v-bind="attrs" v-on="on" class="px-1" style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap; cursor: pointer">
+                {{ item.votes }} votes - {{ item.name }}
+              </div>
             </template>
-          </v-progress-linear>
+            <span>{{ item.name }}</span>
+          </v-tooltip>
+          <v-spacer></v-spacer>
         </template>
-      </v-virtual-scroll>
+        
+      </v-progress-linear>
     </v-card>
   </v-container>
 </template>
