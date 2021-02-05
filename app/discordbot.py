@@ -50,7 +50,7 @@ class DiscordBot(discord.Client):
             end_dt = datetime.datetime(2021, 2, 5, 17, 55, 27)
 
             async for message in channel.history(after=start_dt, before=end_dt, limit=1000):
-                print(f"{message.id}\t{message.created_at}\t{message.content}")
+                # print(f"{message.id}\t{message.created_at}\t{message.content}")
                 messages.append(message)
 
             self.valid_message_ids = [message.id for message in messages]
@@ -60,7 +60,7 @@ class DiscordBot(discord.Client):
             for message in messages:
                 # print(message)
                 key = str(message.id)  # socketio glitch(?) workaround (last 2 digits go to 0)
-                _votes[key] = {"game": message.content, "yay": 0, "yay_voters": []}
+                _votes[key] = {"game": message.content, "yay": 0}
 
                 for reaction in message.reactions:
                     _votes[key]["yay"] = reaction.count

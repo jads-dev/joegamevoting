@@ -27,7 +27,46 @@
       </v-row>
     </v-card>
     <v-row>
-      <v-col cols="12" md="6" class="px-1"> </v-col>
+      <v-col cols="12" md="6" class="px-1">
+        <v-card class="mt-2">
+          <v-card-title> Why users think joe should play this game </v-card-title>
+          <v-card-text>
+            <v-card outlined elevation="12" v-if="game_pitches.length == 0">
+              <v-card-text class="text-center"> No one has written a pitch for this game yet.</v-card-text>
+            </v-card>
+            <v-card
+              v-for="pitch in game_pitches"
+              v-bind:key="pitch.user_id"
+              outlined
+              class="mt-3"
+              elevation="12"
+              :style="pitch.pinned ? 'border: 1px solid green;' : ''"
+            >
+              <div class="text-center my-n3" v-if="pitch.pinned">
+                <span class="px-1" :style="pitch.pinned ? 'color: green; background: #1E1E1E' : ''"> Pinned </span>
+              </div>
+              <v-card-text style="white-space: pre-wrap">{{ pitch.pitch }}</v-card-text>
+              <v-card-title class="justify-center">
+                <v-avatar left size="35">
+                  <v-img :src="pitch.avatar_url" :alt="pitch.username"></v-img>
+                </v-avatar>
+                <span class="ml-1">{{ pitch.username }}</span>
+              </v-card-title>
+            </v-card>
+          </v-card-text>
+        </v-card>
+        <v-card class="mt-2" v-if="game_data.can_pitch && game_data.can_vote">
+          <v-card-text>
+            <v-textarea v-model="pitch" label="Write your own pitch" counter maxlength="2000" outlined></v-textarea>
+            <v-card-actions class="ma-0 pa-0">
+              Warning: You're only allowed 1 pitch per game <br />
+              Warning 2: Due to developer lazyness, pitches cannot be edited or deleted by the user.
+              <v-spacer></v-spacer>
+              <v-btn outlined dense @click="pitch_game"> send pitch </v-btn>
+            </v-card-actions>
+          </v-card-text>
+        </v-card>
+      </v-col>
       <v-col cols="12" md="6" class="pl-1">
         <v-card class="mt-2">
           <v-card-title> Users that voted for this game </v-card-title>
