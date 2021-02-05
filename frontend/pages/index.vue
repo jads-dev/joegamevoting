@@ -4,6 +4,7 @@
       <v-col cols="12">
         <p class="text-h4 text-center">These are the current results of the official discord poll.</p>
         <p class="text-h4 text-center">To vote you need to go to the voting channel on discord, you need to have the patreon or twitch role to access it.</p>
+        <p class="text-h4 text-center">Site is a WIP and there's some stuff missing/hacky.</p>
       </v-col>
     </template>
     <template v-else>
