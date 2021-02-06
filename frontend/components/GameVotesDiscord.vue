@@ -65,9 +65,6 @@ export default {
     this.socket.on("latest_pitches", (msg, cb) => {
       this.$store.commit("set_latest_pitches", msg);
     });
-    this.socket.on("random_pitches", (msg, cb) => {
-      this.$store.commit("set_random_pitches", msg);
-    });
 
     this.socket.emit("votes_pls", "discordvotes");
   },
