@@ -1,3 +1,5 @@
+import random
+
 from app.models import dbc, row_to_dictionary
 
 
@@ -67,4 +69,55 @@ def get_game_pitches(message_id):
     cursor.execute(sql, (message_id,))
     pitches = cursor.fetchall()
     pitches = [row_to_dictionary(cursor, row) for row in pitches]
+    return pitches
+
+
+def get_latest_pitches():
+    cursor = dbc.cursor()
+
+    sql = """
+        select gp.message_id, gp.pitch, u.username, u.avatar_url, dm.game_name, ig.cover_url_big
+        from game_pitches_discord as gp
+        left join users as u on u.user_id = gp.user_id
+        left join discord_game_map as dm on dm.message_id = gp.message_id
+        left join igdb_game as ig on ig.id = dm.game_id
+        order by gp.created_at desc
+        limit 10
+    """
+
+    cursor.execute(sql)
+    pitches = cursor.fetchall()
+    pitches = [row_to_dictionary(cursor, row) for row in pitches]
+    from app.discordbot import bot
+
+    _pitches = [pitch for pitch in pitches if pitch["message_id"] in bot.valid_message_ids]
+
+    return _pitches
+
+
+def get_random_pitches():
+    cursor = dbc.cursor()
+    from app.discordbot import bot
+
+    sample_length = len(bot.valid_message_ids)
+    if sample_length > 10:
+        sample_length = 10
+
+    random_ids = random.sample(bot.valid_message_ids, sample_length)
+    random_ids = (str(id_) for id_ in random_ids)
+    random_ids = ",".join(random_ids)
+
+    sql = f"""
+        select gp.message_id, gp.pitch, u.username, u.avatar_url, dm.game_name, ig.cover_url_big
+        from game_pitches_discord as gp
+        left join users as u on u.user_id = gp.user_id
+        left join discord_game_map as dm on dm.message_id = gp.message_id
+        left join igdb_game as ig on ig.id = dm.game_id
+        where gp.message_id in ({random_ids})
+    """
+
+    cursor.execute(sql)
+    pitches = cursor.fetchall()
+    pitches = [row_to_dictionary(cursor, row) for row in pitches]
+    random.shuffle(pitches)
     return pitches

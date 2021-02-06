@@ -1,8 +1,9 @@
 from os import name
 from fastapi import Depends, APIRouter
 
-from app.models.game_discord import get_game, get_game_platforms, pitch_game, get_game_pitches, get_game_voters
+from app.models.game_discord import get_game, get_game_platforms, pitch_game, get_game_pitches, get_game_voters, get_latest_pitches
 from app.routers.auth import User, get_userid, get_optional_current_user
+from app.routers.socketio import sio
 from pydantic import BaseModel, constr
 
 
@@ -39,6 +40,7 @@ async def _get_game_pitches(id: int):
 async def _pitch_game(id: int, params: ParamsPitch, current_user: User = Depends(get_optional_current_user)):
     if current_user["can_vote"]:
         pitch_game(id, current_user["user_id"], params.pitch)
+        await sio.emit("latest_pitches", data=get_latest_pitches(), namespace="/gamevotes")
 
 
 @router.get("/game_discord/platforms/{id}")

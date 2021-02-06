@@ -2,7 +2,7 @@ import socketio
 
 
 from app.models import votes
-
+from app.models.game_discord import get_latest_pitches, get_random_pitches
 
 origins = [
     "http://127.0.0.1:8000",
@@ -20,7 +20,8 @@ async def send_votes():
 
 @sio.event(namespace="/gamevotes")
 async def connect(sid, environ):
-    pass
+    await sio.emit("latest_pitches", data=get_latest_pitches(), namespace="/gamevotes")
+    await sio.emit("random_pitches", data=get_random_pitches(), namespace="/gamevotes")
 
 
 @sio.event(namespace="/gamevotes")

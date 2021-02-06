@@ -49,7 +49,7 @@ class DiscordBot(discord.Client):
             start_dt = datetime.datetime(2021, 2, 5, 16, 40, 47)
             end_dt = datetime.datetime(2021, 2, 5, 17, 55, 27)
 
-            async for message in channel.history(after=start_dt, before=end_dt, limit=10):
+            async for message in channel.history(after=start_dt, before=end_dt, limit=1000):
                 # print(f"{message.id}\t{message.created_at}\t{message.content}")
                 messages.append(message)
 

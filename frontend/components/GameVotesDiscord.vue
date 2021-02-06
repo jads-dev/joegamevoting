@@ -62,6 +62,13 @@ export default {
       this.vote_list = _vote_list;
       this.$store.commit("set_discord_games", _vote_list);
     });
+    this.socket.on("latest_pitches", (msg, cb) => {
+      this.$store.commit("set_latest_pitches", msg);
+    });
+    this.socket.on("random_pitches", (msg, cb) => {
+      this.$store.commit("set_random_pitches", msg);
+    });
+
     this.socket.emit("votes_pls", "discordvotes");
   },
   methods: {

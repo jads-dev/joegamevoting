@@ -2,10 +2,10 @@
   <div>
     <v-card>
       <v-row no-gutters>
-        <v-col cols="2">
+        <v-col cols="12" md="2">
           <v-img width="300px" :src="game_data.cover_url_big"></v-img>
         </v-col>
-        <v-col class="xs-11">
+        <v-col cols="12" md="10">
           <v-card-title class="text-h3">
             <span>{{ selected_game.name }}</span>
           </v-card-title>
