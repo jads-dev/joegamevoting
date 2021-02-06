@@ -69,7 +69,7 @@
       </v-col>
       <v-col cols="12" md="6" class="pl-1">
         <v-card class="mt-2">
-          <v-card-title> Users that voted for this game </v-card-title>
+          <v-card-title> The {{ selected_game.votes }} users that voted for this game </v-card-title>
           <v-card-text>
             <v-chip pill class="ml-1 mb-1" v-for="voter in game_voters_list" v-bind:key="voter.user_id">
               <v-avatar left>
