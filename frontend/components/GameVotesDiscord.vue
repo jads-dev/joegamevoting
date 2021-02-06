@@ -43,9 +43,8 @@ export default {
     });
     this.socket.on("votes_discord", (msg, cb) => {
       const partial = msg.partial;
-      delete msg.partial;
       if (partial) {
-        this.$set(this.votes, msg.message_id, msg);
+        this.votes[msg.message_id] = msg;
       } else {
         this.votes = msg;
       }
