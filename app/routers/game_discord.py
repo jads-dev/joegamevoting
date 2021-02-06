@@ -21,10 +21,8 @@ router = APIRouter()
 @router.get("/game_discord/{id}")
 async def _get_game(id: int, user_id: int = Depends(get_userid)):
     game_data = get_game(id, user_id)
-    if not game_data:
-        return {"id": 0, "name": "Unmapped game", "summary": "", "release_date": None}
-    else:
-        return game_data
+
+    return game_data
 
 
 @router.get("/game_discord/{id}/voters")
@@ -34,7 +32,7 @@ async def _get_game_voters(id: int):
 
 @router.get("/game_discord/{id}/pitches")
 async def _get_game_pitches(id: int):
-    return get_game_pitches(game_id=id)
+    return get_game_pitches(message_id=id)
 
 
 @router.post("/game_discord/{id}/pitch")

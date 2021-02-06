@@ -13,7 +13,7 @@
         @click="goto_game(vote)"
       >
         <template v-slot:default>
-          <div v-bind="attrs" v-on="on" class="px-1" style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap; cursor: pointer">
+          <div class="px-1" style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap; cursor: pointer">
             {{ vote.votes }} votes - {{ vote.name }}
           </div>
           <v-spacer></v-spacer>

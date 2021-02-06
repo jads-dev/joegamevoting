@@ -144,6 +144,9 @@ export default {
 
       const game_pitches = await this.$axios.$get(`/api/game/${this.$route.params.id}/pitches`);
       this.game_pitches = game_pitches;
+
+      const game_data = await this.$axios.$get(`/api/game/${this.$route.params.id}`);
+      this.game_data = game_data;
     },
   },
 
