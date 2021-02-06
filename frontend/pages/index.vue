@@ -12,10 +12,16 @@
           <v-card-title> Latest Pitches </v-card-title>
           <v-card-text>
             <v-card outlined elevation="12" class="mt-3" v-for="pitch in latest_pitches" v-bind:key="pitch.user_id">
-              <v-card-title class="ma-0 pa-0 ml-2"> {{ pitch.game_name }} </v-card-title>
+              <v-card-title
+                @click="goto_game(pitch)"
+                style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap; cursor: pointer"
+                class="ma-0 pa-0 ml-2"
+              >
+                {{ pitch.game_name }}
+              </v-card-title>
               <v-row>
                 <v-col class="pr-0" cols="2">
-                  <v-img class="mt-1 ml-1 mr-1 pa-0" max-width="100%" :src="pitch.cover_url_big"></v-img>
+                  <v-img @click="goto_game(pitch)" style="cursor: pointer" class="mt-1 ml-1 mr-1 pa-0" max-width="100%" :src="pitch.cover_url_big"></v-img>
                 </v-col>
                 <v-col class="pl-0 mt-1 pr-5 pb-5" cols="10">
                   <v-card outlined elevation="12" :style="pitch.pinned ? 'border: 1px solid green;' : ''">
@@ -41,10 +47,16 @@
           <v-card-title> Random Pitches </v-card-title>
           <v-card-text>
             <v-card outlined elevation="12" class="mt-3" v-for="pitch in random_pitches" v-bind:key="pitch.user_id">
-              <v-card-title class="ma-0 pa-0 ml-2"> {{ pitch.game_name }} </v-card-title>
+              <v-card-title
+                @click="goto_game(pitch)"
+                style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap; cursor: pointer"
+                class="ma-0 pa-0 ml-2"
+              >
+                {{ pitch.game_name }}
+              </v-card-title>
               <v-row>
                 <v-col class="pr-0" cols="2">
-                  <v-img class="mt-1 ml-1 mr-1 pa-0" max-width="100%" :src="pitch.cover_url_big"></v-img>
+                  <v-img @click="goto_game(pitch)" style="cursor: pointer" class="mt-1 ml-1 mr-1 pa-0" max-width="100%" :src="pitch.cover_url_big"></v-img>
                 </v-col>
                 <v-col class="pl-0 mt-1 pr-5 pb-5" cols="10">
                   <v-card outlined elevation="12" :style="pitch.pinned ? 'border: 1px solid green;' : ''">
@@ -132,6 +144,13 @@ export default {
         return this.$store.state.random_pitches;
       },
       set(value) {},
+    },
+  },
+  methods: {
+    goto_game: async function (game) {
+      this.$router.push({
+        path: "/game_discord/" + game.message_id,
+      });
     },
   },
 };

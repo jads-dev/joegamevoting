@@ -78,6 +78,9 @@
               {{ voter.name }}
             </v-chip>
           </v-card-text>
+          <v-card-text class="text-center ma-0 pa-0 pb-3">
+            <v-btn dense @click="show_all_voters = true" v-if="!show_all_voters">Show All</v-btn>
+          </v-card-text>
         </v-card>
       </v-col>
     </v-row>
@@ -106,7 +109,7 @@ export default {
 
     const game_voters = await this.$axios.$get(`/api/game_discord/${this.$route.params.id}/voters`);
     this.game_voters = game_voters;
-
+    if (Object.keys(game_voters).length < 23) this.show_all_voters = true;
     const game_pitches = await this.$axios.$get(`/api/game_discord/${this.$route.params.id}/pitches`);
     this.game_pitches = game_pitches;
   },
@@ -160,9 +163,17 @@ export default {
     },
     game_voters_list: {
       get() {
-        console.log(this.game_voters);
         if (this.show_all_voters) return this.game_voters;
-        else return this.game_voters.slice(0, 10);
+        else {
+          var i = 0;
+          var voters_filtered = {};
+          for (const property in this.game_voters) {
+            voters_filtered[property] = this.game_voters[property];
+            i++;
+            if (i > 23) break;
+          }
+          return voters_filtered;
+        }
       },
       set(value) {},
     },

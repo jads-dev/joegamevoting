@@ -72,7 +72,6 @@ export default {
       this.$store.commit("localStorage/reset_state", !this.adding_event);
     },
     on_official_change() {
-      console.log("test");
       this.$router.push({
         path: "/",
       });

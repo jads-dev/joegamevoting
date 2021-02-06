@@ -103,7 +103,7 @@ def get_random_pitches():
     valid_message_ids = ",".join(valid_message_ids)
 
     sql = f"""
-        select gp.message_id, gp.pitch, u.username, u.avatar_url, dm.game_name, ig.cover_url_big
+        select cast(gp.message_id as text) as message_id, gp.pitch, u.username, u.avatar_url, dm.game_name, ig.cover_url_big
         from game_pitches_discord as gp
         left join users as u on u.user_id = gp.user_id
         left join discord_game_map as dm on dm.message_id = gp.message_id
