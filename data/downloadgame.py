@@ -26,7 +26,6 @@ fields name, first_release_date, platforms, summary, cover.url;
 where id = {game_id};
 sort id asc;
 limit 500;
-offset {game_id};
 """
 print(query)
 
@@ -35,6 +34,7 @@ r = s.post("https://api.igdb.com/v4/games", data=query)
 games = r.json()
 
 for game in games:
+    print(game)
     game_id = game["id"]
     name = game["name"]
     cover_url = game.get("cover", {"url": ""})["url"]
