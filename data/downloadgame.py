@@ -38,15 +38,16 @@ for game in games:
     game_id = game["id"]
     name = game["name"]
     cover_url = game.get("cover", {"url": ""})["url"]
+    cover_url_big = cover_url.replace("/t_thumb/", "/t_cover_big/")
     release_date = game.get("first_release_date", None)
     summary = game.get("summary", "")
 
     sql_game = """
-        INSERT INTO igdb_game (id, name, cover_url, release_date, summary)
-        VALUES (?,?,?,?,?)
+        INSERT INTO igdb_game (id, name, cover_url, cover_url_big, release_date, summary)
+        VALUES (?,?,?,?,?,?)
     """
 
-    c.execute(sql_game, (game_id, name, cover_url, release_date, summary))
+    c.execute(sql_game, (game_id, name, cover_url, cover_url_big, release_date, summary))
 
     sql_platforms = """
         INSERT INTO igdb_game_platforms (game_id, platform_id)
