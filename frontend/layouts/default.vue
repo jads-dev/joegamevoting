@@ -1,5 +1,5 @@
 <template>
-  <v-app dark>
+  <v-app dark style="min-width: 800px">
     <v-app-bar fixed app>
       <v-btn to="/"> Home </v-btn>
 

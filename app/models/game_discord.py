@@ -1,3 +1,5 @@
+import statistics
+
 from app.models import dbc, row_to_dictionary
 
 
@@ -124,3 +126,24 @@ def get_votes():
     from app.discordbot import bot
 
     return bot.votes
+
+
+def get_stats():
+    from app.discordbot import bot
+
+    _votes = bot.votes
+
+    nr_games = len(_votes) - 1
+    voters_games = [list(bot.voters[game].keys()) for game in bot.voters]
+
+    unique_voters = set()
+    for voters in voters_games:
+        unique_voters |= set(voters)
+
+    nr_voters = len(unique_voters)
+
+    votes = [_votes[vote]["yay"] for vote in _votes if vote != "partial"]
+    votes_avg = statistics.mean(votes)
+    votes_median = statistics.median(votes)
+
+    return {"nr_games": nr_games, "nr_voters": nr_voters, "votes_average": votes_avg, "votes_median": votes_median}
