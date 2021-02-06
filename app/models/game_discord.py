@@ -77,7 +77,7 @@ def get_latest_pitches():
     cursor = dbc.cursor()
 
     sql = """
-        select gp.message_id, gp.pitch, u.username, u.avatar_url, dm.game_name, ig.cover_url_big
+        select cast(gp.message_id as text) as message_id, gp.pitch, u.username, u.avatar_url, dm.game_name, ig.cover_url_big
         from game_pitches_discord as gp
         left join users as u on u.user_id = gp.user_id
         left join discord_game_map as dm on dm.message_id = gp.message_id
@@ -91,7 +91,7 @@ def get_latest_pitches():
     pitches = [row_to_dictionary(cursor, row) for row in pitches]
     from app.discordbot import bot
 
-    _pitches = [pitch for pitch in pitches if pitch["message_id"] in bot.valid_message_ids]
+    _pitches = [pitch for pitch in pitches if int(pitch["message_id"]) in bot.valid_message_ids]
 
     return _pitches
 
