@@ -99,13 +99,8 @@ def get_random_pitches():
     cursor = dbc.cursor()
     from app.discordbot import bot
 
-    sample_length = len(bot.valid_message_ids)
-    if sample_length > 10:
-        sample_length = 10
-
-    random_ids = random.sample(bot.valid_message_ids, sample_length)
-    random_ids = (str(id_) for id_ in random_ids)
-    random_ids = ",".join(random_ids)
+    valid_message_ids = (str(id_) for id_ in bot.valid_message_ids)
+    valid_message_ids = ",".join(valid_message_ids)
 
     sql = f"""
         select gp.message_id, gp.pitch, u.username, u.avatar_url, dm.game_name, ig.cover_url_big
@@ -113,7 +108,9 @@ def get_random_pitches():
         left join users as u on u.user_id = gp.user_id
         left join discord_game_map as dm on dm.message_id = gp.message_id
         left join igdb_game as ig on ig.id = dm.game_id
-        where gp.message_id in ({random_ids})
+        where gp.message_id in ({valid_message_ids})
+        order by random()
+        limit 10
     """
 
     cursor.execute(sql)

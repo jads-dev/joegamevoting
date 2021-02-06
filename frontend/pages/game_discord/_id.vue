@@ -71,7 +71,7 @@
         <v-card class="mt-2">
           <v-card-title> Users that voted for this game </v-card-title>
           <v-card-text>
-            <v-chip pill class="ml-1 mb-1" v-for="voter in game_voters" v-bind:key="voter.user_id">
+            <v-chip pill class="ml-1 mb-1" v-for="voter in game_voters_list" v-bind:key="voter.user_id">
               <v-avatar left>
                 <v-img :src="'//cdn.discordapp.com' + voter.avatar_url" :alt="voter.name"></v-img>
               </v-avatar>
@@ -92,6 +92,7 @@ export default {
     game_pitches: [],
     game_voters: [],
     pitch: "",
+    show_all_voters: false,
   }),
   created: async function () {
     this.$store.commit("localStorage/set_official", true);
@@ -154,6 +155,14 @@ export default {
           if (this.games[game].message_id == this.$route.params.id) return this.games[game];
         }
         return {};
+      },
+      set(value) {},
+    },
+    game_voters_list: {
+      get() {
+        console.log(this.game_voters);
+        if (this.show_all_voters) return this.game_voters;
+        else return this.game_voters.slice(0, 10);
       },
       set(value) {},
     },
