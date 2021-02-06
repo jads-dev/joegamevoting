@@ -1,13 +1,10 @@
 <template>
   <v-row class="mt-4">
     <template v-if="official">
-      <v-col cols="12">
-        <p class="text-h4 text-center">These are the current results of the official discord poll.</p>
-        <p class="text-h4 text-center">To vote you need to go to the voting channel on discord, you need to have the patreon or twitch role to access it.</p>
-        <p class="text-h4 text-center">Site is a WIP and there's some stuff missing/hacky.</p>
-        <p class="text-center">{{ stats.nr_voters }} voters have voted on {{ stats.nr_games }} games</p>
-        <p class="text-center" v-if="stats.votes_average">Average of all votes: {{ stats.votes_average.toFixed(2) }}</p>
-        <p class="text-center">Median of all votes: {{ stats.votes_median }}</p>
+      <v-col cols="12" class="align-center">
+        <p class="text-center ma-0">{{ stats.nr_voters }} voters have voted on {{ stats.nr_games }} games</p>
+        <p class="text-center ma-0" v-if="stats.votes_average">Average of all votes: {{ stats.votes_average.toFixed(2) }}</p>
+        <p class="text-center ma-0">Median of all votes: {{ stats.votes_median }}</p>
       </v-col>
       <v-col cols="12" md="6" class="px-1">
         <v-card class="mt-2">
