@@ -31,6 +31,7 @@ class DiscordBot(discord.Client):
         self.votes = {}
         self.voters = {}
         self.ready = False
+        self.last_random = None
 
     async def on_ready(self):
         print(f"Logged in as {self.user.name} id: {self.user.id}")

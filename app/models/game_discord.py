@@ -1,5 +1,3 @@
-import random
-
 from app.models import dbc, row_to_dictionary
 
 
@@ -24,7 +22,10 @@ def get_game(message_id, user_id=0):
 def get_game_voters(message_id):
     from app.discordbot import bot
 
-    return bot.voters[str(message_id)]
+    try:
+        return bot.voters[str(message_id)]
+    except KeyError:
+        return {}
 
 
 def get_game_platforms(id):
@@ -116,5 +117,4 @@ def get_random_pitches():
     cursor.execute(sql)
     pitches = cursor.fetchall()
     pitches = [row_to_dictionary(cursor, row) for row in pitches]
-    random.shuffle(pitches)
     return pitches

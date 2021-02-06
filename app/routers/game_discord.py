@@ -1,7 +1,7 @@
 from os import name
 from fastapi import Depends, APIRouter
 
-from app.models.game_discord import get_game, get_game_platforms, pitch_game, get_game_pitches, get_game_voters, get_latest_pitches
+from app.models.game_discord import get_game, get_game_platforms, pitch_game, get_game_pitches, get_game_voters, get_latest_pitches, get_random_pitches
 from app.routers.auth import User, get_userid, get_optional_current_user
 from app.routers.socketio import sio
 from pydantic import BaseModel, constr
@@ -17,6 +17,11 @@ class ParamsPitch(BaseModel):
 
 
 router = APIRouter()
+
+
+@router.get("/game_discord/random_pitches/")
+async def _get_random_pitches():
+    return get_random_pitches()
 
 
 @router.get("/game_discord/{id}")

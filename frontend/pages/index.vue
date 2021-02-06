@@ -126,6 +126,13 @@
 
 <script>
 export default {
+  data: () => ({
+    random_pitches: [],
+  }),
+  created: async function () {
+    const random_pitches = await this.$axios.$get("/api/game_discord/random_pitches/");
+    this.random_pitches = random_pitches;
+  },
   computed: {
     official: {
       get() {
@@ -136,12 +143,6 @@ export default {
     latest_pitches: {
       get() {
         return this.$store.state.latest_pitches;
-      },
-      set(value) {},
-    },
-    random_pitches: {
-      get() {
-        return this.$store.state.random_pitches;
       },
       set(value) {},
     },
