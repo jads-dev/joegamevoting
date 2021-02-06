@@ -1,5 +1,7 @@
 import asyncio
 import datetime
+import json
+import os
 
 import discord
 
@@ -32,10 +34,37 @@ class DiscordBot(discord.Client):
         self.voters = {}
         self.ready = False
         self.last_random = None
+        self.load_data()
 
     async def on_ready(self):
         print(f"Logged in as {self.user.name} id: {self.user.id}")
         await self.fetch_votes()
+
+    def load_data(self):
+        base_dir = "./data/votes"
+        files = [f"{base_dir}/{file}" for file in os.listdir(base_dir) if file.endswith(".json")]
+        if files:
+            latest = max(files, key=os.path.getctime)
+            try:
+                with open(latest, "r") as f:
+                    data = json.load(f)
+                self.votes = data["votes"]
+                self.voters = data["voters"]
+            except IOError:
+                print("Error loading votes")
+
+    def save_data(self):
+        base_filename = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
+        base_dir = "./data/votes"
+        os.makedirs(base_dir, exist_ok=True)
+
+        filename = f"{base_dir}/{base_filename}.json"
+        try:
+            with open(filename, "w") as f:
+                data = {"votes": self.votes, "voters": self.voters}
+                json.dump(data, f)
+        except IOError:
+            print("Error saving votes")
 
     async def fetch_votes(self):
         while True:
@@ -74,9 +103,12 @@ class DiscordBot(discord.Client):
             self.votes = _votes
             self.voters = _voters
 
-            await sio.emit("votes_discord", data=self.votes, namespace="/gamevotes")
             print("Done fetching votes")
+            self.save_data()
+            await sio.emit("votes_discord", data=self.votes, namespace="/gamevotes")
+
             self.ready = True
+
             await asyncio.sleep(900)
 
     async def count_change(self, reaction, count):

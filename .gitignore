@@ -3,3 +3,5 @@ __pycache__/
 
 data/gamevotes.db
 data/gamevotes.db-journal
+
+data/votes/*.json
