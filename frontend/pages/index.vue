@@ -5,6 +5,20 @@
         <p class="text-center ma-0">{{ stats.nr_voters }} voters have voted on {{ stats.nr_games }} games</p>
         <p class="text-center ma-0" v-if="stats.votes_average">Average of all votes: {{ stats.votes_average.toFixed(2) }}</p>
         <p class="text-center ma-0">Median of all votes: {{ stats.votes_median }}</p>
+        <v-expansion-panels>
+          <v-expansion-panel>
+            <v-expansion-panel-header> Base rules </v-expansion-panel-header>
+            <v-expansion-panel-content>
+              <v-img src="https://cdn.discordapp.com/attachments/648620063045189656/807712044555436052/unknown.png"></v-img>
+            </v-expansion-panel-content>
+          </v-expansion-panel>
+          <v-expansion-panel>
+            <v-expansion-panel-header> Feb 6 rules </v-expansion-panel-header>
+            <v-expansion-panel-content>
+              <v-img src="https://cdn.discordapp.com/attachments/648620063045189656/807711737406160997/unknown.png"></v-img>
+            </v-expansion-panel-content>
+          </v-expansion-panel>
+        </v-expansion-panels>
       </v-col>
       <v-col cols="12" md="6" class="px-1">
         <v-card class="mt-2">
