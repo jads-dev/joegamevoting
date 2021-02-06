@@ -118,3 +118,9 @@ def get_random_pitches():
     pitches = cursor.fetchall()
     pitches = [row_to_dictionary(cursor, row) for row in pitches]
     return pitches
+
+
+def get_votes():
+    from app.discordbot import bot
+
+    return bot.votes
