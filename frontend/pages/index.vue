@@ -2,9 +2,50 @@
   <v-row class="mt-4">
     <template v-if="official">
       <v-col cols="12" class="align-center">
-        <p class="text-center ma-0">{{ stats.nr_voters }} voters have voted on {{ stats.nr_games }} games</p>
-        <p class="text-center ma-0" v-if="stats.votes_average">Average of all votes: {{ stats.votes_average.toFixed(2) }}</p>
-        <p class="text-center ma-0">Median of all votes: {{ stats.votes_median }}</p>
+        <v-row>
+          <v-col cols="12" md="9">
+            <p class="text-center ma-0">{{ stats.nr_voters }} voters have voted on {{ stats.nr_games }} games</p>
+            <p class="text-center ma-0" v-if="stats.votes_average">Average of all votes: {{ stats.votes_average.toFixed(2) }}</p>
+            <p class="text-center ma-0">Median of all votes: {{ stats.votes_median }}</p>
+          </v-col>
+          <v-col cols="12" md="3">
+            <v-card class="mb-3">
+              <v-card-title class="ma-0 pa-0 ml-2"> Hall of ascension: </v-card-title>
+              <v-data-table dense hide-default-footer :headers="headers" :items="hall_ascension" :items-per-page="700" class="elevation-1">
+                <template v-slot:body="{ items }">
+                  <tbody>
+                    <tr
+                      v-for="item in items"
+                      :key="`hall-${item.message_id}`"
+                      style="cursor: pointer"
+                      v-bind:style="get_bg_style(item)"
+                      @click="goto_game(item)"
+                    >
+                      <td>
+                        <v-row>
+                          <v-img max-width="25" class="mr-1" :src="item.emote_url"></v-img>
+                          <span>x {{ item.votes }}</span>
+                        </v-row>
+                      </td>
+                      <td>
+                        <div class="d-flex">
+                          <v-img
+                            v-for="emote in item.extra_emotes"
+                            :key="`${item.message_id}-${emote.emote}`"
+                            max-width="25"
+                            :src="get_emoji_url(emote.emote, emote.emote_unicode)"
+                          ></v-img>
+                          <div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{ item.name }}</div>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </template>
+              </v-data-table>
+            </v-card>
+          </v-col>
+        </v-row>
+
         <v-expansion-panels>
           <v-expansion-panel>
             <v-expansion-panel-header> Base rules </v-expansion-panel-header>
@@ -151,6 +192,19 @@ export default {
   data: () => ({
     random_pitches: [],
     stats: {},
+    hall_ascension: [
+      {
+        message_id: "807308420104323103",
+        name: "Zero Escape Series (999, Virtue's Last Reward, and Zero Time Dilemma)",
+        emote_url: "https://cdn.discordapp.com/emojis/667825926507331604",
+        votes: "306",
+        extra_emotes: [],
+      },
+    ],
+    headers: [
+      { text: "votes", value: "votes", width: "80px" },
+      { text: "game", value: "name" },
+    ],
   }),
   created: async function () {
     const random_pitches = await this.$axios.$get("/api/game_discord/random_pitches/");
@@ -180,6 +234,13 @@ export default {
       this.$router.push({
         path: "/game_discord/" + game.message_id,
       });
+    },
+    get_bg_style: function (vote) {
+      const percent = (vote.votes / this.hall_ascension[0].votes) * 100;
+      var color = "#7289da";
+      return {
+        "background-image": `linear-gradient(to right,${color} ${percent}%,transparent ${percent}%)`,
+      };
     },
   },
 };
