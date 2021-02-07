@@ -9,13 +9,13 @@
           <v-expansion-panel>
             <v-expansion-panel-header> Base rules </v-expansion-panel-header>
             <v-expansion-panel-content>
-              <v-img src="https://cdn.discordapp.com/attachments/648620063045189656/807712044555436052/unknown.png"></v-img>
+              <img src="https://cdn.discordapp.com/attachments/648620063045189656/807712044555436052/unknown.png"><img>
             </v-expansion-panel-content>
           </v-expansion-panel>
           <v-expansion-panel>
             <v-expansion-panel-header> Feb 6 rules </v-expansion-panel-header>
             <v-expansion-panel-content>
-              <v-img src="https://cdn.discordapp.com/attachments/648620063045189656/807711737406160997/unknown.png"></v-img>
+              <img src="https://cdn.discordapp.com/attachments/648620063045189656/807711737406160997/unknown.png"><img>
             </v-expansion-panel-content>
           </v-expansion-panel>
         </v-expansion-panels>
