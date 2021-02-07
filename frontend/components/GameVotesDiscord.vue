@@ -16,20 +16,18 @@
                 <div class="d-flex">
                   <v-img
                     v-if="item.name.toLowerCase().includes('a bomb')"
-                    style="position: absolute; margin-top: -10px; margin-left: -40px"
-                    max-height="50"
-                    max-width="50"
+                    style="position: absolute; margin-top: -15px; margin-left: -45px"
+                    max-height="60"
+                    max-width="60"
                     src="https://cdn.discordapp.com/attachments/666328917237563419/808083562766794822/bombchan_sans_body_or_bg.png"
                   >
                   </v-img>
-
                   <v-img
                     v-for="emote in item.extra_emotes"
                     :key="`${item.message_id}-${emote.emote}`"
                     max-width="25"
                     :src="get_emoji_url(emote.emote, emote.emote_unicode)"
                   ></v-img>
-
                   <div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{ item.name }}</div>
                 </div>
               </td>
