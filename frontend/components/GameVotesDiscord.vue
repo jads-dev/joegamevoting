@@ -15,11 +15,21 @@
               <td>
                 <div class="d-flex">
                   <v-img
+                    v-if="item.name.toLowerCase().includes('a bomb')"
+                    style="position: absolute; margin-top: -10px; margin-left: -40px"
+                    max-height="50"
+                    max-width="50"
+                    src="https://cdn.discordapp.com/attachments/666328917237563419/808083562766794822/bombchan_sans_body_or_bg.png"
+                  >
+                  </v-img>
+
+                  <v-img
                     v-for="emote in item.extra_emotes"
                     :key="`${item.message_id}-${emote.emote}`"
                     max-width="25"
                     :src="get_emoji_url(emote.emote, emote.emote_unicode)"
                   ></v-img>
+
                   <div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{ item.name }}</div>
                 </div>
               </td>
@@ -125,11 +135,18 @@ export default {
       const percent = (vote.votes / this.vote_list[0].votes) * 100;
       var color = "#7289da";
       if (vote.name) {
-        if (vote.name.toLowerCase().includes("a bomb")) color = "#da9090";
+        if (vote.name.toLowerCase().includes("a bomb")) {
+          color = "#da9090";
+          return {
+            "background-image": `linear-gradient(to right,${color} ${percent}%,transparent ${percent}%)`,
+          };
+        }
         if (vote.name.toLowerCase().includes("dragon angel")) color = "#7cda72";
       }
 
-      return { "background-image": `linear-gradient(to right,${color} ${percent}%,transparent ${percent}%)` };
+      return {
+        "background-image": `linear-gradient(to right,${color} ${percent}%,transparent ${percent}%)`,
+      };
     },
   },
 };
