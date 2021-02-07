@@ -10,6 +10,7 @@ from app.models.game_discord import (
     get_latest_pitches,
     get_random_pitches,
     get_votes,
+    get_voters,
     get_stats,
 )
 from app.routers.auth import User, get_userid, get_optional_current_user
@@ -37,6 +38,11 @@ async def _get_random_pitches():
 @router.get("/game_discord/votes/")
 async def _get_votes():
     return get_votes()
+
+
+@router.get("/game_discord/voters/")
+async def _get_voters():
+    return get_voters()
 
 
 @router.get("/game_discord/stats/")

@@ -128,6 +128,12 @@ def get_votes():
     return bot.votes
 
 
+def get_voters():
+    from app.discordbot import bot
+
+    return bot.voters
+
+
 def get_stats():
     from app.discordbot import bot
 
