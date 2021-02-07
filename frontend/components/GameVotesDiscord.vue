@@ -5,7 +5,7 @@
       <v-data-table dense hide-default-footer :headers="headers" :items="vote_list" :items-per-page="700" class="elevation-1">
         <template v-slot:body="{ items }">
           <tbody>
-            <tr v-for="item in items" :key="item.name" style="cursor: pointer" v-bind:style="get_bg_style(item.votes)" @click="goto_game(item)">
+            <tr v-for="item in items" :key="item.name" style="cursor: pointer" v-bind:style="get_bg_style(item)" @click="goto_game(item)">
               <td>
                 <v-row>
                   <v-img max-width="25" class="mr-1" :src="get_emoji_url(item.emote, item.emote_unicode)"></v-img>
@@ -108,9 +108,13 @@ export default {
         return "https://cdn.discordapp.com/emojis/" + emoji;
       }
     },
-    get_bg_style: function (value) {
-      const percent = (value / this.vote_list[0].votes) * 100;
-      return { "background-image": `linear-gradient(to right,#7289da ${percent}%,transparent ${percent}%)` };
+    get_bg_style: function (vote) {
+      const percent = (vote.votes / this.vote_list[0].votes) * 100;
+      var color = "#7289da";
+      if (vote.message_id == 807293645057163285) color = "#da9090";
+      if (vote.message_id == 807297543825653801) color = "#7cda72";
+
+      return { "background-image": `linear-gradient(to right,${color} ${percent}%,transparent ${percent}%)` };
     },
   },
 };

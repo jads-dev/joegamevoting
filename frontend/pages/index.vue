@@ -9,18 +9,26 @@
           <v-expansion-panel>
             <v-expansion-panel-header> Base rules </v-expansion-panel-header>
             <v-expansion-panel-content>
-              <img src="https://cdn.discordapp.com/attachments/648620063045189656/807712044555436052/unknown.png"><img>
+              <img src="https://cdn.discordapp.com/attachments/648620063045189656/807712044555436052/unknown.png" /><img />
             </v-expansion-panel-content>
           </v-expansion-panel>
           <v-expansion-panel>
             <v-expansion-panel-header> Feb 6 rules </v-expansion-panel-header>
             <v-expansion-panel-content>
-              <img src="https://cdn.discordapp.com/attachments/648620063045189656/807711737406160997/unknown.png"><img>
+              <img src="https://cdn.discordapp.com/attachments/648620063045189656/807711737406160997/unknown.png" /><img />
+            </v-expansion-panel-content>
+          </v-expansion-panel>
+          <v-expansion-panel>
+            <v-expansion-panel-header> Feb 7 rules </v-expansion-panel-header>
+            <v-expansion-panel-content>
+              <img src="https://cdn.discordapp.com/attachments/648620063045189656/808011604447854592/unknown.png" /><img />
+              <img src="https://cdn.discordapp.com/attachments/648620063045189656/808011756386910223/unknown.png" /><img />
+              <img src="https://cdn.discordapp.com/attachments/648620063045189656/808012036189061150/unknown.png" /><img />
             </v-expansion-panel-content>
           </v-expansion-panel>
         </v-expansion-panels>
       </v-col>
-      <v-col cols="12" md="6" >
+      <v-col cols="12" md="6">
         <v-card class="mt-2">
           <v-card-title> Latest Pitches </v-card-title>
           <v-card-text>
