@@ -5,14 +5,24 @@
       <v-data-table dense hide-default-footer :headers="headers" :items="vote_list" :items-per-page="700" class="elevation-1">
         <template v-slot:body="{ items }">
           <tbody>
-            <tr v-for="item in items" :key="item.name" style="cursor: pointer" v-bind:style="get_bg_style(item)" @click="goto_game(item)">
+            <tr v-for="item in items" :key="item.message_id" style="cursor: pointer" v-bind:style="get_bg_style(item)" @click="goto_game(item)">
               <td>
                 <v-row>
                   <v-img max-width="25" class="mr-1" :src="get_emoji_url(item.emote, item.emote_unicode)"></v-img>
                   <span>x {{ item.votes }}</span>
                 </v-row>
               </td>
-              <td>{{ item.name }}</td>
+              <td>
+                <div class="d-flex">
+                  <v-img
+                    v-for="emote in item.extra_emotes"
+                    :key="`${item.message_id}-${emote.emote}`"
+                    max-width="25"
+                    :src="get_emoji_url(emote.emote, emote.emote_unicode)"
+                  ></v-img>
+                  <div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{ item.name }}</div>
+                </div>
+              </td>
             </tr>
           </tbody>
         </template>
@@ -46,6 +56,7 @@ var emoji_urls = {
   "🇫": "https://discord.com/assets/197cdfb70e6835c81cbb1af86ab7e01e.svg",
   "🎈": "https://discord.com/assets/a6298512f50632252a23cc264ec73f29.svg",
   "🦈": "https://discord.com/assets/7141e059d1cd75465ac7cdfa2101da72.svg",
+  "✂️": "https://discord.com/assets/3dcc54fffb253571d6eab25020e424f5.svg",
 };
 
 export default {
@@ -67,18 +78,21 @@ export default {
       const partial = msg.partial;
       if (partial) {
         this.votes[msg.message_id]["yay"] = msg["yay"];
+        this.votes[msg.message_id]["game"] = msg["game"];
       } else {
         this.votes = msg;
       }
 
       var _vote_list = [];
       for (var key in this.votes) {
+        console.log(this.votes[key].extra_emotes);
         var vote_data = {
           message_id: key,
           name: this.votes[key].game,
           votes: this.votes[key].yay,
           emote: this.votes[key].emote,
           emote_unicode: this.votes[key].emote_unicode,
+          extra_emotes: this.votes[key].extra_emotes,
         };
         if (vote_data.votes > 0) {
           _vote_list.push(vote_data);

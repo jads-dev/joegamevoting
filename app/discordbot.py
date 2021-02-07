@@ -99,7 +99,7 @@ class DiscordBot(discord.Client):
                         emote_unicode = False
                         emote = str(message.reactions[0].emoji.id)
 
-                    _votes[key] = {"game": message.content, "yay": 0, "emote_unicode": emote_unicode, "emote": emote}
+                    _votes[key] = {"game": message.content, "yay": 0, "emote_unicode": emote_unicode, "emote": emote, "extra_emotes": []}
 
                     reaction = message.reactions[0]
                     _votes[key]["yay"] = reaction.count
@@ -107,6 +107,16 @@ class DiscordBot(discord.Client):
                     for reactor in reactors:
                         # print(reactor.name, reactor.avatar_url)
                         _voters[key] = {reactor.id: {"name": reactor.name, "avatar_url": reactor.avatar_url._url} for reactor in reactors}
+
+                    for reaction in message.reactions[1:]:
+                        if type(reaction.emoji) is str:
+                            emote_unicode = True
+                            emote = reaction.emoji
+                        else:
+                            emote_unicode = False
+                            emote = str(reaction.emoji.id)
+                        _votes[key]["extra_emotes"].append({"emote_unicode": emote_unicode, "emote": emote})
+
             _votes["partial"] = False
 
             self.votes = _votes
