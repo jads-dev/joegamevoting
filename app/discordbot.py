@@ -101,12 +101,12 @@ class DiscordBot(discord.Client):
 
                     _votes[key] = {"game": message.content, "yay": 0, "emote_unicode": emote_unicode, "emote": emote}
 
-                    for reaction in message.reactions:
-                        _votes[key]["yay"] = reaction.count
-                        reactors = await reaction.users().flatten()
-                        for reactor in reactors:
-                            # print(reactor.name, reactor.avatar_url)
-                            _voters[key] = {reactor.id: {"name": reactor.name, "avatar_url": reactor.avatar_url._url} for reactor in reactors}
+                    reaction = message.reactions[0]
+                    _votes[key]["yay"] = reaction.count
+                    reactors = await reaction.users().flatten()
+                    for reactor in reactors:
+                        # print(reactor.name, reactor.avatar_url)
+                        _voters[key] = {reactor.id: {"name": reactor.name, "avatar_url": reactor.avatar_url._url} for reactor in reactors}
             _votes["partial"] = False
 
             self.votes = _votes
