@@ -85,7 +85,6 @@ export default {
 
       var _vote_list = [];
       for (var key in this.votes) {
-        console.log(this.votes[key].extra_emotes);
         var vote_data = {
           message_id: key,
           name: this.votes[key].game,
@@ -125,8 +124,10 @@ export default {
     get_bg_style: function (vote) {
       const percent = (vote.votes / this.vote_list[0].votes) * 100;
       var color = "#7289da";
-      if (vote.message_id == 807293645057163285) color = "#da9090";
-      if (vote.message_id == 807297543825653801) color = "#7cda72";
+      if (vote.name) {
+        if (vote.name.toLowerCase().includes("a bomb")) color = "#da9090";
+        if (vote.name.toLowerCase().includes("dragon angel")) color = "#7cda72";
+      }
 
       return { "background-image": `linear-gradient(to right,${color} ${percent}%,transparent ${percent}%)` };
     },
