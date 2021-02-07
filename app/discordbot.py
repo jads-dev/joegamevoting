@@ -31,7 +31,7 @@ class DiscordBot(discord.Client):
 
         self.valid_message_ids = []
         self.votes = {}
-        self.voters = {}        
+        self.voters = {}
         self.last_random = None
         self.channel = None
         self.load_data()
@@ -115,6 +115,12 @@ class DiscordBot(discord.Client):
 
             for message in messages:
                 await self.parse_message(message)
+
+            del self.votes["partial"]
+
+            for key in list(self.votes):
+                if int(key) not in self.valid_message_ids:
+                    del self.votes[key]
 
             self.votes["partial"] = False
 
