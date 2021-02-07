@@ -31,13 +31,14 @@ class DiscordBot(discord.Client):
 
         self.valid_message_ids = []
         self.votes = {}
-        self.voters = {}
-        self.ready = False
+        self.voters = {}        
         self.last_random = None
+        self.channel = None
         self.load_data()
 
     async def on_ready(self):
         print(f"Logged in as {self.user.name} id: {self.user.id}")
+        self.channel = self.get_channel(807289103920922684)  # voting channel
         await self.fetch_votes()
 
     def load_data(self):
@@ -66,86 +67,81 @@ class DiscordBot(discord.Client):
         except IOError:
             print("Error saving votes")
 
+    async def parse_message(self, message):
+        # print(message)
+        key = str(message.id)  # socketio glitch(?) workaround (last 2 digits go to 0)
+
+        if len(message.reactions) > 0:
+            if type(message.reactions[0].emoji) is str:
+                emote_unicode = True
+                emote = message.reactions[0].emoji
+            else:
+                emote_unicode = False
+                emote = str(message.reactions[0].emoji.id)
+
+            self.votes[key] = {"game": message.content, "yay": 0, "emote_unicode": emote_unicode, "emote": emote, "extra_emotes": []}
+
+            reaction = message.reactions[0]
+            self.votes[key]["yay"] = reaction.count
+            reactors = await reaction.users().flatten()
+            for reactor in reactors:
+                # print(reactor.name, reactor.avatar_url)
+                self.voters[key] = {reactor.id: {"name": reactor.name, "avatar_url": reactor.avatar_url._url} for reactor in reactors}
+
+            for reaction in message.reactions[1:]:
+                if type(reaction.emoji) is str:
+                    emote_unicode = True
+                    emote = reaction.emoji
+                else:
+                    emote_unicode = False
+                    emote = str(reaction.emoji.id)
+                self.votes[key]["extra_emotes"].append({"emote_unicode": emote_unicode, "emote": emote})
+
     async def fetch_votes(self):
         while True:
             print("Fetching vote messages.")
             await self.wait_until_ready()
-            self.ready = False
-
-            channel = self.get_channel(807289103920922684)  # voting channel
 
             messages = []
 
             start_dt = datetime.datetime(2021, 2, 5, 16, 40, 47)
             end_dt = datetime.datetime(2021, 2, 5, 17, 55, 27)
 
-            async for message in channel.history(after=start_dt, before=end_dt, limit=1000):
+            async for message in self.channel.history(after=start_dt, before=end_dt, limit=1000):
                 # print(f"{message.id}\t{message.created_at}\t{message.content}")
                 messages.append(message)
 
             self.valid_message_ids = [message.id for message in messages]
 
-            _votes = {}
-            _voters = {}
             for message in messages:
-                # print(message)
-                key = str(message.id)  # socketio glitch(?) workaround (last 2 digits go to 0)
+                await self.parse_message(message)
 
-                if len(message.reactions) > 0:
-                    if type(message.reactions[0].emoji) is str:
-                        emote_unicode = True
-                        emote = message.reactions[0].emoji
-                    else:
-                        emote_unicode = False
-                        emote = str(message.reactions[0].emoji.id)
-
-                    _votes[key] = {"game": message.content, "yay": 0, "emote_unicode": emote_unicode, "emote": emote, "extra_emotes": []}
-
-                    reaction = message.reactions[0]
-                    _votes[key]["yay"] = reaction.count
-                    reactors = await reaction.users().flatten()
-                    for reactor in reactors:
-                        # print(reactor.name, reactor.avatar_url)
-                        _voters[key] = {reactor.id: {"name": reactor.name, "avatar_url": reactor.avatar_url._url} for reactor in reactors}
-
-                    for reaction in message.reactions[1:]:
-                        if type(reaction.emoji) is str:
-                            emote_unicode = True
-                            emote = reaction.emoji
-                        else:
-                            emote_unicode = False
-                            emote = str(reaction.emoji.id)
-                        _votes[key]["extra_emotes"].append({"emote_unicode": emote_unicode, "emote": emote})
-
-            _votes["partial"] = False
-
-            self.votes = _votes
-            self.voters = _voters
+            self.votes["partial"] = False
 
             print("Done fetching votes")
             self.save_data()
             await sio.emit("votes_discord", data=self.votes, namespace="/gamevotes")
 
-            self.ready = True
-
             await asyncio.sleep(900)
 
-    async def count_change(self, reaction, count):
+    async def count_change(self, reaction, add=True):
         if reaction.message_id in self.valid_message_ids:
             key = str(reaction.message_id)
             if key in self.votes:
-                while not self.ready:
-                    await asyncio.sleep(1)  # lol workaround
-                self.votes[key]["yay"] = self.votes[key].get("yay", 0) + count
+                message = await self.channel.fetch_message(id=reaction.message_id)
+                await self.parse_message(message)
+
                 user = self.get_user(reaction.user_id)
                 user_data = {
                     "name": user.name,
                     "avatar_url": user.avatar_url._url,
                 }
-                if count > 0:
+                if add:
                     self.voters[key][user.id] = user_data
                 else:
-                    self.voters[key][user.id] = user_data
+                    if user.id in self.voters[key]:
+                        del self.voters[key][user.id]
+
                 vote_data = {
                     "message_id": key,
                     "game": self.votes[key]["game"],
@@ -156,10 +152,10 @@ class DiscordBot(discord.Client):
                 await sio.emit("votes_discord", data=vote_data, namespace="/gamevotes")
 
     async def on_raw_reaction_add(self, reaction):
-        await self.count_change(reaction, 1)
+        await self.count_change(reaction, add=True)
 
     async def on_raw_reaction_remove(self, reaction):
-        await self.count_change(reaction, -1)
+        await self.count_change(reaction, add=False)
 
 
 bot = DiscordBot(intents=intents)
