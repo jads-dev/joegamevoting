@@ -143,7 +143,12 @@ def get_stats():
     nr_voters = len(unique_voters)
 
     votes = [_votes[vote]["yay"] for vote in _votes if vote != "partial"]
-    votes_avg = statistics.mean(votes)
-    votes_median = statistics.median(votes)
+
+    try:
+        votes_avg = statistics.mean(votes)
+        votes_median = statistics.median(votes)
+    except statistics.StatisticsError:
+        votes_avg = 0
+        votes_median = 0
 
     return {"nr_games": nr_games, "nr_voters": nr_voters, "votes_average": votes_avg, "votes_median": votes_median}

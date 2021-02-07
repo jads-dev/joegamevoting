@@ -20,7 +20,7 @@
           </v-expansion-panel>
         </v-expansion-panels>
       </v-col>
-      <v-col cols="12" md="6" class="px-1">
+      <v-col cols="12" md="6" >
         <v-card class="mt-2">
           <v-card-title> Latest Pitches </v-card-title>
           <v-card-text>
