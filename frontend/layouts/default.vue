@@ -28,11 +28,11 @@
     </v-app-bar>
     <v-main style="height: 100vh">
       <v-row style="height: 100%" no-gutters>
-        <v-col cols="6" md="2" style="height: 100%" class="overflow-y-auto">
+        <v-col cols="5" md="2" style="height: 100%" class="overflow-y-auto">
           <game-votes-discord v-if="official" class="ma-0 pa-0" />
           <game-votes v-else class="ma-0 pa-0" />
         </v-col>
-        <v-col cols="6" md="10" style="height: 100%" class="overflow-y-auto pl-2 pr-3">
+        <v-col cols="7" md="10" style="height: 100%" class="overflow-y-auto pl-2 pr-3">
           <nuxt />
         </v-col>
       </v-row>
