@@ -32,6 +32,7 @@ class DiscordBot(discord.Client):
         self.valid_message_ids = []
         self.votes = {}
         self.voters = {}
+        self.ready = False
         self.last_random = None
         self.load_data()
 
@@ -69,6 +70,7 @@ class DiscordBot(discord.Client):
         while True:
             print("Fetching vote messages.")
             await self.wait_until_ready()
+            self.ready = False
 
             channel = self.get_channel(807289103920922684)  # voting channel
 
@@ -82,22 +84,30 @@ class DiscordBot(discord.Client):
                 messages.append(message)
 
             self.valid_message_ids = [message.id for message in messages]
+
+            _votes = {}
+            _voters = {}
             for message in messages:
                 # print(message)
                 key = str(message.id)  # socketio glitch(?) workaround (last 2 digits go to 0)
-                self.votes[key] = {"game": message.content, "yay": 0}
+                _votes[key] = {"game": message.content, "yay": 0}
 
                 for reaction in message.reactions:
-                    self.votes[key]["yay"] = reaction.count
+                    _votes[key]["yay"] = reaction.count
                     reactors = await reaction.users().flatten()
                     for reactor in reactors:
                         # print(reactor.name, reactor.avatar_url)
-                        self.voters[key] = {reactor.id: {"name": reactor.name, "avatar_url": reactor.avatar_url._url} for reactor in reactors}
-            self.votes["partial"] = False
+                        _voters[key] = {reactor.id: {"name": reactor.name, "avatar_url": reactor.avatar_url._url} for reactor in reactors}
+            _votes["partial"] = False
+
+            self.votes = _votes
+            self.voters = _voters
 
             print("Done fetching votes")
             self.save_data()
             await sio.emit("votes_discord", data=self.votes, namespace="/gamevotes")
+
+            self.ready = True
 
             await asyncio.sleep(900)
 
@@ -105,6 +115,8 @@ class DiscordBot(discord.Client):
         if reaction.message_id in self.valid_message_ids:
             key = str(reaction.message_id)
             if key in self.votes:
+                while not self.ready:
+                    await asyncio.sleep(1)  # lol workaround
                 self.votes[key]["yay"] = self.votes[key].get("yay", 0) + count
                 user = self.get_user(reaction.user_id)
                 user_data = {
