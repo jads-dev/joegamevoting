@@ -2,33 +2,21 @@
   <v-container>
     <v-card>
       <v-card-title class="ma-0 pa-0 ml-2"> Discord poll results: </v-card-title>
-      <v-data-table dense hide-default-footer :headers="headers" :items="vote_list" :items-per-page="700" class="elevation-1" @click:row="goto_game">
-        <template v-slot:[`item.votes`]="{ item }">
-          <v-row>
-            <v-img max-width="25" class="mr-1" :src="get_emoji_url(item.emote, item.emote_unicode)"></v-img>
-            <span>x {{ item.votes }}</span>
-          </v-row>
-        </template>
-        <template v-slot:[`item.name`]="{ item }">
-          {{ item.name }}
+      <v-data-table dense hide-default-footer :headers="headers" :items="vote_list" :items-per-page="700" class="elevation-1">
+        <template v-slot:body="{ items }">
+          <tbody>
+            <tr v-for="item in items" :key="item.name" style="cursor: pointer" v-bind:style="get_bg_style(item.votes)" @click="goto_game(item)">
+              <td>
+                <v-row>
+                  <v-img max-width="25" class="mr-1" :src="get_emoji_url(item.emote, item.emote_unicode)"></v-img>
+                  <span>x {{ item.votes }}</span>
+                </v-row>
+              </td>
+              <td>{{ item.name }}</td>
+            </tr>
+          </tbody>
         </template>
       </v-data-table>
-      <!-- <v-progress-linear
-        v-for="vote in vote_list"
-        v-bind:key="vote.message_id"
-        background-opacity="0"
-        height="25"
-        color="#7289da"
-        :value="(vote.votes / vote_list[0].votes) * 100"
-        @click="goto_game(vote)"
-      >
-        <template v-slot:default>
-          <div class="px-1" style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap; cursor: pointer">
-            {{ vote.votes }} votes - {{ vote.name }}
-          </div>
-          <v-spacer></v-spacer>
-        </template>
-      </v-progress-linear> -->
     </v-card>
   </v-container>
 </template>
@@ -119,6 +107,10 @@ export default {
       } else {
         return "https://cdn.discordapp.com/emojis/" + emoji;
       }
+    },
+    get_bg_style: function (value) {
+      const percent = (value / this.vote_list[0].votes) * 100;
+      return { "background-image": `linear-gradient(to right,#7289da ${percent}%,transparent ${percent}%)` };
     },
   },
 };
