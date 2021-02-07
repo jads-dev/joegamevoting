@@ -53,7 +53,7 @@ export default {
     votes: {},
     vote_list: [],
     headers: [
-      { text: "votes", value: "votes", width: "75px" },
+      { text: "votes", value: "votes", width: "80px" },
       { text: "game", value: "name" },
     ],
   }),
