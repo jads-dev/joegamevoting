@@ -32,6 +32,7 @@ class DiscordBot(discord.Client):
         self.valid_message_ids = []
         self.votes = {}
         self.voters = {}
+        self.downvoters = {}
         self.last_random = None
         self.channel = None
         self.load_data()
@@ -79,7 +80,16 @@ class DiscordBot(discord.Client):
                 emote_unicode = False
                 emote = str(message.reactions[0].emoji.id)
 
-            self.votes[key] = {"game": message.content, "yay": 0, "emote_unicode": emote_unicode, "emote": emote, "extra_emotes": []}
+            self.votes[key] = {
+                "game": message.content,
+                "yay": 0,
+                "nay": 0,
+                "emote_unicode": emote_unicode,
+                "emote": emote,
+                "emote2_unicode": True,
+                "emote2": "",
+                "extra_emotes": [],
+            }
 
             reaction = message.reactions[0]
             self.votes[key]["yay"] = reaction.count
@@ -88,7 +98,23 @@ class DiscordBot(discord.Client):
                 # print(reactor.name, reactor.avatar_url)
                 self.voters[key] = {reactor.id: {"name": reactor.name, "avatar_url": reactor.avatar_url._url} for reactor in reactors}
 
-            for reaction in message.reactions[1:]:
+            if len(message.reactions) > 1:
+                if type(message.reactions[1].emoji) is str:
+                    emote2_unicode = True
+                    emote2 = message.reactions[1].emoji
+                else:
+                    emote2_unicode = False
+                    emote2 = str(message.reactions[1].emoji.id)
+                reaction = message.reactions[1]
+                self.votes[key]["nay"] = reaction.count
+                self.votes[key]["emote2_unicode"] = emote2_unicode
+                self.votes[key]["emote2"] = emote2
+                reactors = await reaction.users().flatten()
+                for reactor in reactors:
+                    # print(reactor.name, reactor.avatar_url)
+                    self.downvoters[key] = {reactor.id: {"name": reactor.name, "avatar_url": reactor.avatar_url._url} for reactor in reactors}
+
+            for reaction in message.reactions[2:]:
                 if type(reaction.emoji) is str:
                     emote_unicode = True
                     emote = reaction.emoji
@@ -153,6 +179,7 @@ class DiscordBot(discord.Client):
                     "message_id": key,
                     "game": self.votes[key]["game"],
                     "yay": self.votes[key]["yay"],
+                    "nay": self.votes[key]["yay"],
                     "partial": True,
                 }
 

@@ -6,13 +6,13 @@
         <v-expansion-panel>
           <v-expansion-panel-header class="ml-5"> Outer Heaven </v-expansion-panel-header>
           <v-expansion-panel-content>
-            <vote-list :vote_list="outer_heaven"></vote-list>
+            <vote-list-simple :vote_list="outer_heaven"></vote-list-simple>
           </v-expansion-panel-content>
         </v-expansion-panel>
         <v-expansion-panel>
           <v-expansion-panel-header class="ml-5"> Halls of Ascension </v-expansion-panel-header>
           <v-expansion-panel-content>
-            <vote-list :vote_list="halls_ascension"></vote-list>
+            <vote-list-simple :vote_list="halls_ascension"></vote-list-simple>
           </v-expansion-panel-content>
         </v-expansion-panel>
         <v-expansion-panel>
@@ -24,13 +24,13 @@
         <v-expansion-panel>
           <v-expansion-panel-header class="ml-5"> The Hell of Culled Things </v-expansion-panel-header>
           <v-expansion-panel-content>
-            <vote-list :vote_list="culled_hell"></vote-list>
+            <vote-list-simple :vote_list="culled_hell"></vote-list-simple>
           </v-expansion-panel-content>
         </v-expansion-panel>
         <v-expansion-panel>
           <v-expansion-panel-header class="ml-5"> Double Hell </v-expansion-panel-header>
           <v-expansion-panel-content>
-            <vote-list :vote_list="double_hell"></vote-list>
+            <vote-list-simple :vote_list="double_hell"></vote-list-simple>
           </v-expansion-panel-content>
         </v-expansion-panel>
       </v-expansion-panels>
@@ -42,15 +42,16 @@
 import VoteList from "./VoteList.vue";
 
 function comparator(a, b) {
-  if (a["votes"] < b["votes"]) return 1;
-  if (a["votes"] > b["votes"]) return -1;
+  if (a["absolute"] < b["absolute"]) return 1;
+  if (a["absolute"] > b["absolute"]) return -1;
   return 0;
 }
 
 import culled from "@/static/culled.json";
+import VoteListSimple from "./VoteListSimple.vue";
 
 export default {
-  components: { VoteList },
+  components: { VoteList, VoteListSimple },
   data: () => ({
     panel: [1, 2],
     votes: {},
@@ -80,6 +81,7 @@ export default {
       const partial = msg.partial;
       if (partial) {
         this.votes[msg.message_id]["yay"] = msg["yay"];
+        this.votes[msg.message_id]["nay"] = msg["yay"];
         this.votes[msg.message_id]["game"] = msg["game"];
       } else {
         this.votes = msg;
@@ -91,8 +93,12 @@ export default {
           message_id: key,
           name: this.votes[key].game,
           votes: this.votes[key].yay,
+          downvotes: this.votes[key].nay,
+          absolute: this.votes[key].yay - this.votes[key].nay,
           emote: this.votes[key].emote,
           emote_unicode: this.votes[key].emote_unicode,
+          emote2: this.votes[key].emote2,
+          emote2_unicode: this.votes[key].emote2_unicode,
           extra_emotes: this.votes[key].extra_emotes,
           plane: "The Voting Veldt",
         };

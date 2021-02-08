@@ -2,35 +2,31 @@
   <v-data-table dense hide-default-footer :headers="headers" :items="vote_list" :items-per-page="700" class="elevation-1">
     <template v-slot:body="{ items }">
       <tbody>
-        <tr v-for="item in items" :key="item.message_id" style="cursor: pointer" v-bind:style="get_row_style(item)" @click="goto_game(item)">
+        <tr v-for="item in items" :key="item.message_id" style="cursor: pointer" v-bind:style="get_bg_style(item)" @click="goto_game(item)">
           <td>
             <v-row>
               <v-img max-width="25" class="mr-1" :src="get_emoji_url(item.emote, item.emote_unicode)"></v-img>
               <span>x {{ item.votes }}</span>
-            </v-row>
-            <v-row v-if="item.downvotes > 0">
-              <v-img max-width="25" class="mr-1" :src="get_emoji_url(item.emote2, item.emote2_unicode)"></v-img>
-              <span>x {{ item.downvotes }}</span>
             </v-row>
           </td>
           <td>
             <div class="d-flex ml-0 pl-0">
               <v-img
                 v-if="item.name.toLowerCase().includes('a bomb')"
-                style="position: absolute; margin-top: -25px; margin-left: -30px"
-                max-height="80"
-                max-width="80"
+                style="position: absolute; margin-top: -15px; margin-left: -45px"
+                max-height="60"
+                max-width="60"
                 src="https://cdn.discordapp.com/attachments/666328917237563419/808083562766794822/bombchan_sans_body_or_bg.png"
               ></v-img>
               <v-img
                 v-if="item.name.toLowerCase().includes('dragon angel')"
-                style="position: absolute; margin-top: -25px; margin-left: -30px"
-                max-height="100"
-                max-width="100"
+                style="position: absolute; margin-top: -15px; margin-left: -30px"
+                max-height="60"
+                max-width="60"
                 src="https://cdn.discordapp.com/attachments/648620063045189656/808196974859124756/dragon_angel.png"
               ></v-img>
-              <span v-if="item.name.toLowerCase().includes('a bomb')" class="pl-12"></span>
-              <span v-if="item.name.toLowerCase().includes('dragon angel')" style="padding-left: 75px"></span>
+              <span v-if="item.name.toLowerCase().includes('a bomb')" class="pl-3"></span>
+              <span v-if="item.name.toLowerCase().includes('dragon angel')" class="pl-8"></span>
               <v-img
                 v-for="emote in item.extra_emotes"
                 :key="`${item.message_id}-${emote.emote}`"
@@ -66,7 +62,6 @@ var emoji_urls = {
   "🎈": "https://discord.com/assets/a6298512f50632252a23cc264ec73f29.svg",
   "🦈": "https://discord.com/assets/7141e059d1cd75465ac7cdfa2101da72.svg",
   "✂️": "https://discord.com/assets/3dcc54fffb253571d6eab25020e424f5.svg",
-  "⬇️": "https://discord.com/assets/31abf4145cf7c27ea0e1a2e4328283fd.svg",
 };
 export default {
   props: {
@@ -77,7 +72,7 @@ export default {
   },
   data: () => ({
     headers: [
-      { text: "up", value: "votes", width: "80px" },
+      { text: "votes", value: "votes", width: "80px" },
       { text: "game", value: "name" },
     ],
   }),
@@ -94,25 +89,22 @@ export default {
         return "https://cdn.discordapp.com/emojis/" + emoji;
       }
     },
-    get_row_style: function (vote) {
+    get_bg_style: function (vote) {
       const percent = (vote.votes / this.vote_list[0].votes) * 100;
 
       var color = "#7289da";
-      var height = undefined;
       if (vote.name) {
         if (vote.name.toLowerCase().includes("a bomb")) {
           color = "#da9090";
-          height = "50px";
+          return {
+            "background-image": `linear-gradient(to right,${color} ${percent}%,transparent ${percent}%)`,
+          };
         }
-        if (vote.name.toLowerCase().includes("dragon angel")) {
-          color = "#7cda72";
-          height = "50px";
-        }
+        if (vote.name.toLowerCase().includes("dragon angel")) color = "#7cda72";
       }
 
       return {
         "background-image": `linear-gradient(to right,${color} ${percent}%,transparent ${percent}%)`,
-        height: height,
       };
     },
   },
