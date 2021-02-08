@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-card>
+    <v-card class="overflow-hidden">
       <v-card-title class="ma-0 pa-0 ml-2"> Discord poll results: </v-card-title>
       <v-expansion-panels multiple v-model="panel">
         <v-expansion-panel>
