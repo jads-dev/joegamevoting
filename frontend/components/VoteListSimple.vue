@@ -92,15 +92,23 @@ export default {
     get_bg_style: function (vote) {
       const percent = (vote.votes / this.vote_list[0].votes) * 100;
 
-      var color = "#21357d";
+      var color = this.dark_mode ? "#21357d" : "#7289da";
       if (vote.name) {
-        if (vote.name.toLowerCase().includes("a bomb")) color = "#692323";
-        if (vote.name.toLowerCase().includes("dragon angel")) color = "#3e7d21";
+        if (vote.name.toLowerCase().includes("a bomb")) color = this.dark_mode ? "#692323" : "#da9090";
+        if (vote.name.toLowerCase().includes("dragon angel")) color = this.dark_mode ? "#3e7d21" : "#7cda72";
       }
 
       return {
         "background-image": `linear-gradient(to right,${color} ${percent}%,transparent ${percent}%)`,
       };
+    },
+  },
+  computed: {
+    dark_mode: {
+      get() {
+        return this.$store.state.localStorage.dark_mode;
+      },
+      set(value) {},
     },
   },
 };

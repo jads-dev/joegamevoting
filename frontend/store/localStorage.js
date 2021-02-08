@@ -5,7 +5,8 @@ export const state = () => ({
     avatar_url: "",
     can_vote: false
   },
-  official: true
+  official: true,
+  dark_mode: true
 });
 
 export const mutations = {
@@ -27,5 +28,8 @@ export const mutations = {
   },
   set_official(state, official) {
     state.official = official;
+  },
+  set_dark_mode(state, dark_mode) {
+    state.dark_mode = dark_mode;
   }
 };

@@ -97,15 +97,15 @@ export default {
     get_row_style: function (vote) {
       const percent = (vote.absolute / this.vote_list[0].absolute) * 100;
 
-      var color = "#21357d";
+      var color = this.dark_mode ? "#21357d" : "#7289da";
       var height = undefined;
       if (vote.name) {
         if (vote.name.toLowerCase().includes("a bomb")) {
-          color = "#692323";
+          color = this.dark_mode ? "#692323" : "#da9090";
           height = "50px";
         }
         if (vote.name.toLowerCase().includes("dragon angel")) {
-          color = "#3e7d21";
+          color = this.dark_mode ? "#3e7d21" : "#7cda72";
           height = "50px";
         }
       }
@@ -114,6 +114,14 @@ export default {
         "background-image": `linear-gradient(to right,${color} ${percent}%,transparent ${percent}%)`,
         height: height,
       };
+    },
+  },
+  computed: {
+    dark_mode: {
+      get() {
+        return this.$store.state.localStorage.dark_mode;
+      },
+      set(value) {},
     },
   },
 };

@@ -70,7 +70,6 @@ export default {
     this.socket.on("votes_discord", (msg, cb) => {
       const partial = msg.partial;
       if (partial) {
-        console.log(msg);
         this.votes[msg.message_id]["yay"] = msg["yay"];
         this.votes[msg.message_id]["nay"] = msg["nay"];
         this.votes[msg.message_id]["game"] = msg["game"];
