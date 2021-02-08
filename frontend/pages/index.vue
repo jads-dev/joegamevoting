@@ -3,49 +3,12 @@
     <template v-if="official">
       <v-col cols="12" class="align-center">
         <v-row>
-          <v-col cols="12" md="9">
+          <v-col cols="12">
             <p class="text-center ma-0">{{ stats.nr_voters }} voters have voted on {{ stats.nr_games }} games</p>
             <p class="text-center ma-0" v-if="stats.votes_average">Average of all votes: {{ stats.votes_average.toFixed(2) }}</p>
             <p class="text-center ma-0">Median of all votes: {{ stats.votes_median }}</p>
           </v-col>
-          <v-col cols="12" md="3">
-            <v-card class="mb-3">
-              <v-card-title class="ma-0 pa-0 ml-2"> Halls of Ascension: </v-card-title>
-              <v-data-table dense hide-default-footer :headers="headers" :items="hall_ascension" :items-per-page="700" class="elevation-1">
-                <template v-slot:body="{ items }">
-                  <tbody>
-                    <tr
-                      v-for="item in items"
-                      :key="`hall-${item.message_id}`"
-                      style="cursor: pointer"
-                      v-bind:style="get_bg_style(item)"
-                      @click="goto_game(item)"
-                    >
-                      <td>
-                        <v-row>
-                          <v-img max-width="25" class="mr-1" :src="item.emote_url"></v-img>
-                          <span>x {{ item.votes }}</span>
-                        </v-row>
-                      </td>
-                      <td>
-                        <div class="d-flex">
-                          <v-img
-                            v-for="emote in item.extra_emotes"
-                            :key="`${item.message_id}-${emote.emote}`"
-                            max-width="25"
-                            :src="get_emoji_url(emote.emote, emote.emote_unicode)"
-                          ></v-img>
-                          <div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{ item.name }}</div>
-                        </div>
-                      </td>
-                    </tr>
-                  </tbody>
-                </template>
-              </v-data-table>
-            </v-card>
-          </v-col>
         </v-row>
-
         <v-expansion-panels>
           <v-expansion-panel>
             <v-expansion-panel-header> Base rules </v-expansion-panel-header>

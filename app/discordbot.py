@@ -116,7 +116,8 @@ class DiscordBot(discord.Client):
             for message in messages:
                 await self.parse_message(message)
 
-            del self.votes["partial"]
+            if "partial" in self.votes:
+                del self.votes["partial"]
 
             for key in list(self.votes):
                 if int(key) not in self.valid_message_ids:
