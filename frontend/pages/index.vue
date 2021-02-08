@@ -23,7 +23,7 @@
             </v-expansion-panel-content>
           </v-expansion-panel>
           <v-expansion-panel>
-            <v-expansion-panel-header> Feb 7 rules (Updated 9:52PM EST) </v-expansion-panel-header>
+            <v-expansion-panel-header> Feb 7 rules (Updated 2:44PM EST) (2nd update 9:52PM EST) </v-expansion-panel-header>
             <v-expansion-panel-content>
               <img src="https://cdn.discordapp.com/attachments/648620063045189656/808011604447854592/unknown.png" /><img />
               <img src="https://cdn.discordapp.com/attachments/648620063045189656/808011756386910223/unknown.png" /><img />
