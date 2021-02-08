@@ -35,11 +35,15 @@ class DiscordBot(discord.Client):
         self.downvoters = {}
         self.last_random = None
         self.channel = None
+        self.changed = []
+        self.last_scan = None
+        self.ready = True
         self.load_data()
 
     async def on_ready(self):
         print(f"Logged in as {self.user.name} id: {self.user.id}")
         self.channel = self.get_channel(807289103920922684)  # voting channel
+
         await self.fetch_votes()
 
     def load_data(self):
@@ -123,72 +127,78 @@ class DiscordBot(discord.Client):
                     emote = str(reaction.emoji.id)
                 self.votes[key]["extra_emotes"].append({"emote_unicode": emote_unicode, "emote": emote})
 
+    async def fetch_changed(self):
+        self.ready = False
+        _changed = set(self.changed)
+        for message_id in _changed:
+            key = str(message_id)
+            message = await self.channel.fetch_message(id=message_id)
+            await self.parse_message(message)
+
+            vote_data = {
+                "message_id": key,
+                "partial": True,
+            }
+
+            vote_data.update(self.votes[key])
+
+            await sio.emit("votes_discord", data=vote_data, namespace="/gamevotes")
+        self.changed = []
+        self.ready = True
+
+    async def fetch_all(self):
+        print("Fetching vote messages.")
+        await self.wait_until_ready()
+
+        messages = []
+
+        start_dt = datetime.datetime(2021, 2, 5, 16, 40, 47)
+        end_dt = datetime.datetime(2021, 2, 5, 17, 55, 27)
+
+        async for message in self.channel.history(after=start_dt, before=end_dt, limit=1000):
+            # print(f"{message.id}\t{message.created_at}\t{message.content}")
+            messages.append(message)
+
+        self.valid_message_ids = [message.id for message in messages]
+
+        for message in messages:
+            await self.parse_message(message)
+
+        if "partial" in self.votes:
+            del self.votes["partial"]
+
+        for key in list(self.votes):
+            if int(key) not in self.valid_message_ids:
+                del self.votes[key]
+
+        self.votes["partial"] = False
+
+        print("Done fetching votes")
+        self.save_data()
+        await sio.emit("votes_discord", data=self.votes, namespace="/gamevotes")
+
     async def fetch_votes(self):
         while True:
-            print("Fetching vote messages.")
-            await self.wait_until_ready()
+            if self.last_scan is None or self.last_scan < datetime.datetime.now() - datetime.timedelta(seconds=900):
+                await self.fetch_all()
+                self.last_scan = datetime.datetime.now()
+            else:
+                await self.fetch_changed()
+            await asyncio.sleep(1)
 
-            messages = []
-
-            start_dt = datetime.datetime(2021, 2, 5, 16, 40, 47)
-            end_dt = datetime.datetime(2021, 2, 5, 17, 55, 27)
-
-            async for message in self.channel.history(after=start_dt, before=end_dt, limit=1000):
-                # print(f"{message.id}\t{message.created_at}\t{message.content}")
-                messages.append(message)
-
-            self.valid_message_ids = [message.id for message in messages]
-
-            for message in messages:
-                await self.parse_message(message)
-
-            if "partial" in self.votes:
-                del self.votes["partial"]
-
-            for key in list(self.votes):
-                if int(key) not in self.valid_message_ids:
-                    del self.votes[key]
-
-            self.votes["partial"] = False
-
-            print("Done fetching votes")
-            self.save_data()
-            await sio.emit("votes_discord", data=self.votes, namespace="/gamevotes")
-
-            await asyncio.sleep(900)
-
-    async def count_change(self, reaction, add=True):
+    async def count_change(self, reaction):
         if reaction.message_id in self.valid_message_ids:
             key = str(reaction.message_id)
             if key in self.votes:
-                message = await self.channel.fetch_message(id=reaction.message_id)
-                await self.parse_message(message)
-
-                user = self.get_user(reaction.user_id)
-                user_data = {
-                    "name": user.name,
-                    "avatar_url": user.avatar_url._url,
-                }
-                if add:
-                    self.voters[key][user.id] = user_data
-                else:
-                    if user.id in self.voters[key]:
-                        del self.voters[key][user.id]
-
-                vote_data = {
-                    "message_id": key,
-                    "partial": True,
-                }
-
-                vote_data.update(self.votes[key])
-
-                await sio.emit("votes_discord", data=vote_data, namespace="/gamevotes")
+                while not self.ready:
+                    await asyncio.sleep(1)
+                self.changed.append(reaction.message_id)
 
     async def on_raw_reaction_add(self, reaction):
-        await self.count_change(reaction, add=True)
+        await self.count_change(reaction)
 
     async def on_raw_reaction_remove(self, reaction):
-        await self.count_change(reaction, add=False)
+        await self.count_change(reaction)
 
     async def on_raw_message_delete(self, message):
         if str(message.message_id) in self.votes:
