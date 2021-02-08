@@ -163,6 +163,10 @@ class DiscordBot(discord.Client):
     async def on_raw_reaction_remove(self, reaction):
         await self.count_change(reaction, add=False)
 
+    async def on_raw_message_delete(self, message):
+        if str(message.message_id) in self.votes:
+            del self.votes[str(message.message_id)]
+
 
 bot = DiscordBot(intents=intents)
 
