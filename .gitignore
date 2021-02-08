@@ -5,6 +5,5 @@ data/gamevotes.db
 data/gamevotes.db-journal
 
 data/votes/*.json
-frontend/static/culled.json
 data/round1_culled.json
 data/round1.json
