@@ -177,11 +177,10 @@ class DiscordBot(discord.Client):
 
                 vote_data = {
                     "message_id": key,
-                    "game": self.votes[key]["game"],
-                    "yay": self.votes[key]["yay"],
-                    "nay": self.votes[key]["nay"],
                     "partial": True,
                 }
+
+                vote_data.update(self.votes[key])
 
                 await sio.emit("votes_discord", data=vote_data, namespace="/gamevotes")
 
