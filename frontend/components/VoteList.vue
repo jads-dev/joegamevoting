@@ -97,15 +97,15 @@ export default {
     get_row_style: function (vote) {
       const percent = (vote.absolute / this.vote_list[0].absolute) * 100;
 
-      var color = "#7289da";
+      var color = "#21357d";
       var height = undefined;
       if (vote.name) {
         if (vote.name.toLowerCase().includes("a bomb")) {
-          color = "#da9090";
+          color = "#692323";
           height = "50px";
         }
         if (vote.name.toLowerCase().includes("dragon angel")) {
-          color = "#7cda72";
+          color = "#3e7d21";
           height = "50px";
         }
       }

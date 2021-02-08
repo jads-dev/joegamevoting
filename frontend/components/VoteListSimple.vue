@@ -92,15 +92,10 @@ export default {
     get_bg_style: function (vote) {
       const percent = (vote.votes / this.vote_list[0].votes) * 100;
 
-      var color = "#7289da";
+      var color = "#21357d";
       if (vote.name) {
-        if (vote.name.toLowerCase().includes("a bomb")) {
-          color = "#da9090";
-          return {
-            "background-image": `linear-gradient(to right,${color} ${percent}%,transparent ${percent}%)`,
-          };
-        }
-        if (vote.name.toLowerCase().includes("dragon angel")) color = "#7cda72";
+        if (vote.name.toLowerCase().includes("a bomb")) color = "#692323";
+        if (vote.name.toLowerCase().includes("dragon angel")) color = "#3e7d21";
       }
 
       return {
