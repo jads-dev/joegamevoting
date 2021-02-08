@@ -77,7 +77,7 @@ export default {
   },
   data: () => ({
     headers: [
-      { text: "up", value: "votes", width: "80px" },
+      { text: "votes", value: "votes", width: "80px" },
       { text: "game", value: "name" },
     ],
   }),
