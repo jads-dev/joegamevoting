@@ -95,7 +95,7 @@ export default {
       }
     },
     get_row_style: function (vote) {
-      const percent = (vote.votes / this.vote_list[0].votes) * 100;
+      const percent = (vote.absolute / this.vote_list[0].absolute) * 100;
 
       var color = "#7289da";
       var height = undefined;
