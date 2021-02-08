@@ -114,7 +114,7 @@
     </template>
     <template v-else>
       <v-col cols="12">
-        <p class="text-h3 text-center">This is the fan poll, it is unnoficial and fanmade and doesn't affect what Joe plays on stream at all!</p>
+        <p class="text-h3 text-center">This is the fan poll, it is unofficial and fanmade and doesn't affect what Joe plays on stream at all!</p>
         <p class="text-h4 text-center">You can see the results of the official discord poll by click the switch on the top left.</p>
       </v-col>
       <v-col cols="12">
