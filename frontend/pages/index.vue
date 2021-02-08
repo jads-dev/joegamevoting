@@ -32,6 +32,13 @@
               <img src="https://cdn.discordapp.com/attachments/648620063045189656/808169342097162322/unknown.png" /><img />
             </v-expansion-panel-content>
           </v-expansion-panel>
+          <v-expansion-panel>
+            <v-expansion-panel-header> Feb 8 rules</v-expansion-panel-header>
+            <v-expansion-panel-content>
+              <img src="https://cdn.discordapp.com/attachments/648620063045189656/808371582460362762/unknown.png" /><img />
+              <img src="https://cdn.discordapp.com/attachments/648620063045189656/808371734948085770/unknown.png" /><img />
+            </v-expansion-panel-content>
+          </v-expansion-panel>
         </v-expansion-panels>
       </v-col>
       <v-col cols="12" md="6">
