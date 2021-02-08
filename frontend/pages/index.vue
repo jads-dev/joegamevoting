@@ -10,7 +10,7 @@
           </v-col>
           <v-col cols="12" md="3">
             <v-card class="mb-3">
-              <v-card-title class="ma-0 pa-0 ml-2"> Hall of Ascension: </v-card-title>
+              <v-card-title class="ma-0 pa-0 ml-2"> Halls of Ascension: </v-card-title>
               <v-data-table dense hide-default-footer :headers="headers" :items="hall_ascension" :items-per-page="700" class="elevation-1">
                 <template v-slot:body="{ items }">
                   <tbody>
