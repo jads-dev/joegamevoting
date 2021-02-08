@@ -56,20 +56,10 @@ export default {
     panel: [1, 2],
     votes: {},
     outer_heaven: [],
-    halls_ascension: [
-      {
-        plane: "Halls of Ascension",
-        message_id: "807308420104323103",
-        name: "Zero Escape Series (999, Virtue's Last Reward, and Zero Time Dilemma)",
-        emote: "667825926507331604",
-        emote_unicode: false,
-        votes: "306",
-        extra_emotes: [],
-      },
-    ],
+    halls_ascension: culled.ascended_games,
     vote_list: [],
-    culled_hell: culled,
-    double_hell: [],
+    culled_hell: culled.culled_games,
+    double_hell: culled.double_hell_games,
   }),
 
   mounted() {

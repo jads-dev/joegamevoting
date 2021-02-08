@@ -7,6 +7,10 @@ with open("round1.json", "r", encoding="utf-8") as f:
 
 games = data["votes"]
 
+with open("round2p1.json", "r", encoding="utf-8") as f:
+    data = json.load(f)
+
+games.update(data["votes"])
 
 # print(game_ids)
 
@@ -15,15 +19,59 @@ new_games = resp.json()
 
 new_game_ids = [game_id for game_id in new_games]
 
+ascended_games = []
 culled_games = []
+double_hell_games = []
 
 ascended_ids = [
     807308420104323103,
 ]
 
+double_hell_ids = [
+    807295004484960276,
+    807303838037311548,
+    807303892542160947,
+    807297271385423903,
+    807303868806856784,
+    807303813899091968,
+    807303919440756786,
+    807293807593783307,
+    807289797005279263,
+]
+
+
+ascended_ids = [str(id_) for id_ in ascended_ids]
+double_hell_ids = [str(id_) for id_ in double_hell_ids]
+
+
 for game in games:
-    if game not in new_game_ids and game not in ascended_ids:
-        game_data = games[game]
+    game_data = games[game]
+    # print(game, ascended_ids[0], type(game), type(ascended_ids[0]))
+    if game in ascended_ids:
+        ascended_games.append(
+            {
+                "plane": "Halls of Ascension",
+                "message_id": game,
+                "name": game_data["game"],
+                "emote": game_data["emote"],
+                "emote_unicode": game_data["emote_unicode"],
+                "votes": game_data["yay"],
+                "extra_emotes": [],
+            },
+        )
+    elif game in double_hell_ids:
+        double_hell_games.append(
+            {
+                "plane": "Double Hell",
+                "message_id": game,
+                "name": game_data["game"],
+                "emote": game_data["emote"],
+                "emote_unicode": game_data["emote_unicode"],
+                "votes": game_data["yay"],
+                "extra_emotes": [],
+            },
+        )
+    elif game not in new_game_ids:
         culled_games.append(
             {
                 "plane": "The Hell of Culled Things",
@@ -36,8 +84,12 @@ for game in games:
             },
         )
 
+data = {
+    "ascended_games": sorted(ascended_games, key=lambda k: k["votes"], reverse=True),
+    "double_hell_games": sorted(double_hell_games, key=lambda k: k["votes"], reverse=True),
+    "culled_games": sorted(culled_games, key=lambda k: k["votes"], reverse=True),
+}
 
-culled_games = sorted(culled_games, key=lambda k: k["votes"], reverse=True)
 
-with open("round1_culled.json", "w", encoding="utf-8") as f:
-    json.dump(culled_games, f)
+with open("culled.json", "w", encoding="utf-8") as f:
+    json.dump(data, f)
