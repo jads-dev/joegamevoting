@@ -179,7 +179,7 @@ class DiscordBot(discord.Client):
                     "message_id": key,
                     "game": self.votes[key]["game"],
                     "yay": self.votes[key]["yay"],
-                    "nay": self.votes[key]["yay"],
+                    "nay": self.votes[key]["nay"],
                     "partial": True,
                 }
 
