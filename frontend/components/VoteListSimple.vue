@@ -1,9 +1,9 @@
 <template>
-  <v-data-table dense hide-default-footer :headers="headers" :items="vote_list" :items-per-page="700" class="elevation-1">
+  <v-data-table dense hide-default-footer :hide-default-header="hide_header" :headers="headers" :items="vote_list" :items-per-page="700" class="elevation-1">
     <template v-slot:body="{ items }">
       <tbody>
         <tr v-for="item in items" :key="item.message_id" style="cursor: pointer" v-bind:style="get_bg_style(item)" @click="goto_game(item)">
-          <td>
+          <td style="width: 80px">
             <v-row>
               <v-img max-width="25" class="mr-1" :src="get_emoji_url(item.emote, item.emote_unicode)"></v-img>
               <span>x {{ item.votes }}</span>
@@ -69,10 +69,14 @@ export default {
       type: Array,
       default: [],
     },
+    hide_header: {
+      type: Boolean,
+      default: false,
+    },
   },
   data: () => ({
     headers: [
-      { text: "votes", value: "votes", width: "80px" },
+      { text: "votes", value: "votes" },
       { text: "game", value: "name" },
     ],
   }),

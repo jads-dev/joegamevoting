@@ -6,13 +6,13 @@
         <v-expansion-panel>
           <v-expansion-panel-header class="ml-5"> Outer Heaven </v-expansion-panel-header>
           <v-expansion-panel-content>
-            <vote-list-simple :vote_list="outer_heaven"></vote-list-simple>
+            <vote-list-simple :vote_list="outer_heaven" hide_header="true"></vote-list-simple>
           </v-expansion-panel-content>
         </v-expansion-panel>
         <v-expansion-panel>
           <v-expansion-panel-header class="ml-5"> Halls of Ascension </v-expansion-panel-header>
           <v-expansion-panel-content>
-            <vote-list-simple :vote_list="halls_ascension"></vote-list-simple>
+            <vote-list-simple :vote_list="halls_ascension" hide_header="true"></vote-list-simple>
           </v-expansion-panel-content>
         </v-expansion-panel>
         <v-expansion-panel>
@@ -30,7 +30,7 @@
         <v-expansion-panel>
           <v-expansion-panel-header class="ml-5"> Double Hell </v-expansion-panel-header>
           <v-expansion-panel-content>
-            <vote-list-simple :vote_list="double_hell"></vote-list-simple>
+            <vote-list-simple :vote_list="double_hell" hide_header="true"></vote-list-simple>
           </v-expansion-panel-content>
         </v-expansion-panel>
       </v-expansion-panels>
@@ -53,9 +53,9 @@ import VoteListSimple from "./VoteListSimple.vue";
 export default {
   components: { VoteList, VoteListSimple },
   data: () => ({
-    panel: [1, 2],
+    panel: [0, 1, 2],
     votes: {},
-    outer_heaven: [],
+    outer_heaven: culled.outer_heaven,
     halls_ascension: culled.ascended_games,
     vote_list: [],
     culled_hell: culled.culled_games,
@@ -90,7 +90,6 @@ export default {
           emote2: this.votes[key].emote2,
           emote2_unicode: this.votes[key].emote2_unicode,
           extra_emotes: this.votes[key].extra_emotes,
-          plane: "The Voting Veldt",
         };
         if (vote_data.votes > 0) {
           _vote_list.push(vote_data);

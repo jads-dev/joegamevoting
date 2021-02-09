@@ -7,10 +7,11 @@ with open("round1.json", "r", encoding="utf-8") as f:
 
 games = data["votes"]
 
-with open("round2p1.json", "r", encoding="utf-8") as f:
-    data = json.load(f)
-
-games.update(data["votes"])
+files = ["round2p1.json"]
+for file in files:
+    with open(file, "r", encoding="utf-8") as f:
+        data = json.load(f)
+    games.update(data["votes"])
 
 # print(game_ids)
 
@@ -19,9 +20,14 @@ new_games = resp.json()
 
 new_game_ids = [game_id for game_id in new_games]
 
+outer_heaven_games = []
 ascended_games = []
 culled_games = []
 double_hell_games = []
+
+outer_heaven_ids = [
+    807294358520725585,
+]
 
 ascended_ids = [
     807308420104323103,
@@ -39,7 +45,7 @@ double_hell_ids = [
     807289797005279263,
 ]
 
-
+outer_heaven_ids = [str(id_) for id_ in outer_heaven_ids]
 ascended_ids = [str(id_) for id_ in ascended_ids]
 double_hell_ids = [str(id_) for id_ in double_hell_ids]
 
@@ -47,10 +53,21 @@ double_hell_ids = [str(id_) for id_ in double_hell_ids]
 for game in games:
     game_data = games[game]
     # print(game, ascended_ids[0], type(game), type(ascended_ids[0]))
-    if game in ascended_ids:
+
+    if game in outer_heaven_ids:
+        outer_heaven_games.append(
+            {
+                "message_id": game,
+                "name": game_data["game"],
+                "emote": game_data["emote"],
+                "emote_unicode": game_data["emote_unicode"],
+                "votes": game_data["yay"],
+                "extra_emotes": [],
+            },
+        )
+    elif game in ascended_ids:
         ascended_games.append(
             {
-                "plane": "Halls of Ascension",
                 "message_id": game,
                 "name": game_data["game"],
                 "emote": game_data["emote"],
@@ -62,7 +79,6 @@ for game in games:
     elif game in double_hell_ids:
         double_hell_games.append(
             {
-                "plane": "Double Hell",
                 "message_id": game,
                 "name": game_data["game"],
                 "emote": game_data["emote"],
@@ -74,7 +90,6 @@ for game in games:
     elif game not in new_game_ids:
         culled_games.append(
             {
-                "plane": "The Hell of Culled Things",
                 "message_id": game,
                 "name": game_data["game"],
                 "emote": game_data["emote"],
@@ -85,6 +100,7 @@ for game in games:
         )
 
 data = {
+    "outer_heaven": sorted(outer_heaven_games, key=lambda k: k["votes"], reverse=True),
     "ascended_games": sorted(ascended_games, key=lambda k: k["votes"], reverse=True),
     "double_hell_games": sorted(double_hell_games, key=lambda k: k["votes"], reverse=True),
     "culled_games": sorted(culled_games, key=lambda k: k["votes"], reverse=True),

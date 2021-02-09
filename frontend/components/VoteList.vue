@@ -3,7 +3,7 @@
     <template v-slot:body="{ items }">
       <tbody>
         <tr v-for="item in items" :key="item.message_id" style="cursor: pointer" v-bind:style="get_row_style(item)" @click="goto_game(item)">
-          <td>
+          <td style="width: 80px">
             <v-row>
               <v-img max-width="25" class="mr-1" :src="get_emoji_url(item.emote, item.emote_unicode)"></v-img>
               <span>x {{ item.votes }}</span>
@@ -77,7 +77,7 @@ export default {
   },
   data: () => ({
     headers: [
-      { text: "votes", value: "absolute", width: "80px" },
+      { text: "votes", value: "absolute" },
       { text: "game", value: "name" },
     ],
   }),
