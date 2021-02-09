@@ -53,7 +53,7 @@
         <v-card class="mt-2">
           <v-card-title> Latest Pitches </v-card-title>
           <v-card-text>
-            <v-card outlined elevation="12" class="mt-3" v-for="pitch in latest_pitches" v-bind:key="pitch.user_id">
+            <v-card outlined elevation="12" class="mt-3" v-for="pitch in latest_pitches" :key="`pitch-latest-${pitch.user_id}-${pitch.message_id}`">
               <v-card-title
                 @click="goto_game(pitch)"
                 style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap; cursor: pointer"
@@ -88,7 +88,7 @@
         <v-card class="mt-2">
           <v-card-title> Random Pitches </v-card-title>
           <v-card-text>
-            <v-card outlined elevation="12" class="mt-3" v-for="pitch in random_pitches" v-bind:key="pitch.user_id">
+            <v-card outlined elevation="12" class="mt-3" v-for="pitch in random_pitches" :key="`pitch-random-${pitch.user_id}-${pitch.message_id}`">
               <v-card-title
                 @click="goto_game(pitch)"
                 style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap; cursor: pointer"
