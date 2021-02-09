@@ -12,9 +12,12 @@
             <v-menu v-if="item.downvotes > 0" open-on-hover right>
               <template v-slot:activator="{ on, attrs }">
                 <v-row v-bind="attrs" v-on="on">
-                  <v-col cols="6" class="ma-0 pa-0">
+                  <v-col cols="6" class="ma-0 pa-0" v-if="item.absolute >= 0">
                     <v-img max-width="25" :src="get_emoji_url(item.emote, item.emote_unicode)"></v-img>
                     <v-img max-width="25" :src="get_emoji_url(item.emote2, item.emote2_unicode)"></v-img>
+                  </v-col>
+                  <v-col cols="6" class="ma-0 pa-0 pt-3" v-if="item.absolute < 0">
+                    <v-img max-width="25" src="https://cdn.discordapp.com/emojis/562048513614151691"></v-img>
                   </v-col>
                   <v-col cols="6" class="ml-n2 pa-0 pt-4 full-height"> x {{ item.absolute }} </v-col>
                 </v-row>
