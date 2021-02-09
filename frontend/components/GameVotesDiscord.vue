@@ -41,9 +41,14 @@
 <script>
 import VoteList from "./VoteList.vue";
 
-function comparator(a, b) {
+function comparator_votes(a, b) {
   if (a["absolute"] < b["absolute"]) return 1;
   if (a["absolute"] > b["absolute"]) return -1;
+  return 0;
+}
+function comparator_name(a, b) {
+  if (a["name"] < b["name"]) return 1;
+  if (a["name"] > b["name"]) return -1;
   return 0;
 }
 
@@ -96,7 +101,8 @@ export default {
         }
       }
 
-      _vote_list.sort(comparator);
+      _vote_list.sort(comparator_name);
+      _vote_list.sort(comparator_votes);
       this.vote_list = _vote_list;
       this.$store.commit("set_discord_games", _vote_list);
     });
