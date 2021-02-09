@@ -3,8 +3,8 @@
     <template v-slot:body="{ items }">
       <tbody>
         <tr v-for="item in items" :key="item.message_id" style="cursor: pointer" v-bind:style="get_bg_style(item)" @click="goto_game(item)">
-          <td style="width: 80px">
-            <v-row style="width: 80px">
+          <td style="min-width: 80px; width: 80px">
+            <v-row>
               <v-img max-width="25" class="mr-1" :src="get_emoji_url(item.emote, item.emote_unicode)"></v-img>
               <span>x {{ item.votes }}</span>
             </v-row>
