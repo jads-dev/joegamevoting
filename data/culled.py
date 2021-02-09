@@ -7,7 +7,7 @@ with open("round1.json", "r", encoding="utf-8") as f:
 
 games = data["votes"]
 
-files = ["round2p1.json"]
+files = ["round2p1.json", "round2p2.json"]
 for file in files:
     with open(file, "r", encoding="utf-8") as f:
         data = json.load(f)
