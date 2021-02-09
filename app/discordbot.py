@@ -163,6 +163,7 @@ class DiscordBot(discord.Client):
 
         for message in messages:
             await self.parse_message(message)
+            await self.fetch_changed()  # more responsive
 
         if "partial" in self.votes:
             del self.votes["partial"]
