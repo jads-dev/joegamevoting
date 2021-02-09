@@ -2,16 +2,34 @@
   <v-data-table dense hide-default-footer :headers="headers" :items="vote_list" :items-per-page="700" class="elevation-1">
     <template v-slot:body="{ items }">
       <tbody>
-        <tr v-for="item in items" :key="item.message_id" style="cursor: pointer" v-bind:style="get_row_style(item)" @click="goto_game(item)">
+        <tr v-for="item in items" :key="item.message_id" style="cursor: pointer" :style="get_row_style(item)" @click="goto_game(item)">
           <td>
-            <v-row>
+            <v-row v-if="item.downvotes == 0">
               <v-img max-width="25" class="mr-1" :src="get_emoji_url(item.emote, item.emote_unicode)"></v-img>
               <span>x {{ item.votes }}</span>
             </v-row>
-            <v-row v-if="item.downvotes > 0">
-              <v-img max-width="25" class="mr-1" :src="get_emoji_url(item.emote2, item.emote2_unicode)"></v-img>
-              <span>x {{ item.downvotes }}</span>
-            </v-row>
+
+            <v-menu v-if="item.downvotes > 0" open-on-hover right>
+              <template v-slot:activator="{ on, attrs }">
+                <v-row v-bind="attrs" v-on="on">
+                  <v-col cols="6" class="ma-0 pa-0">
+                    <v-img max-width="25" :src="get_emoji_url(item.emote, item.emote_unicode)"></v-img>
+                    <v-img max-width="25" :src="get_emoji_url(item.emote2, item.emote2_unicode)"></v-img>
+                  </v-col>
+                  <v-col cols="6" class="ml-n2 pa-0 pt-4 full-height"> x {{ item.absolute }} </v-col>
+                </v-row>
+              </template>
+              <div :style="{ 'background-color': get_row_color(item) }" class="pa-1">
+                <div class="d-flex">
+                  <v-img max-width="25" :src="get_emoji_url(item.emote, item.emote_unicode)"></v-img>
+                  <span>x {{ item.votes }}</span>
+                </div>
+                <div class="d-flex">
+                  <v-img max-width="25" :src="get_emoji_url(item.emote2, item.emote2_unicode)"></v-img>
+                  <span>x {{ item.downvotes }}</span>
+                </div>
+              </div>
+            </v-menu>
           </td>
           <td>
             <div class="d-flex ml-0 pl-0">
@@ -93,6 +111,18 @@ export default {
       } else {
         return "https://cdn.discordapp.com/emojis/" + emoji;
       }
+    },
+    get_row_color: function (vote) {
+      var color = this.dark_mode ? "#21357d" : "#7289da";
+      if (vote.name) {
+        if (vote.name.toLowerCase().includes("a bomb")) {
+          color = this.dark_mode ? "#692323" : "#da9090";
+        }
+        if (vote.name.toLowerCase().includes("dragon angel")) {
+          color = this.dark_mode ? "#3e7d21" : "#7cda72";
+        }
+      }
+      return color;
     },
     get_row_style: function (vote) {
       const percent = (vote.absolute / this.vote_list[0].absolute) * 100;
