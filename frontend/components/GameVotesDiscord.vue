@@ -116,7 +116,11 @@ export default {
       _vote_list.sort(comparator_votes);
       this.vote_list = _vote_list;
       this.votos = _votos;
-      this.$store.commit("set_discord_games", _vote_list);
+
+      var _discord_games = this.outer_heaven.concat(this.halls_ascension, this.vote_list, this.culled_hell, this.double_hell);
+      console.log(_discord_games);
+
+      this.$store.commit("set_discord_games", _discord_games);
     });
     this.socket.on("latest_pitches", (msg, cb) => {
       this.$store.commit("set_latest_pitches", msg);
