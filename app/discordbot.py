@@ -39,6 +39,7 @@ class DiscordBot(discord.Client):
         self.last_scan = None
         self.ready = True
         self.load_data()
+        # self.clean_up()
 
     async def on_ready(self):
         print(f"Logged in as {self.user.name} id: {self.user.id}")
@@ -58,6 +59,10 @@ class DiscordBot(discord.Client):
                 self.voters = data["voters"]
             except IOError:
                 print("Error loading votes")
+
+    def clean_up(self):
+        self.votes = {}
+        self.voters = {}
 
     def save_data(self):
         base_filename = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
@@ -100,7 +105,7 @@ class DiscordBot(discord.Client):
             reactors = await reaction.users().flatten()
             for reactor in reactors:
                 # print(reactor.name, reactor.avatar_url)
-                self.voters[key] = {reactor.id: {"name": reactor.name, "avatar_url": reactor.avatar_url._url} for reactor in reactors}
+                self.voters[key] = {str(reactor.id): {"name": reactor.name, "avatar_url": reactor.avatar_url._url} for reactor in reactors}
 
             if len(message.reactions) > 1:
                 if type(message.reactions[1].emoji) is str:

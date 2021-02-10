@@ -140,7 +140,9 @@ def get_stats():
 
     unique_voters = set()
     for voters in voters_games:
-        unique_voters |= set(voters)
+        for voter in voters:
+            if type(voter) is str:
+                unique_voters.add(voter)
 
     nr_voters = len(unique_voters)
 
