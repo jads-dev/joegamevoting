@@ -7,6 +7,7 @@ import discord
 
 from app.routers.socketio import sio
 
+
 intents = discord.Intents.default()
 intents.members = True
 intents.reactions = True
@@ -22,6 +23,7 @@ allowed_roles = [
     379650847149129738,  # Mrs. Anderson (Joe's wife)
     309157040570499077,  # Admin
     309296131072851968,  # Lili and Some Guy
+    309517708309954560,  # mods
 ]
 
 
@@ -34,16 +36,26 @@ class DiscordBot(discord.Client):
         self.voters = {}
         self.downvoters = {}
         self.last_random = None
+        self.guild = None
         self.channel = None
         self.changed = []
         self.last_scan = None
         self.ready = True
         self.load_data()
+
         # self.clean_up()
+
+        self.known_invalid = []
+        self.recent_members = []
 
     async def on_ready(self):
         print(f"Logged in as {self.user.name} id: {self.user.id}")
+        self.guild = self.get_guild(308515582817468420)  # JADS
         self.channel = self.get_channel(807289103920922684)  # voting channel
+
+        cut_date = datetime.datetime(2021, 2, 9, 19, 0, 0)
+        members = await self.guild.fetch_members(limit=None, after=cut_date).flatten()
+        self.recent_members = [member.id for member in members]
 
         await self.fetch_votes()
 
@@ -77,6 +89,46 @@ class DiscordBot(discord.Client):
         except IOError:
             print("Error saving votes")
 
+    def get_games_by_user(self, user_id):
+        _user_id = str(user_id)
+        game_ids = []
+        for game in self.voters:
+            if _user_id in self.voters[game]:
+                game_ids.append(game)
+        return sorted(game_ids)
+
+    async def check_valid(self, reactor):
+        if reactor.id in self.known_invalid:
+            return True
+
+        if reactor.id in self.recent_members:
+            self.known_invalid.append(reactor.id)
+            games = self.get_games_by_user(reactor.id)
+            with open("ripfun.txt", "a") as f:
+                f.write(f"{reactor.id};{reactor.name};Member joined after cut-off date;{reactor.created_at};{len(games)};{games}\n")
+            return True
+
+        if type(reactor) is discord.User:  # User was returned, most likely no longer in server
+            try:
+                member = await self.guild.fetch_member(reactor.id)  # asking the server just to make sure
+            except discord.errors.NotFound:
+                self.known_invalid.append(reactor.id)
+                # print(f"{reactor.id};{reactor.name};Member not in guild; ")
+                return False
+        else:
+            member = reactor
+
+        valid = False
+        for role in member.roles:
+            if role.id in allowed_roles:
+                valid = True
+
+        if not valid:
+            self.known_invalid.append(reactor.id)
+            # print(f"{reactor.id};{reactor.name};No matching server role found; ")
+            return False
+        return False
+
     async def parse_message(self, message):
         # print(message)
         key = str(message.id)  # socketio glitch(?) workaround (last 2 digits go to 0)
@@ -105,6 +157,7 @@ class DiscordBot(discord.Client):
             reactors = await reaction.users().flatten()
             for reactor in reactors:
                 # print(reactor.name, reactor.avatar_url)
+                # await self.check_valid(reactor)
                 self.voters[key] = {str(reactor.id): {"name": reactor.name, "avatar_url": reactor.avatar_url._url} for reactor in reactors}
 
             if len(message.reactions) > 1:
@@ -121,6 +174,7 @@ class DiscordBot(discord.Client):
                 reactors = await reaction.users().flatten()
                 for reactor in reactors:
                     # print(reactor.name, reactor.avatar_url)
+                    # await self.check_valid(reactor)
                     self.downvoters[key] = {reactor.id: {"name": reactor.name, "avatar_url": reactor.avatar_url._url} for reactor in reactors}
 
             for reaction in message.reactions[2:]:
