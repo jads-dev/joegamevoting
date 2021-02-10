@@ -117,7 +117,7 @@ export default {
       this.vote_list = _vote_list;
       this.votos = _votos;
 
-      var _discord_games = this.outer_heaven.concat(this.halls_ascension, this.vote_list, this.culled_hell, this.double_hell);
+      var _discord_games = this.outer_heaven.concat(this.halls_ascension, this.vote_list, this.culled_hell, this.double_hell, this.votos);
       console.log(_discord_games);
 
       this.$store.commit("set_discord_games", _discord_games);
