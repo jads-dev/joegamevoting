@@ -16,6 +16,12 @@
           </v-expansion-panel-content>
         </v-expansion-panel>
         <v-expansion-panel>
+          <v-expansion-panel-header class="ml-5"> VOTOS </v-expansion-panel-header>
+          <v-expansion-panel-content>
+            <vote-list :vote_list="votos" :hide_header="true"></vote-list>
+          </v-expansion-panel-content>
+        </v-expansion-panel>
+        <v-expansion-panel>
           <v-expansion-panel-header class="ml-5"> The Voting Veldt </v-expansion-panel-header>
           <v-expansion-panel-content>
             <vote-list :vote_list="vote_list"></vote-list>
@@ -58,13 +64,14 @@ import VoteListSimple from "./VoteListSimple.vue";
 export default {
   components: { VoteList, VoteListSimple },
   data: () => ({
-    panel: [0, 1, 2],
+    panel: [0, 1, 2, 3],
     votes: {},
     outer_heaven: culled.outer_heaven,
     halls_ascension: culled.ascended_games,
     vote_list: [],
     culled_hell: culled.culled_games,
     double_hell: culled.double_hell_games,
+    votos: [],
   }),
 
   mounted() {
@@ -83,6 +90,7 @@ export default {
       }
 
       var _vote_list = [];
+      var _votos = [];
       for (var key in this.votes) {
         var vote_data = {
           message_id: key,
@@ -96,7 +104,10 @@ export default {
           emote2_unicode: this.votes[key].emote2_unicode,
           extra_emotes: this.votes[key].extra_emotes,
         };
-        if (vote_data.votes > 0) {
+
+        if (vote_data.message_id == "809130993507237919") {
+          _votos.push(vote_data);
+        } else if (vote_data.votes > 0) {
           _vote_list.push(vote_data);
         }
       }
@@ -104,6 +115,7 @@ export default {
       _vote_list.sort(comparator_name);
       _vote_list.sort(comparator_votes);
       this.vote_list = _vote_list;
+      this.votos = _votos;
       this.$store.commit("set_discord_games", _vote_list);
     });
     this.socket.on("latest_pitches", (msg, cb) => {

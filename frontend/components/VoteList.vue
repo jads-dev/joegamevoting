@@ -1,79 +1,93 @@
 <template>
-  <v-data-table dense hide-default-footer :headers="headers" :items="vote_list" :items-per-page="700" class="elevation-1">
-    <template v-slot:body="{ items }">
-      <tbody>
-        <tr v-for="item in items" :key="item.message_id" style="cursor: pointer" :style="get_row_style(item)" @click="goto_game(item)">
-          <td>
-            <v-row v-if="item.downvotes == 0">
-              <v-img max-width="25" class="mr-1" :src="get_emoji_url(item.emote, item.emote_unicode)"></v-img>
-              <span>x {{ item.votes }}</span>
-            </v-row>
+  <v-col class="ma-0 pa-0">
+    <v-data-table dense hide-default-footer :headers="headers" :hide-default-header="hide_header" :items="vote_list" :items-per-page="700" class="elevation-1">
+      <template v-slot:body="{ items }">
+        <tbody>
+          <tr v-for="item in items" :key="item.message_id" style="cursor: pointer" :style="get_row_style(item)" @click="goto_game(item)">
+            <td style="min-width: 80px; width: 80px">
+              <v-row v-if="item.downvotes == 0">
+                <v-img max-width="25" class="mr-1" :src="get_emoji_url(item.emote, item.emote_unicode)"></v-img>
+                <span>x {{ item.votes }}</span>
+              </v-row>
 
-            <v-menu v-if="item.downvotes > 0" open-on-hover right>
-              <template v-slot:activator="{ on, attrs }">
-                <v-row v-bind="attrs" v-on="on">
-                  <v-col cols="6" class="ma-0 pa-0" v-if="item.absolute >= 0">
+              <v-menu v-if="item.downvotes > 0" open-on-hover right>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-row v-bind="attrs" v-on="on">
+                    <v-col cols="6" class="ma-0 pa-0" v-if="item.absolute >= 0">
+                      <v-img max-width="25" :src="get_emoji_url(item.emote, item.emote_unicode)"></v-img>
+                      <v-img max-width="25" :src="get_emoji_url(item.emote2, item.emote2_unicode)"></v-img>
+                    </v-col>
+                    <v-col cols="6" class="ma-0 pa-0 pt-3" v-if="item.absolute < 0">
+                      <v-img max-width="25" src="https://cdn.discordapp.com/emojis/562048513614151691"></v-img>
+                    </v-col>
+                    <v-col cols="6" class="ml-n2 pa-0 pt-4 full-height"> x {{ item.absolute }} </v-col>
+                  </v-row>
+                </template>
+                <div :style="{ 'background-color': get_row_color(item) }" class="pa-1">
+                  <div class="d-flex">
                     <v-img max-width="25" :src="get_emoji_url(item.emote, item.emote_unicode)"></v-img>
+                    <span>x {{ item.votes }}</span>
+                  </div>
+                  <div class="d-flex">
                     <v-img max-width="25" :src="get_emoji_url(item.emote2, item.emote2_unicode)"></v-img>
-                  </v-col>
-                  <v-col cols="6" class="ma-0 pa-0 pt-3" v-if="item.absolute < 0">
-                    <v-img max-width="25" src="https://cdn.discordapp.com/emojis/562048513614151691"></v-img>
-                  </v-col>
-                  <v-col cols="6" class="ml-n2 pa-0 pt-4 full-height"> x {{ item.absolute }} </v-col>
-                </v-row>
-              </template>
-              <div :style="{ 'background-color': get_row_color(item) }" class="pa-1">
-                <div class="d-flex">
-                  <v-img max-width="25" :src="get_emoji_url(item.emote, item.emote_unicode)"></v-img>
-                  <span>x {{ item.votes }}</span>
+                    <span>x {{ item.downvotes }}</span>
+                  </div>
                 </div>
-                <div class="d-flex">
-                  <v-img max-width="25" :src="get_emoji_url(item.emote2, item.emote2_unicode)"></v-img>
-                  <span>x {{ item.downvotes }}</span>
-                </div>
-              </div>
-            </v-menu>
-          </td>
-          <td>
-            <div class="d-flex ml-0 pl-0">
-              <v-img
-                v-if="item.message_id == '807307201949204520'"
-                style="position: absolute; margin-top: -25px; margin-left: -30px"
-                max-height="70"
-                max-width="70"
-                src="https://cdn.discordapp.com/attachments/648620063045189656/809085570558459924/defusal_fairy.png"
-              ></v-img>
-              <v-img
-                v-if="item.message_id == '807293645057163285'"
-                style="position: absolute; margin-top: -25px; margin-left: -30px"
-                max-height="80"
-                max-width="80"
-                src="https://cdn.discordapp.com/attachments/666328917237563419/808083562766794822/bombchan_sans_body_or_bg.png"
-              ></v-img>
-              <v-img
-                v-if="item.message_id == '807297543825653801'"
-                style="position: absolute; margin-top: -25px; margin-left: -30px"
-                max-height="100"
-                max-width="100"
-                src="https://cdn.discordapp.com/attachments/648620063045189656/808196974859124756/dragon_angel.png"
-              ></v-img>
-              <span v-if="item.message_id == '807307201949204520'" class="pl-12"></span>
-              <span v-if="item.message_id == '807297543825653801'" style="padding-left: 75px"></span>
-              <span v-if="item.message_id == '807293645057163285'" class="pl-12"></span>
+              </v-menu>
+            </td>
+            <td>
+              <div class="d-flex ml-0 pl-0">
+                <v-img
+                  v-if="item.message_id == '807307201949204520'"
+                  style="position: absolute; margin-top: -25px; margin-left: -30px"
+                  max-height="70"
+                  max-width="70"
+                  src="https://cdn.discordapp.com/attachments/648620063045189656/809085570558459924/defusal_fairy.png"
+                ></v-img>
+                <v-img
+                  v-if="item.message_id == '807293645057163285'"
+                  style="position: absolute; margin-top: -25px; margin-left: -30px"
+                  max-height="80"
+                  max-width="80"
+                  src="https://cdn.discordapp.com/attachments/666328917237563419/808083562766794822/bombchan_sans_body_or_bg.png"
+                ></v-img>
+                <v-img
+                  v-if="item.message_id == '807297543825653801'"
+                  style="position: absolute; margin-top: -25px; margin-left: -30px"
+                  max-height="100"
+                  max-width="100"
+                  src="https://cdn.discordapp.com/attachments/648620063045189656/808196974859124756/dragon_angel.png"
+                ></v-img>
+                <span v-if="item.message_id == '807307201949204520'" class="pl-12"></span>
+                <span v-if="item.message_id == '807297543825653801'" style="padding-left: 75px"></span>
+                <span v-if="item.message_id == '807293645057163285'" class="pl-12"></span>
 
-              <v-img
-                v-for="emote in item.extra_emotes"
-                :key="`${item.message_id}-${emote.emote}`"
-                max-width="25"
-                :src="get_emoji_url(emote.emote, emote.emote_unicode)"
-              ></v-img>
-              <div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{ item.name }}</div>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </template>
-  </v-data-table>
+                <v-img
+                  v-for="emote in item.extra_emotes"
+                  :key="`${item.message_id}-${emote.emote}`"
+                  max-width="25"
+                  :src="get_emoji_url(emote.emote, emote.emote_unicode)"
+                ></v-img>
+                <div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{ item.name }}</div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </template>
+    </v-data-table>
+
+    <div v-if="vote_list.length > 0 && vote_list[0].message_id == '809130993507237919'">
+      Current Effect:
+      <span v-if="vote_list[0].absolute <= 50">Votos remains dormant.</span>
+      <span v-if="vote_list[0].absolute > 50 && vote_list[0].absolute <= 150">Votos will cull the bottom 10 entries on the list.</span>
+      <span v-if="vote_list[0].absolute > 150 && vote_list[0].absolute <= 250">Votos will cull the middle 10.</span>
+      <span v-if="vote_list[0].absolute > 250 && vote_list[0].absolute <= 400">Votos will cull the top 10.</span>
+      <span v-if="vote_list[0].absolute > 400"
+        >Votos reaches full power, unleashing a reckoning through every game and culling half the list in alternating order STARTING with the Number 1 spot. So
+        1 -> 3 -> 5 -> 7, and so on. This ends the round immediately.</span
+      >
+    </div>
+  </v-col>
 </template>
 
 <script>
@@ -109,6 +123,10 @@ export default {
     vote_list: {
       type: Array,
       default: [],
+    },
+    hide_header: {
+      type: Boolean,
+      default: false,
     },
   },
   data: () => ({
@@ -146,17 +164,56 @@ export default {
       return color;
     },
     get_row_style: function (vote) {
-      const percent = (vote.absolute / this.vote_list[0].absolute) * 100;
-
-      var color = this.get_row_color(vote);
-
+      var background_image = undefined;
       var height = undefined;
+
+      if (vote.message_id == "809130993507237919") {
+        const votes = vote.absolute;
+        // const votes = 300;
+        var max_value = 440;
+        if (votes > max_value) max_value = votes;
+
+        var color = this.get_row_color(vote);
+        const steps = [50, 100, 100, 150];
+        var steps_str = "";
+
+        var percent = 0;
+        var last_percent = 0;
+        var cur_total = 0;
+
+        for (var i in steps) {
+          const step = steps[i];
+          cur_total += step;
+
+          if (votes >= cur_total) {
+            percent += (step / max_value) * 100;
+            steps_str += `, ${color} ${last_percent}% ${percent}%, orange ${percent}% ${percent + 1}%`;
+          } else if (votes < cur_total && votes > cur_total - step) {
+            percent += (step / max_value) * 100;
+            var middle = percent - ((cur_total - votes) / max_value) * 100;
+            steps_str += `, ${color} ${last_percent}% ${middle}%, transparent ${middle + 1}% ${percent}%, orange ${percent}% ${percent + 1}%`;
+          } else if (votes > max_value) {
+            steps_str += `, red ${last_percent}% 100%`;
+          }
+
+          percent += 1;
+          last_percent = percent;
+        }
+        steps_str += `, red ${last_percent - 1}% 100%`;
+
+        background_image = `linear-gradient(to right${steps_str})`;
+      } else {
+        const percent = (vote.absolute / this.vote_list[0].absolute) * 100;
+        var color = this.get_row_color(vote);
+        background_image = `linear-gradient(to right,${color} ${percent}%,transparent ${percent}%)`;
+      }
+
       if (vote.downvotes > 0) {
         height = "50px";
       }
 
       return {
-        "background-image": `linear-gradient(to right,${color} ${percent}%,transparent ${percent}%)`,
+        "background-image": background_image,
         height: height,
       };
     },
