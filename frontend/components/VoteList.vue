@@ -168,18 +168,19 @@ export default {
       var height = undefined;
 
       if (vote.message_id == "809130993507237919") {
-        const votes = vote.absolute;
-        // const votes = 300;
-        var max_value = 440;
-        if (votes > max_value) max_value = votes;
+        const max_value = 440;
 
         var color = this.get_row_color(vote);
         const steps = [50, 100, 100, 150];
+        const overflow = steps.reduce((a, b) => a + b, 0);
+        console.log(overflow);
         var steps_str = "";
 
         var percent = 0;
         var last_percent = 0;
         var cur_total = 0;
+        const votes = vote.absolute;
+        // const votes = 600;
 
         for (var i in steps) {
           const step = steps[i];
@@ -192,14 +193,25 @@ export default {
             percent += (step / max_value) * 100;
             var middle = percent - ((cur_total - votes) / max_value) * 100;
             steps_str += `, ${color} ${last_percent}% ${middle}%, transparent ${middle + 1}% ${percent}%, orange ${percent}% ${percent + 1}%`;
-          } else if (votes > max_value) {
-            steps_str += `, red ${last_percent}% 100%`;
+          } else if (votes < overflow) {
+            percent += (step / max_value) * 100;
+
+            steps_str += `, transparent ${last_percent}% ${percent}%, orange ${percent}% ${percent + 1}%`;
           }
 
           percent += 1;
           last_percent = percent;
         }
-        steps_str += `, red ${last_percent - 1}% 100%`;
+        if (votes > overflow) {
+          var step = max_value - overflow;
+          cur_total += step;
+          percent += (step / max_value) * 100;
+          var middle = percent - ((cur_total - votes) / max_value) * 100;
+
+          steps_str += `, red ${last_percent}% ${middle}%, transparent ${middle + 1}% ${percent}%`;
+        }
+
+        steps_str += `, transparent ${last_percent - 1}% 100%`;
 
         background_image = `linear-gradient(to right${steps_str})`;
       } else {
