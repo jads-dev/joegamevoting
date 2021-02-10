@@ -43,6 +43,12 @@ double_hell_ids = [
     807303919440756786,
     807293807593783307,
     807289797005279263,
+    807298026132996116,
+    807301920464044153,
+    807301973019852880,
+    807306639421997056,
+    807307291144618064,
+    807308048426991626,
 ]
 
 outer_heaven_ids = [str(id_) for id_ in outer_heaven_ids]
@@ -109,3 +115,15 @@ data = {
 
 with open("culled.json", "w", encoding="utf-8") as f:
     json.dump(data, f)
+
+with open("culled_old.json", "r", encoding="utf-8") as f:
+    data = json.load(f)
+
+old_culled_ids = [culled["message_id"] for culled in data["culled_games"]]
+for culled in culled_games:
+    if culled["message_id"] not in old_culled_ids:
+        print(culled["message_id"])
+
+for culled in culled_games:
+    if culled["message_id"] not in old_culled_ids:
+        print(culled["name"])
