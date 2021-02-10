@@ -6,13 +6,13 @@
         <v-expansion-panel>
           <v-expansion-panel-header class="ml-5"> Outer Heaven </v-expansion-panel-header>
           <v-expansion-panel-content>
-            <vote-list-simple :vote_list="outer_heaven" :hide_header="true"></vote-list-simple>
+            <vote-list :vote_list="outer_heaven" :hide_header="true"></vote-list>
           </v-expansion-panel-content>
         </v-expansion-panel>
         <v-expansion-panel>
           <v-expansion-panel-header class="ml-5"> Halls of Ascension </v-expansion-panel-header>
           <v-expansion-panel-content>
-            <vote-list-simple :vote_list="halls_ascension" :hide_header="true"></vote-list-simple>
+            <vote-list :vote_list="halls_ascension" :hide_header="true"></vote-list>
           </v-expansion-panel-content>
         </v-expansion-panel>
         <v-expansion-panel>
@@ -24,13 +24,13 @@
         <v-expansion-panel>
           <v-expansion-panel-header class="ml-5"> The Hell of Culled Things </v-expansion-panel-header>
           <v-expansion-panel-content>
-            <vote-list-simple :vote_list="culled_hell"></vote-list-simple>
+            <vote-list :vote_list="culled_hell"></vote-list>
           </v-expansion-panel-content>
         </v-expansion-panel>
         <v-expansion-panel>
           <v-expansion-panel-header class="ml-5"> Double Hell </v-expansion-panel-header>
           <v-expansion-panel-content>
-            <vote-list-simple :vote_list="double_hell" :hide_header="true"></vote-list-simple>
+            <vote-list :vote_list="double_hell" :hide_header="true"></vote-list>
           </v-expansion-panel-content>
         </v-expansion-panel>
       </v-expansion-panels>

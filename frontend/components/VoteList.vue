@@ -37,29 +37,30 @@
           <td>
             <div class="d-flex ml-0 pl-0">
               <v-img
-                v-if="item.name.toLowerCase().includes('bomb defusal fairy')"
+                v-if="item.message_id == '807307201949204520'"
                 style="position: absolute; margin-top: -25px; margin-left: -30px"
                 max-height="70"
                 max-width="70"
                 src="https://cdn.discordapp.com/attachments/648620063045189656/809085570558459924/defusal_fairy.png"
               ></v-img>
               <v-img
-                v-if="item.name.toLowerCase().includes('a bomb')"
+                v-if="item.message_id == '807293645057163285'"
                 style="position: absolute; margin-top: -25px; margin-left: -30px"
                 max-height="80"
                 max-width="80"
                 src="https://cdn.discordapp.com/attachments/666328917237563419/808083562766794822/bombchan_sans_body_or_bg.png"
               ></v-img>
               <v-img
-                v-if="item.name.toLowerCase().includes('dragon angel')"
+                v-if="item.message_id == '807297543825653801'"
                 style="position: absolute; margin-top: -25px; margin-left: -30px"
                 max-height="100"
                 max-width="100"
                 src="https://cdn.discordapp.com/attachments/648620063045189656/808196974859124756/dragon_angel.png"
               ></v-img>
-              <span v-if="item.name.toLowerCase().includes('a bomb')" class="pl-12"></span>
-              <span v-if="item.name.toLowerCase().includes('dragon angel')" style="padding-left: 75px"></span>
-              <span v-if="item.name.toLowerCase().includes('bomb defusal fairy')" class="pl-12"></span>
+              <span v-if="item.message_id == '807307201949204520'" class="pl-12"></span>
+              <span v-if="item.message_id == '807297543825653801'" style="padding-left: 75px"></span>
+              <span v-if="item.message_id == '807293645057163285'" class="pl-12"></span>
+
               <v-img
                 v-for="emote in item.extra_emotes"
                 :key="`${item.message_id}-${emote.emote}`"
@@ -96,6 +97,12 @@ var emoji_urls = {
   "🦈": "https://discord.com/assets/7141e059d1cd75465ac7cdfa2101da72.svg",
   "✂️": "https://discord.com/assets/3dcc54fffb253571d6eab25020e424f5.svg",
   "⬇️": "https://discord.com/assets/31abf4145cf7c27ea0e1a2e4328283fd.svg",
+  "💙": "https://discord.com/assets/e37c985edda06b7d5f4559bc838c1bde.svg",
+  "🔺": "https://discord.com/assets/79e14ae0b5c616e7ceb92e5c01a42cbc.svg",
+  "🟣": "https://discord.com/assets/d5705ac7e416d39813ddf63c8d396102.svg",
+  "🟨": "https://discord.com/assets/0ca363e545e2f490cf4b852f5c8e0404.svg",
+  "📗": "https://discord.com/assets/2f62701a0bd9896f10ba600e9bb3ee6d.svg",
+  "🙏": "https://discord.com/assets/1904291ab1aa5d14b2adaaff23a578dd.svg",
 };
 export default {
   props: {
@@ -126,13 +133,13 @@ export default {
     get_row_color: function (vote) {
       var color = this.dark_mode ? "#21357d" : "#7289da";
       if (vote.name) {
-        if (vote.name.toLowerCase().includes("a bomb")) {
+        if (vote.message_id == "807293645057163285") {
           color = this.dark_mode ? "#692323" : "#da9090";
         }
-        if (vote.name.toLowerCase().includes("dragon angel")) {
+        if (vote.message_id == "807297543825653801") {
           color = this.dark_mode ? "#3e7d21" : "#7cda72";
         }
-        if (vote.name.toLowerCase().includes("bomb defusal fairy")) {
+        if (vote.message_id == "807307201949204520") {
           color = this.dark_mode ? "#949425" : "#dada72";
         }
       }

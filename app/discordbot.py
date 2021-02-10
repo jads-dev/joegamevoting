@@ -26,6 +26,15 @@ allowed_roles = [
     309517708309954560,  # mods
 ]
 
+extra_messages = [
+    809130993507237919,  # votos
+    809131104320618546,
+    809131123099041832,
+    809131141776015472,
+    809131166321213471,
+    809131185569005598,
+]
+
 
 class DiscordBot(discord.Client):
     def __init__(self, *args, **kwargs):
@@ -129,28 +138,59 @@ class DiscordBot(discord.Client):
             return False
         return False
 
+    def parse_emoji(self, emoji):
+        if type(emoji) is str:
+            _emoji = emoji
+            _emoji_unicode = True
+        elif type(emoji) is int:
+            _emoji = str(emoji)
+            _emoji_unicode = False
+        elif type(emoji) is discord.partial_emoji.PartialEmoji:
+            _emoji_unicode = emoji.is_unicode_emoji()
+            if _emoji_unicode:
+                _emoji = emoji.name
+            else:
+                _emoji = str(emoji.id)
+        else:
+            _emoji = str(emoji.id)
+            _emoji_unicode = False
+        return _emoji, _emoji_unicode
+
+    def is_same_emoji(self, emoji_a, emoji_b):
+        if emoji_a is None or emoji_b is None:
+            return False
+
+        _emoji_a, _emoji_a_unicode = self.parse_emoji(emoji_a)
+        _emoji_b, _emoji_b_unicode = self.parse_emoji(emoji_b)
+
+        return _emoji_a == _emoji_b
+
     async def parse_message(self, message):
         # print(message)
         key = str(message.id)  # socketio glitch(?) workaround (last 2 digits go to 0)
 
         if len(message.reactions) > 0:
-            if type(message.reactions[0].emoji) is str:
-                emote_unicode = True
-                emote = message.reactions[0].emoji
-            else:
-                emote_unicode = False
-                emote = str(message.reactions[0].emoji.id)
-
             self.votes[key] = {
                 "game": message.content,
                 "yay": 0,
                 "nay": 0,
-                "emote_unicode": emote_unicode,
-                "emote": emote,
+                "emote_unicode": None,
+                "emote": None,
                 "emote2_unicode": True,
                 "emote2": "",
                 "extra_emotes": [],
+                "upvote_emoji": None,
+                "downvote_emoji": None,
             }
+
+            if type(message.reactions[0].emoji) is str:
+                self.votes[key]["emote"] = message.reactions[0].emoji
+                self.votes[key]["emote_unicode"] = True
+                self.votes[key]["upvote_emoji"] = str(message.reactions[0].emoji)
+            else:
+                self.votes[key]["emote"] = str(message.reactions[0].emoji.id)
+                self.votes[key]["emote_unicode"] = False
+                self.votes[key]["upvote_emoji"] = message.reactions[0].emoji.id
 
             reaction = message.reactions[0]
             self.votes[key]["yay"] = reaction.count
@@ -161,16 +201,18 @@ class DiscordBot(discord.Client):
                 self.voters[key] = {str(reactor.id): {"name": reactor.name, "avatar_url": reactor.avatar_url._url} for reactor in reactors}
 
             if len(message.reactions) > 1:
+                self.votes[key]["downvote_emoji"] = str(message.reactions[1].emoji)
                 if type(message.reactions[1].emoji) is str:
-                    emote2_unicode = True
-                    emote2 = message.reactions[1].emoji
+                    self.votes[key]["emote2"] = message.reactions[1].emoji
+                    self.votes[key]["emote2_unicode"] = True
+                    self.votes[key]["downvote_emoji"] = str(message.reactions[1].emoji)
                 else:
-                    emote2_unicode = False
-                    emote2 = str(message.reactions[1].emoji.id)
+                    self.votes[key]["emote2"] = str(message.reactions[1].emoji.id)
+                    self.votes[key]["emote2_unicode"] = False
+                    self.votes[key]["downvote_emoji"] = message.reactions[1].emoji.id
+
                 reaction = message.reactions[1]
                 self.votes[key]["nay"] = reaction.count
-                self.votes[key]["emote2_unicode"] = emote2_unicode
-                self.votes[key]["emote2"] = emote2
                 reactors = await reaction.users().flatten()
                 for reactor in reactors:
                     # print(reactor.name, reactor.avatar_url)
@@ -208,6 +250,7 @@ class DiscordBot(discord.Client):
     async def fetch_all(self):
         print("Fetching vote messages.")
         await self.wait_until_ready()
+        self.ready = False
 
         messages = []
 
@@ -216,6 +259,10 @@ class DiscordBot(discord.Client):
 
         async for message in self.channel.history(after=start_dt, before=end_dt, limit=1000):
             # print(f"{message.id}\t{message.created_at}\t{message.content}")
+            messages.append(message)
+
+        for message_id in extra_messages:
+            message = await self.channel.fetch_message(message_id)
             messages.append(message)
 
         self.valid_message_ids = [message.id for message in messages]
@@ -232,9 +279,10 @@ class DiscordBot(discord.Client):
                 del self.votes[key]
 
         self.votes["partial"] = False
-
+        self.ready = True
         print("Done fetching votes")
         self.save_data()
+
         await sio.emit("votes_discord", data=self.votes, namespace="/gamevotes")
 
     async def fetch_votes(self):
@@ -244,12 +292,33 @@ class DiscordBot(discord.Client):
                 self.last_scan = datetime.datetime.now()
             else:
                 await self.fetch_changed()
-            await asyncio.sleep(1)
+            await asyncio.sleep(20)
 
     async def count_change(self, reaction):
         if reaction.message_id in self.valid_message_ids:
             key = str(reaction.message_id)
             if key in self.votes:
+                upvote = self.is_same_emoji(self.votes[key]["upvote_emoji"], reaction.emoji)
+                downvote = self.is_same_emoji(self.votes[key]["downvote_emoji"], reaction.emoji)
+                change = 0
+                if reaction.event_type == "REACTION_ADD":
+                    change = 1
+                elif reaction.event_type == "REACTION_REMOVE":
+                    change = -1
+                if upvote:
+                    self.votes[key]["yay"] += change
+                if downvote:
+                    self.votes[key]["nay"] += change
+
+                vote_data = {
+                    "message_id": key,
+                    "partial": True,
+                }
+
+                vote_data.update(self.votes[key])
+
+                await sio.emit("votes_discord", data=vote_data, namespace="/gamevotes")
+
                 while not self.ready:
                     await asyncio.sleep(1)
                 self.changed.append(reaction.message_id)

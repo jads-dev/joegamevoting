@@ -7,7 +7,7 @@ with open("round1.json", "r", encoding="utf-8") as f:
 
 games = data["votes"]
 
-files = ["round2p1.json", "round2p2.json"]
+files = ["round2p1.json", "round2p2.json", "round3p1.json"]
 for file in files:
     with open(file, "r", encoding="utf-8") as f:
         data = json.load(f)
@@ -27,10 +27,12 @@ double_hell_games = []
 
 outer_heaven_ids = [
     807294358520725585,
+    807308420104323103,
 ]
 
 ascended_ids = [
-    807308420104323103,
+    807297543825653801,
+    807303944002994186,
 ]
 
 double_hell_ids = [
@@ -68,6 +70,8 @@ for game in games:
                 "emote": game_data["emote"],
                 "emote_unicode": game_data["emote_unicode"],
                 "votes": game_data["yay"],
+                "downvotes": game_data.get("nay", 0),
+                "absolute": game_data["yay"] - game_data.get("nay", 0),
                 "extra_emotes": [],
             },
         )
@@ -79,6 +83,8 @@ for game in games:
                 "emote": game_data["emote"],
                 "emote_unicode": game_data["emote_unicode"],
                 "votes": game_data["yay"],
+                "downvotes": game_data.get("nay", 0),
+                "absolute": game_data["yay"] - game_data.get("nay", 0),
                 "extra_emotes": [],
             },
         )
@@ -90,6 +96,8 @@ for game in games:
                 "emote": game_data["emote"],
                 "emote_unicode": game_data["emote_unicode"],
                 "votes": game_data["yay"],
+                "downvotes": game_data.get("nay", 0),
+                "absolute": game_data["yay"] - game_data.get("nay", 0),
                 "extra_emotes": [],
             },
         )
@@ -101,6 +109,8 @@ for game in games:
                 "emote": game_data["emote"],
                 "emote_unicode": game_data["emote_unicode"],
                 "votes": game_data["yay"],
+                "downvotes": game_data.get("nay", 0),
+                "absolute": game_data["yay"] - game_data.get("nay", 0),
                 "extra_emotes": [],
             },
         )
