@@ -37,6 +37,13 @@
           <td>
             <div class="d-flex ml-0 pl-0">
               <v-img
+                v-if="item.name.toLowerCase().includes('bomb defusal fairy')"
+                style="position: absolute; margin-top: -25px; margin-left: -30px"
+                max-height="70"
+                max-width="70"
+                src="https://cdn.discordapp.com/attachments/648620063045189656/809085570558459924/defusal_fairy.png"
+              ></v-img>
+              <v-img
                 v-if="item.name.toLowerCase().includes('a bomb')"
                 style="position: absolute; margin-top: -25px; margin-left: -30px"
                 max-height="80"
@@ -52,6 +59,7 @@
               ></v-img>
               <span v-if="item.name.toLowerCase().includes('a bomb')" class="pl-12"></span>
               <span v-if="item.name.toLowerCase().includes('dragon angel')" style="padding-left: 75px"></span>
+              <span v-if="item.name.toLowerCase().includes('bomb defusal fairy')" class="pl-12"></span>
               <v-img
                 v-for="emote in item.extra_emotes"
                 :key="`${item.message_id}-${emote.emote}`"
@@ -124,23 +132,20 @@ export default {
         if (vote.name.toLowerCase().includes("dragon angel")) {
           color = this.dark_mode ? "#3e7d21" : "#7cda72";
         }
+        if (vote.name.toLowerCase().includes("bomb defusal fairy")) {
+          color = this.dark_mode ? "#949425" : "#dada72";
+        }
       }
       return color;
     },
     get_row_style: function (vote) {
       const percent = (vote.absolute / this.vote_list[0].absolute) * 100;
 
-      var color = this.dark_mode ? "#21357d" : "#7289da";
+      var color = this.get_row_color(vote);
+
       var height = undefined;
-      if (vote.name) {
-        if (vote.name.toLowerCase().includes("a bomb")) {
-          color = this.dark_mode ? "#692323" : "#da9090";
-          height = "50px";
-        }
-        if (vote.name.toLowerCase().includes("dragon angel")) {
-          color = this.dark_mode ? "#3e7d21" : "#7cda72";
-          height = "50px";
-        }
+      if (vote.downvotes > 0) {
+        height = "50px";
       }
 
       return {
