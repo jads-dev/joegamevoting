@@ -84,6 +84,7 @@ def get_latest_pitches():
         left join users as u on u.user_id = gp.user_id
         left join discord_game_map as dm on dm.message_id = gp.message_id
         left join igdb_game as ig on ig.id = dm.game_id
+        where u.user_id <> 141021676040224768
         order by gp.created_at desc
         limit 10
     """
