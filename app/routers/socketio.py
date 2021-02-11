@@ -20,7 +20,14 @@ async def send_votes():
 
 @sio.event(namespace="/gamevotes")
 async def connect(sid, environ):
+    from app.discordbot import bot
+
     await sio.emit("latest_pitches", data=get_latest_pitches(), namespace="/gamevotes")
+
+    if bot.votos_time:
+        await sio.emit("votos_time", data=bot.votos_time.isoformat(), namespace="/gamevotes")
+    else:
+        await sio.emit("votos_time", data=None, namespace="/gamevotes")
 
 
 @sio.event(namespace="/gamevotes")

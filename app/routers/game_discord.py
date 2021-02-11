@@ -1,3 +1,5 @@
+import datetime
+
 from os import name
 from fastapi import Depends, APIRouter
 
@@ -45,6 +47,15 @@ async def _get_vote_files():
 @router.get("/game_discord/vote_file/{file}")
 async def _get_vote_file(file: str):
     return get_vote_file(file)
+
+
+@router.get("/game_discord/test/{votes}")
+async def _test(votes: int):
+    if votes > 0:
+        await sio.emit("votos_time", data=datetime.datetime.now().isoformat(), namespace="/gamevotes")
+    else:
+        await sio.emit("votos_time", data=None, namespace="/gamevotes")
+    return ""
 
 
 @router.get("/game_discord/votes/")

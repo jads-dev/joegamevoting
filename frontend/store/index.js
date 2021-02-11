@@ -1,7 +1,8 @@
 export const state = () => ({
   discord_games: {},
   latest_pitches: [],
-  historical_votes: {}
+  historical_votes: {},
+  votos_time: undefined
 });
 
 export const mutations = {
@@ -13,5 +14,8 @@ export const mutations = {
   },
   set_historical_votes(state, votes) {
     state.historical_votes = votes;
+  },
+  set_votos_time(state, value) {
+    state.votos_time = value;
   }
 };

@@ -4,7 +4,7 @@
       <template v-slot:body="{ items }">
         <tbody>
           <tr v-for="item in items" :key="item.message_id" style="cursor: pointer" :style="get_row_style(item)" @click="goto_game(item)">
-            <td v-if="item.rank" class="pl-2">{{ item.rank }}</td>
+            <td style="max-width: 24px; width: 24px" v-if="item.rank" class="pl-2">{{ item.rank }}</td>
             <td style="min-width: 85px; width: 85px">
               <v-row v-if="item.downvotes == 0">
                 <v-img max-width="25" class="mr-1" :src="get_emoji_url(item.emote, item.emote_unicode)"></v-img>
@@ -79,7 +79,11 @@
     </v-data-table>
 
     <div v-if="vote_list.length > 0 && vote_list[0].message_id == '809130993507237919'">
-      Current Effect:
+      <span v-if="votos_time" :style="votos_minutes >= 10 ? 'color: red' : ''"
+        >RECKONING TIMER: {{ votos_minutes }} minutes and {{ votos_seconds }} seconds <br />
+      </span>
+
+      Current Effect: <br />
       <span v-if="vote_list[0].absolute <= 50">Votos remains dormant.</span>
       <span v-if="vote_list[0].absolute > 50 && vote_list[0].absolute <= 150">Votos will cull the bottom 10 entries on the list.</span>
       <span v-if="vote_list[0].absolute > 150 && vote_list[0].absolute <= 250">Votos will cull the middle 10.</span>
@@ -137,6 +141,8 @@ export default {
       { text: "votes", value: "absolute", width: "80px" },
       { text: "game", value: "name" },
     ],
+    votos_seconds: 0,
+    votos_minutes: 0,
   }),
   methods: {
     goto_game: async function (game) {
@@ -245,6 +251,24 @@ export default {
       },
       set(value) {},
     },
+    votos_time: {
+      get() {
+        this.votos_minutes = 0;
+        this.votos_seconds = 0;
+        return this.$store.state.votos_time;
+      },
+      set(value) {},
+    },
+  },
+  created() {
+    this.votos_timer = setInterval(
+      function () {
+        const delta = new Date() - new Date(this.votos_time);
+        this.votos_minutes = parseInt(delta / 1000 / 60);
+        this.votos_seconds = parseInt((delta / 1000) % 60);
+      }.bind(this),
+      1000
+    );
   },
 };
 </script>
