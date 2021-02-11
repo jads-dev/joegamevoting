@@ -65,6 +65,7 @@
               <img src="https://cdn.discordapp.com/attachments/648620063045189656/809414039801167883/unknown.png" /><img />
               <img src="https://cdn.discordapp.com/attachments/648620063045189656/809414061065764914/unknown.png" /><img />
               <img src="https://cdn.discordapp.com/attachments/648620063045189656/809417037986267136/unknown.png" /><img />
+              <img src="https://cdn.discordapp.com/attachments/648620063045189656/809426060398559242/unknown.png" /><img />
             </v-expansion-panel-content>
           </v-expansion-panel>
         </v-expansion-panels>
