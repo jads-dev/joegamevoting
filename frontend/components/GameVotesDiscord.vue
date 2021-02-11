@@ -98,6 +98,9 @@ export default {
     this.socket.on("latest_pitches", (msg, cb) => {
       this.$store.commit("set_latest_pitches", msg);
     });
+    this.socket.on("votos_time", (msg, cb) => {
+      this.$store.commit("set_votos_time", msg);
+    });
 
     this.socket.emit("votes_pls", "discordvotes");
   },

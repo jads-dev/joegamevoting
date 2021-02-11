@@ -33,7 +33,7 @@ extra_messages = [
     809131141776015472,
     809131166321213471,
     809131185569005598,
-    809410955880562701, # purple chan
+    809410955880562701,  # purple chan
 ]
 
 
@@ -53,6 +53,7 @@ class DiscordBot(discord.Client):
         self.last_save = None
         self.ready = True
         self.load_data()
+        self.votos_time = None
 
         # self.clean_up()
 
@@ -167,6 +168,14 @@ class DiscordBot(discord.Client):
 
         return _emoji_a == _emoji_b
 
+    async def check_votos(self):
+        if self.votes["809130993507237919"]["yay"] > 400 and self.votos_time is None:
+            self.votos_time = datetime.datetime.now()
+            await sio.emit("votos_time", data=self.votos_time.isoformat(), namespace="/gamevotes")
+        if self.votes["809130993507237919"]["yay"] <= 400 and self.votos_time is not None:
+            self.votos_time = None
+            await sio.emit("votos_time", data=self.votos_time, namespace="/gamevotes")
+
     async def parse_message(self, message):
         # print(message)
         key = str(message.id)  # socketio glitch(?) workaround (last 2 digits go to 0)
@@ -201,6 +210,10 @@ class DiscordBot(discord.Client):
                 # print(reactor.name, reactor.avatar_url)
                 # await self.check_valid(reactor)
                 self.voters[key] = {str(reactor.id): {"name": reactor.name, "avatar_url": reactor.avatar_url._url} for reactor in reactors}
+
+            # check votos
+            if key == "809130993507237919":
+                await self.check_votos()
 
             if len(message.reactions) > 1:
                 self.votes[key]["downvote_emoji"] = str(message.reactions[1].emoji)
@@ -259,12 +272,12 @@ class DiscordBot(discord.Client):
         start_dt = datetime.datetime(2021, 2, 5, 16, 40, 47)
         end_dt = datetime.datetime(2021, 2, 5, 17, 55, 27)
 
-        async for message in self.channel.history(after=start_dt, before=end_dt, limit=1000):
-            # print(f"{message.id}\t{message.created_at}\t{message.content}")
-            messages.append(message)
-
         for message_id in extra_messages:
             message = await self.channel.fetch_message(message_id)
+            messages.append(message)
+
+        async for message in self.channel.history(after=start_dt, before=end_dt, limit=1000):
+            # print(f"{message.id}\t{message.created_at}\t{message.content}")
             messages.append(message)
 
         self.valid_message_ids = [message.id for message in messages]
@@ -325,6 +338,7 @@ class DiscordBot(discord.Client):
                 vote_data.update(self.votes[key])
 
                 await sio.emit("votes_discord", data=vote_data, namespace="/gamevotes")
+                await self.check_votos()
 
                 while not self.ready:
                     await asyncio.sleep(1)
