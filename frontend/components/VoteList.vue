@@ -175,7 +175,6 @@ export default {
         var color = this.get_row_color(vote);
         const steps = [50, 100, 100, 150];
         const overflow = steps.reduce((a, b) => a + b, 0);
-        console.log(overflow);
         var steps_str = "";
 
         var percent = 0;
