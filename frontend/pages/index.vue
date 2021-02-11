@@ -11,7 +11,7 @@
         </v-row>
         <v-expansion-panels>
           <v-expansion-panel>
-            <v-expansion-panel-header> Base rules </v-expansion-panel-header>
+            <v-expansion-panel-header> Base rules  </v-expansion-panel-header>
             <v-expansion-panel-content>
               <img src="https://cdn.discordapp.com/attachments/648620063045189656/807712044555436052/unknown.png" /><img />
             </v-expansion-panel-content>
@@ -23,7 +23,7 @@
             </v-expansion-panel-content>
           </v-expansion-panel>
           <v-expansion-panel>
-            <v-expansion-panel-header> Feb 7 rules (Updated 2:44PM EST) (2nd update 9:52PM EST) </v-expansion-panel-header>
+            <v-expansion-panel-header> Feb 7 rules </v-expansion-panel-header>
             <v-expansion-panel-content>
               <img src="https://cdn.discordapp.com/attachments/648620063045189656/808011604447854592/unknown.png" /><img />
               <img src="https://cdn.discordapp.com/attachments/648620063045189656/808011756386910223/unknown.png" /><img />
@@ -33,7 +33,7 @@
             </v-expansion-panel-content>
           </v-expansion-panel>
           <v-expansion-panel>
-            <v-expansion-panel-header> Feb 8 rules (Updated 2:13PM EST)</v-expansion-panel-header>
+            <v-expansion-panel-header> Feb 8 rules </v-expansion-panel-header>
             <v-expansion-panel-content>
               <img src="https://cdn.discordapp.com/attachments/648620063045189656/808371582460362762/unknown.png" /><img />
               <img src="https://cdn.discordapp.com/attachments/648620063045189656/808371734948085770/unknown.png" /><img />
@@ -41,14 +41,14 @@
             </v-expansion-panel-content>
           </v-expansion-panel>
           <v-expansion-panel>
-            <v-expansion-panel-header> Feb 9 changes</v-expansion-panel-header>
+            <v-expansion-panel-header> Feb 9 changes </v-expansion-panel-header>
             <v-expansion-panel-content>
               <img src="https://cdn.discordapp.com/attachments/648620063045189656/808766895476965467/unknown.png" /><img />
               <img src="https://cdn.discordapp.com/attachments/648620063045189656/808790132437155840/unknown.png" /><img />
             </v-expansion-panel-content>
           </v-expansion-panel>
           <v-expansion-panel>
-            <v-expansion-panel-header> Feb 10 changes</v-expansion-panel-header>
+            <v-expansion-panel-header> Feb 10 changes </v-expansion-panel-header>
             <v-expansion-panel-content>
               <img src="https://cdn.discordapp.com/attachments/648620063045189656/809265332060946462/unknown.png" /><img />
               <img src="https://cdn.discordapp.com/attachments/648620063045189656/809116104206581790/unknown.png" /><img />
@@ -60,13 +60,14 @@
             </v-expansion-panel-content>
           </v-expansion-panel>
           <v-expansion-panel>
-            <v-expansion-panel-header> Feb 11 changes</v-expansion-panel-header>
+            <v-expansion-panel-header> Feb 11 changes </v-expansion-panel-header>
             <v-expansion-panel-content>
               <img src="https://cdn.discordapp.com/attachments/648620063045189656/809414039801167883/unknown.png" /><img />
               <img src="https://cdn.discordapp.com/attachments/648620063045189656/809414061065764914/unknown.png" /><img />
               <img src="https://cdn.discordapp.com/attachments/648620063045189656/809417037986267136/unknown.png" /><img />
               <img src="https://cdn.discordapp.com/attachments/648620063045189656/809426060398559242/unknown.png" /><img />
               <img src="https://cdn.discordapp.com/attachments/648620063045189656/809431203257253929/unknown.png" /><img />
+              <img src="https://cdn.discordapp.com/attachments/648620063045189656/809537961607692328/unknown.png" /><img />
             </v-expansion-panel-content>
           </v-expansion-panel>
         </v-expansion-panels>
