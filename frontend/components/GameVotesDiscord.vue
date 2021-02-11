@@ -105,7 +105,7 @@ export default {
           extra_emotes: this.votes[key].extra_emotes,
         };
 
-        if (vote_data.message_id == "809130993507237919") {
+        if (vote_data.message_id == "809130993507237919" || vote_data.message_id == "809410955880562701") {
           _votos.push(vote_data);
         } else if (vote_data.votes > 0) {
           _vote_list.push(vote_data);
