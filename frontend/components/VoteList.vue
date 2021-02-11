@@ -54,7 +54,7 @@
                 ></v-img>
                 <v-img
                   v-if="item.message_id == '807297543825653801'"
-                  style="position: absolute; margin-top: -25px; margin-left: -30px"
+                  style="position: absolute; margin-top: -25px; margin-left: -25px"
                   max-height="100"
                   max-width="100"
                   src="https://cdn.discordapp.com/attachments/648620063045189656/808196974859124756/dragon_angel.png"
