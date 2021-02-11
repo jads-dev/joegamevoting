@@ -1,6 +1,6 @@
 <template>
   <v-col class="ma-0 pa-0">
-    <v-data-table dense hide-default-footer :headers="headers" :hide-default-header="hide_header" :items="vote_list" :items-per-page="700" class="elevation-1">
+    <v-data-table dense hide-default-footer :headers="_headers" :hide-default-header="hide_header" :items="vote_list" :items-per-page="700" class="elevation-1">
       <template v-slot:body="{ items }">
         <tbody>
           <tr v-for="item in items" :key="item.message_id" style="cursor: pointer" :style="get_row_style(item)" @click="goto_game(item)">
@@ -236,6 +236,12 @@ export default {
     dark_mode: {
       get() {
         return this.$store.state.localStorage.dark_mode;
+      },
+      set(value) {},
+    },
+    _headers: {
+      get() {
+        return this.headers.filter((header) => header.value != "rank" || (this.vote_list.length > 0 && this.vote_list[0].rank));
       },
       set(value) {},
     },
