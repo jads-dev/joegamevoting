@@ -28,6 +28,7 @@ double_hell_games = []
 outer_heaven_ids = [
     807294358520725585,
     807308420104323103,
+    807297766970753044,
 ]
 
 ascended_ids = [
