@@ -287,7 +287,7 @@ class DiscordBot(discord.Client):
 
     async def fetch_votes(self):
         while True:
-            if self.last_scan is None or self.last_scan < datetime.datetime.now() - datetime.timedelta(seconds=900):
+            if self.last_scan is None or self.last_scan < datetime.datetime.now() - datetime.timedelta(seconds=600):
                 await self.fetch_all()
                 self.last_scan = datetime.datetime.now()
             else:
