@@ -29,7 +29,7 @@
     </v-app-bar>
     <v-main style="height: 100vh">
       <v-row style="height: 100%" no-gutters>
-        <v-col cols="6" md="2" style="height: 100%" class="overflow-y-auto">
+        <v-col cols="6" md="2" style="height: 100%; scrollbar-width: thin" class="overflow-y-auto">
           <game-votes-discord v-if="official" class="ma-0 pa-0" />
           <game-votes v-else class="ma-0 pa-0" />
         </v-col>

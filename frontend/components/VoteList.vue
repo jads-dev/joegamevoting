@@ -4,7 +4,8 @@
       <template v-slot:body="{ items }">
         <tbody>
           <tr v-for="item in items" :key="item.message_id" style="cursor: pointer" :style="get_row_style(item)" @click="goto_game(item)">
-            <td style="min-width: 80px; width: 80px">
+            <td v-if="item.rank" class="pl-2">{{ item.rank }}</td>
+            <td style="min-width: 85px; width: 85px">
               <v-row v-if="item.downvotes == 0">
                 <v-img max-width="25" class="mr-1" :src="get_emoji_url(item.emote, item.emote_unicode)"></v-img>
                 <span>x {{ item.votes }}</span>
@@ -35,11 +36,11 @@
                 </div>
               </v-menu>
             </td>
-            <td>
+            <td class="pl-0">
               <div class="d-flex ml-0 pl-0">
                 <v-img
                   v-if="item.message_id == '807307201949204520'"
-                  style="position: absolute; margin-top: -25px; margin-left: -30px"
+                  style="position: absolute; margin-top: -25px; margin-left: -20px"
                   max-height="70"
                   max-width="70"
                   src="https://cdn.discordapp.com/attachments/648620063045189656/809085570558459924/defusal_fairy.png"
@@ -131,6 +132,7 @@ export default {
   },
   data: () => ({
     headers: [
+      { text: "", value: "rank", width: "24px" },
       { text: "votes", value: "absolute", width: "80px" },
       { text: "game", value: "name" },
     ],
@@ -240,3 +242,9 @@ export default {
   },
 };
 </script>
+
+<style>
+.v-data-table-header > tr > th {
+  padding: 0 !important;
+}
+</style>

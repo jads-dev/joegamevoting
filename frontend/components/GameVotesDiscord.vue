@@ -114,6 +114,11 @@ export default {
 
       _vote_list.sort(comparator_name);
       _vote_list.sort(comparator_votes);
+
+      for (var i = 0; i < _vote_list.length; i++) {
+        _vote_list[i]["rank"] = i + 1;
+      }
+
       this.vote_list = _vote_list;
       this.votos = _votos;
 
