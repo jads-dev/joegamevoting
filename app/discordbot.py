@@ -355,6 +355,10 @@ class DiscordBot(discord.Client):
         if str(message.message_id) in self.votes:
             del self.votes[str(message.message_id)]
 
+    async def on_raw_message_delete(self, message):
+        if str(message.message_id) in self.votes:
+            self.changed.append(message.message_id)
+
 
 bot = DiscordBot(intents=intents)
 
