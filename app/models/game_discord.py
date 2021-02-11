@@ -141,18 +141,23 @@ def get_stats():
 
     _votes = bot.votes
 
-    nr_games = len(_votes) - 1
+    extra_messages = [
+        "809130993507237919",  # votos
+        "809410955880562701",  # kill purple chan
+        "809535003406893082",  # hug purple chan
+    ]
+
     voters_games = [list(bot.voters[game].keys()) for game in bot.voters]
 
     unique_voters = set()
     for voters in voters_games:
         for voter in voters:
-            if type(voter) is str:
+            if type(voter) is str and voter not in extra_messages:
                 unique_voters.add(voter)
 
     nr_voters = len(unique_voters)
 
-    votes = [_votes[vote]["yay"] for vote in _votes if vote != "partial"]
+    votes = [_votes[vote]["yay"] for vote in _votes if vote != "partial" and vote not in extra_messages]
 
     try:
         votes_avg = statistics.mean(votes)
@@ -161,6 +166,7 @@ def get_stats():
         votes_avg = 0
         votes_median = 0
 
+    nr_games = len(votes)
     return {"nr_games": nr_games, "nr_voters": nr_voters, "votes_average": votes_avg, "votes_median": votes_median}
 
 
