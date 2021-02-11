@@ -12,6 +12,8 @@ from app.models.game_discord import (
     get_votes,
     get_voters,
     get_stats,
+    get_vote_files,
+    get_vote_file,
 )
 from app.routers.auth import User, get_userid, get_optional_current_user
 from app.routers.socketio import sio
@@ -33,6 +35,16 @@ router = APIRouter()
 @router.get("/game_discord/random_pitches/")
 async def _get_random_pitches():
     return get_random_pitches()
+
+
+@router.get("/game_discord/vote_files/")
+async def _get_vote_files():
+    return get_vote_files()
+
+
+@router.get("/game_discord/vote_file/{file}")
+async def _get_vote_file(file: str):
+    return get_vote_file(file)
 
 
 @router.get("/game_discord/votes/")

@@ -1,3 +1,6 @@
+import datetime
+import json
+import os
 import statistics
 
 from app.models import dbc, row_to_dictionary
@@ -121,7 +124,7 @@ def get_random_pitches():
     return pitches
 
 
-def get_votes():
+def get_votes(file):
     from app.discordbot import bot
 
     return bot.votes
@@ -159,3 +162,20 @@ def get_stats():
         votes_median = 0
 
     return {"nr_games": nr_games, "nr_voters": nr_voters, "votes_average": votes_avg, "votes_median": votes_median}
+
+
+def get_vote_files():
+    base_dir = "./data/votes"
+
+    return [
+        {"filename": file, "date": datetime.datetime.strptime(file, "%Y%m%d-%H%M%S.json").isoformat() + "Z"}
+        for file in os.listdir(base_dir)
+        if file.endswith(".json")
+    ]
+
+
+def get_vote_file(file):
+    base_dir = "./data/votes"
+    with open(f"{base_dir}/{file}", "r") as f:
+        data = json.load(f)
+    return data["votes"]
