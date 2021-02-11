@@ -82,6 +82,11 @@ class DiscordBot(discord.Client):
                     data = json.load(f)
                 self.votes = data["votes"]
                 self.voters = data["voters"]
+                try:
+                    self.votos_time = datetime.datetime.fromisoformat(data.get("votos_time", ""))
+                except (ValueError, TypeError):
+                    self.votos_time = None
+                print(type(self.votos_time))
             except IOError:
                 print("Error loading votes")
 
@@ -97,7 +102,7 @@ class DiscordBot(discord.Client):
         filename = f"{base_dir}/{base_filename}.json"
         try:
             with open(filename, "w") as f:
-                data = {"votes": self.votes, "voters": self.voters}
+                data = {"votes": self.votes, "voters": self.voters, "votos_time": self.votos_time}
                 json.dump(data, f)
         except IOError:
             print("Error saving votes")
