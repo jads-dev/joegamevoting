@@ -85,6 +85,7 @@ def get_latest_pitches():
         left join discord_game_map as dm on dm.message_id = gp.message_id
         left join igdb_game as ig on ig.id = dm.game_id
         where u.user_id <> 141021676040224768
+        and gp.pinned <> 1
         order by gp.created_at desc
         limit 10
     """
@@ -109,6 +110,7 @@ def get_random_pitches():
         left join discord_game_map as dm on dm.message_id = gp.message_id
         left join igdb_game as ig on ig.id = dm.game_id
         where gp.message_id in ({valid_message_ids})
+        and gp.pinned <> 1
         order by random()
         limit 10
     """
