@@ -21,6 +21,8 @@
             <vote-list :vote_list="votos" :hide_header="true"></vote-list>
           </v-expansion-panel-content>
         </v-expansion-panel>
+        <span v-if="has_historical_votes" style="color: red">Not Receiving Vote Updates</span>
+        <span v-if="has_historical_votes" style="color: red">Not Receiving Vote Updates</span>
         <v-expansion-panel>
           <v-expansion-panel-header class="ml-5"> The Voting Veldt </v-expansion-panel-header>
           <v-expansion-panel-content>
@@ -80,6 +82,8 @@ export default {
       persist: true,
     });
     this.socket.on("votes_discord", (msg, cb) => {
+      if (this.has_historical_votes) return;
+
       const partial = msg.partial;
       if (partial) {
         this.votes[msg.message_id]["yay"] = msg["yay"];
@@ -89,6 +93,16 @@ export default {
         this.votes = msg;
       }
 
+      this.parse_votes();
+    });
+    this.socket.on("latest_pitches", (msg, cb) => {
+      this.$store.commit("set_latest_pitches", msg);
+    });
+
+    this.socket.emit("votes_pls", "discordvotes");
+  },
+  methods: {
+    parse_votes: async function () {
       var _vote_list = [];
       var _votos = [];
       for (var key in this.votes) {
@@ -131,12 +145,27 @@ export default {
       var _discord_games = this.outer_heaven.concat(this.halls_ascension, this.vote_list, this.culled_hell, this.double_hell, this.votos);
 
       this.$store.commit("set_discord_games", _discord_games);
-    });
-    this.socket.on("latest_pitches", (msg, cb) => {
-      this.$store.commit("set_latest_pitches", msg);
-    });
-
-    this.socket.emit("votes_pls", "discordvotes");
+    },
+  },
+  computed: {
+    historical_votes: {
+      get() {
+        return this.$store.state.historical_votes;
+      },
+      set(value) {},
+    },
+    has_historical_votes: {
+      get() {
+        return Object.keys(this.historical_votes).length > 0;
+      },
+      set(value) {},
+    },
+  },
+  watch: {
+    historical_votes: function (val) {
+      this.votes = val;
+      this.parse_votes();
+    },
   },
 };
 </script>

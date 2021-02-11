@@ -124,7 +124,7 @@ def get_random_pitches():
     return pitches
 
 
-def get_votes(file):
+def get_votes():
     from app.discordbot import bot
 
     return bot.votes
@@ -167,11 +167,7 @@ def get_stats():
 def get_vote_files():
     base_dir = "./data/votes"
 
-    return [
-        {"filename": file, "date": datetime.datetime.strptime(file, "%Y%m%d-%H%M%S.json").isoformat() + "Z"}
-        for file in os.listdir(base_dir)
-        if file.endswith(".json")
-    ]
+    return sorted([file for file in os.listdir(base_dir) if file.endswith(".json")], reverse=True)
 
 
 def get_vote_file(file):
