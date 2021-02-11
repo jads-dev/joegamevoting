@@ -49,6 +49,7 @@ class DiscordBot(discord.Client):
         self.channel = None
         self.changed = []
         self.last_scan = None
+        self.last_save = None
         self.ready = True
         self.load_data()
 
@@ -287,11 +288,16 @@ class DiscordBot(discord.Client):
 
     async def fetch_votes(self):
         while True:
-            if self.last_scan is None or self.last_scan < datetime.datetime.now() - datetime.timedelta(seconds=600):
+            if self.last_scan is None or self.last_scan < datetime.datetime.now() - datetime.timedelta(seconds=900):
                 await self.fetch_all()
                 self.last_scan = datetime.datetime.now()
+                self.last_save = datetime.datetime.now()
             else:
                 await self.fetch_changed()
+
+            if self.last_save is None or self.last_save < datetime.datetime.now() - datetime.timedelta(seconds=60):
+                self.save_data()
+                self.last_save = datetime.datetime.now()
             await asyncio.sleep(20)
 
     async def count_change(self, reaction):
