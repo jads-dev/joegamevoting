@@ -140,7 +140,7 @@ export default {
 
       var c = 0;
       for (var i = 0; i < _vote_list.length; i++) {
-        if (["807296983286415411", "807291135633522789", "809131141776015472"].includes(_vote_list[i].message_id)) {
+        if (["807296983286415411", "807291135633522789"].includes(_vote_list[i].message_id)) {
           _vote_list[i]["rank"] = "-";
         } else {
           c += 1;
