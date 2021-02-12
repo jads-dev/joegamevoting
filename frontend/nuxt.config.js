@@ -6,7 +6,7 @@ export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     titleTemplate: "%s",
-    title: "Joe stream game voting",
+    title: "The Biggest, Most Awful, Most Tragic Voting Event in JADS History",
     htmlAttrs: {
       lang: "en"
     },
@@ -49,9 +49,8 @@ export default {
       {
         name: "joevotes",
         url: development
-      ? "http://127.0.0.1:8000"
-      : "https://joegames.nodja.com"
-        
+          ? "http://127.0.0.1:8000"
+          : "https://joegames.nodja.com"
       }
     ]
   },
