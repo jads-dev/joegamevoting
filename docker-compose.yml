@@ -11,8 +11,6 @@ services:
             - NODE_ENV=production
         depends_on:
             - backend
-        volumes:
-          - ./frontend/.nuxt:/app/.nuxt/
     backend:
         build:
             context: .
