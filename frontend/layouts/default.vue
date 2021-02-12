@@ -7,7 +7,7 @@
 
       <div v-if="official" class="d-flex flex-column ml-2">
         <audio style="width: 400px; height: 15px" controls loop>
-          <source src="https://cdn.discordapp.com/attachments/666328917237563419/809868357956403240/Voting_theme.mp3" type="audio/mpeg" />
+          <source src="https://cdn.discordapp.com/attachments/666328917237563419/809882988137414666/Voting_Theme_Loop.mp3" type="audio/mpeg" />
           Your browser does not support the audio element.
         </audio>
         Voting theme by tieff (WIP).
@@ -34,11 +34,11 @@
     </v-app-bar>
     <v-main style="height: 100vh">
       <v-row style="height: 100%" no-gutters>
-        <v-col cols="6" sm="3" md="2" style="height: 100%; scrollbar-width: thin" class="overflow-y-auto">
+        <v-col cols="6" sm="3" :md="wide_mode ? '4' : '2'" style="height: 100%; scrollbar-width: thin" class="overflow-y-auto">
           <game-votes-discord v-if="official" class="ma-0 pa-0" />
           <game-votes v-else class="ma-0 pa-0" />
         </v-col>
-        <v-col cols="6" sm="9" md="10" style="height: 100%" class="overflow-y-auto pl-2 pr-3">
+        <v-col cols="6" sm="9" :md="wide_mode ? '8' : '10'" style="height: 100%" class="overflow-y-auto pl-2 pr-3">
           <nuxt />
         </v-col>
       </v-row>
@@ -96,6 +96,14 @@ export default {
       },
       set(value) {
         this.$store.commit("localStorage/set_official", value);
+      },
+    },
+    wide_mode: {
+      get() {
+        return this.$store.state.localStorage.wide_mode;
+      },
+      set(value) {
+        this.$store.commit("localStorage/set_wide_mode", value);
       },
     },
   },

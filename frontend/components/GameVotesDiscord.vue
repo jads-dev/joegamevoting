@@ -1,8 +1,9 @@
 <template>
   <v-container>
     <v-card class="overflow-hidden">
-      <v-row class="mt-2 mb-1">
+      <v-row class="mt-2 mb-1 ml-1">
         <v-switch hide-details dense v-model="dark_mode" label="Dark Mode" class="ml-2 ma-0 pa-0"> </v-switch>
+        <v-switch hide-details dense v-model="wide_mode" label="Wide Mode" class="ml-2 ma-0 pa-0"> </v-switch>
         <v-switch hide-details dense v-model="show_weeb_status" label="Show Weeb Status" class="ml-2 ma-0 pa-0"> </v-switch>
       </v-row>
 
@@ -183,6 +184,14 @@ export default {
       },
       set(value) {
         this.$store.commit("localStorage/set_show_weeb_status", value);
+      },
+    },
+    wide_mode: {
+      get() {
+        return this.$store.state.localStorage.wide_mode;
+      },
+      set(value) {
+        this.$store.commit("localStorage/set_wide_mode", value);
       },
     },
   },
