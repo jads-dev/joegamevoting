@@ -10,6 +10,9 @@
             <span>{{ selected_game.name }}</span>
           </v-card-title>
           <v-card-subtitle class="mb-0 pb-0">
+            {{ selected_game.weeb_status }}
+          </v-card-subtitle>
+          <v-card-subtitle class="mb-0 pb-0">
             <span class="text-overline"> {{ game_data.release_date | date }} <br /> </span>
             <span class="text-overline">
               {{ game_platforms.join(", ") }}
