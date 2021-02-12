@@ -56,6 +56,7 @@ class DiscordBot(discord.Client):
         self.ready = True
         self.load_data()
         self.votos_time = None
+        self.weeb_games = None
 
         # self.clean_up()
 
@@ -107,13 +108,12 @@ class DiscordBot(discord.Client):
         except IOError:
             print("Error saving votes")
 
-    async def check_weeb(self):
-        weeb_games = get_weeb_games()
-
-        for game in weeb_games:
-            key = str(game["message_id"])
-            if key in self.votes:
-                self.votes[key]["weeb_status"] = game["weeb_status"]
+    async def get_weeb(self):
+        weeb_games_data = get_weeb_games()
+        _weeb_games = {}
+        for game in weeb_games_data:
+            _weeb_games[str(game["message_id"])] = game["weeb_status"]
+        self.weeb_games = _weeb_games
 
     def get_games_by_user(self, user_id):
         _user_id = str(user_id)
@@ -183,19 +183,20 @@ class DiscordBot(discord.Client):
         return _emoji_a == _emoji_b
 
     async def check_votos(self):
-        if self.votes["809130993507237919"]["yay"] > 400 and self.votos_time is None:
-            self.votos_time = datetime.datetime.now()
-            await sio.emit("votos_time", data=self.votos_time.isoformat(), namespace="/gamevotes")
-        if self.votes["809130993507237919"]["yay"] <= 400 and self.votos_time is not None:
-            self.votos_time = None
-            await sio.emit("votos_time", data=self.votos_time, namespace="/gamevotes")
+        if "809130993507237919" in self.votes:
+            if self.votes["809130993507237919"]["yay"] > 400 and self.votos_time is None:
+                self.votos_time = datetime.datetime.now()
+                await sio.emit("votos_time", data=self.votos_time.isoformat(), namespace="/gamevotes")
+            if self.votes["809130993507237919"]["yay"] <= 400 and self.votos_time is not None:
+                self.votos_time = None
+                await sio.emit("votos_time", data=self.votos_time, namespace="/gamevotes")
 
     async def parse_message(self, message):
         # print(message)
         key = str(message.id)  # socketio glitch(?) workaround (last 2 digits go to 0)
 
         if len(message.reactions) > 0:
-            self.votes[key] = {
+            _vote = {
                 "game": message.content,
                 "yay": 0,
                 "nay": 0,
@@ -208,40 +209,39 @@ class DiscordBot(discord.Client):
                 "downvote_emoji": None,
             }
 
+            if key in self.weeb_games:
+                _vote["weeb_status"] = self.weeb_games[key]
+
             if type(message.reactions[0].emoji) is str:
-                self.votes[key]["emote"] = message.reactions[0].emoji
-                self.votes[key]["emote_unicode"] = True
-                self.votes[key]["upvote_emoji"] = str(message.reactions[0].emoji)
+                _vote["emote"] = message.reactions[0].emoji
+                _vote["emote_unicode"] = True
+                _vote["upvote_emoji"] = str(message.reactions[0].emoji)
             else:
-                self.votes[key]["emote"] = str(message.reactions[0].emoji.id)
-                self.votes[key]["emote_unicode"] = False
-                self.votes[key]["upvote_emoji"] = message.reactions[0].emoji.id
+                _vote["emote"] = str(message.reactions[0].emoji.id)
+                _vote["emote_unicode"] = False
+                _vote["upvote_emoji"] = message.reactions[0].emoji.id
 
             reaction = message.reactions[0]
-            self.votes[key]["yay"] = reaction.count
+            _vote["yay"] = reaction.count
             reactors = await reaction.users().flatten()
             for reactor in reactors:
                 # print(reactor.name, reactor.avatar_url)
                 # await self.check_valid(reactor)
                 self.voters[key] = {str(reactor.id): {"name": reactor.name, "avatar_url": reactor.avatar_url._url} for reactor in reactors}
 
-            # check votos
-            if key == "809130993507237919":
-                await self.check_votos()
-
             if len(message.reactions) > 1:
-                self.votes[key]["downvote_emoji"] = str(message.reactions[1].emoji)
+                _vote["downvote_emoji"] = str(message.reactions[1].emoji)
                 if type(message.reactions[1].emoji) is str:
-                    self.votes[key]["emote2"] = message.reactions[1].emoji
-                    self.votes[key]["emote2_unicode"] = True
-                    self.votes[key]["downvote_emoji"] = str(message.reactions[1].emoji)
+                    _vote["emote2"] = message.reactions[1].emoji
+                    _vote["emote2_unicode"] = True
+                    _vote["downvote_emoji"] = str(message.reactions[1].emoji)
                 else:
-                    self.votes[key]["emote2"] = str(message.reactions[1].emoji.id)
-                    self.votes[key]["emote2_unicode"] = False
-                    self.votes[key]["downvote_emoji"] = message.reactions[1].emoji.id
+                    _vote["emote2"] = str(message.reactions[1].emoji.id)
+                    _vote["emote2_unicode"] = False
+                    _vote["downvote_emoji"] = message.reactions[1].emoji.id
 
                 reaction = message.reactions[1]
-                self.votes[key]["nay"] = reaction.count
+                _vote["nay"] = reaction.count
                 reactors = await reaction.users().flatten()
                 for reactor in reactors:
                     # print(reactor.name, reactor.avatar_url)
@@ -255,12 +255,16 @@ class DiscordBot(discord.Client):
                 else:
                     emote_unicode = False
                     emote = str(reaction.emoji.id)
-                self.votes[key]["extra_emotes"].append({"emote_unicode": emote_unicode, "emote": emote})
+                _vote["extra_emotes"].append({"emote_unicode": emote_unicode, "emote": emote})
+
+            # check votos
+            await self.check_votos()
+            self.votes[key] = _vote
 
     async def fetch_changed(self):
         self.ready = False
         _changed = set(self.changed)
-        await self.check_weeb()
+        await self.get_weeb()
         for message_id in _changed:
             key = str(message_id)
             message = await self.channel.fetch_message(id=message_id)
@@ -280,6 +284,7 @@ class DiscordBot(discord.Client):
     async def fetch_all(self):
         print("Fetching vote messages.")
         await self.wait_until_ready()
+        await self.get_weeb()
         self.ready = False
 
         messages = []
@@ -311,7 +316,6 @@ class DiscordBot(discord.Client):
         self.votes["partial"] = False
         self.ready = True
         print("Done fetching votes")
-        await self.check_weeb()
         self.save_data()
 
         await sio.emit("votes_discord", data=self.votes, namespace="/gamevotes")
