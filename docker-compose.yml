@@ -11,6 +11,8 @@ services:
             - NODE_ENV=production
         depends_on:
             - backend
+        volumes:
+          - ./data/.nuxt:/datatemp
     backend:
         build:
             context: .
