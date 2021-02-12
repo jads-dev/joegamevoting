@@ -114,6 +114,7 @@ def get_random_pitches():
         left join igdb_game as ig on ig.id = dm.game_id
         where gp.message_id in ({valid_message_ids})
         and gp.pinned <> 1
+        and gp.id < 690000
         order by random()
         limit 10
     """
