@@ -50,7 +50,7 @@ async def _get_vote_file(file: str):
 
 
 @router.get("/game_discord/weeb_status/")
-async def _weeb_status(votes: int):
+async def _weeb_status():
     from app.discordbot import bot
 
     await bot.check_weeb()
