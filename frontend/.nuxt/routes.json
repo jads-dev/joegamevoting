@@ -1,0 +1,51 @@
+[
+  {
+    "name": "discord_callback",
+    "path": "/discord_callback",
+    "component": "C:\\\\Users\\\\Nodja\\\\Desktop\\\\proj\\\\joegames\\\\frontend\\\\pages\\\\discord_callback.vue",
+    "chunkName": "pages/discord_callback",
+    "_name": "_55d8fe67"
+  },
+  {
+    "name": "me",
+    "path": "/me",
+    "component": "C:\\\\Users\\\\Nodja\\\\Desktop\\\\proj\\\\joegames\\\\frontend\\\\pages\\\\me.vue",
+    "chunkName": "pages/me",
+    "_name": "_ddc3eb72"
+  },
+  {
+    "name": "pastvotes",
+    "path": "/pastvotes",
+    "component": "C:\\\\Users\\\\Nodja\\\\Desktop\\\\proj\\\\joegames\\\\frontend\\\\pages\\\\pastvotes.vue",
+    "chunkName": "pages/pastvotes",
+    "_name": "_6051b318"
+  },
+  {
+    "name": "test",
+    "path": "/test",
+    "component": "C:\\\\Users\\\\Nodja\\\\Desktop\\\\proj\\\\joegames\\\\frontend\\\\pages\\\\test.vue",
+    "chunkName": "pages/test",
+    "_name": "_0e6f0a81"
+  },
+  {
+    "name": "game_discord-id",
+    "path": "/game_discord/:id?",
+    "component": "C:\\\\Users\\\\Nodja\\\\Desktop\\\\proj\\\\joegames\\\\frontend\\\\pages\\\\game_discord\\\\_id.vue",
+    "chunkName": "pages/game_discord/_id",
+    "_name": "_066bbc48"
+  },
+  {
+    "name": "game-id",
+    "path": "/game/:id?",
+    "component": "C:\\\\Users\\\\Nodja\\\\Desktop\\\\proj\\\\joegames\\\\frontend\\\\pages\\\\game\\\\_id.vue",
+    "chunkName": "pages/game/_id",
+    "_name": "_1a803229"
+  },
+  {
+    "name": "index",
+    "path": "/",
+    "component": "C:\\\\Users\\\\Nodja\\\\Desktop\\\\proj\\\\joegames\\\\frontend\\\\pages\\\\index.vue",
+    "chunkName": "pages/index",
+    "_name": "_4f6ffe1a"
+  }
+]
