@@ -29,6 +29,7 @@ outer_heaven_ids = [
     807294358520725585,
     807308420104323103,
     807297766970753044,
+    807296278668115978,
 ]
 
 ascended_ids = [
@@ -52,8 +53,8 @@ double_hell_ids = [
     807306639421997056,
     807307291144618064,
     807308048426991626,
-    807294093943111710, # dogs life
-    807299830787080222, # no one can stop
+    807294093943111710,  # dogs life
+    807299830787080222,  # no one can stop
 ]
 
 outer_heaven_ids = [str(id_) for id_ in outer_heaven_ids]
