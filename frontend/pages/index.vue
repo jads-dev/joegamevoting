@@ -11,7 +11,7 @@
         </v-row>
         <v-expansion-panels>
           <v-expansion-panel>
-            <v-expansion-panel-header> Base rules  </v-expansion-panel-header>
+            <v-expansion-panel-header> Base rules </v-expansion-panel-header>
             <v-expansion-panel-content>
               <img src="https://cdn.discordapp.com/attachments/648620063045189656/807712044555436052/unknown.png" /><img />
             </v-expansion-panel-content>
@@ -68,7 +68,9 @@
               <img src="https://cdn.discordapp.com/attachments/648620063045189656/809426060398559242/unknown.png" /><img />
               <img src="https://cdn.discordapp.com/attachments/648620063045189656/809431203257253929/unknown.png" /><img />
               <img src="https://cdn.discordapp.com/attachments/648620063045189656/809537961607692328/unknown.png" /><img />
-              <img src="https://cdn.discordapp.com/attachments/648620063045189656/809563177544843294/unknown.png" /><img />              
+              <img src="https://cdn.discordapp.com/attachments/648620063045189656/809563177544843294/unknown.png" /><img />
+              <img src="https://cdn.discordapp.com/attachments/648620063045189656/809645951547342848/unknown.png" /><img />
+              <img src="https://cdn.discordapp.com/attachments/648620063045189656/809645968609771560/unknown.png" /><img />
             </v-expansion-panel-content>
           </v-expansion-panel>
         </v-expansion-panels>
