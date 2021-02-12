@@ -74,9 +74,20 @@
             </v-expansion-panel-content>
           </v-expansion-panel>
           <v-expansion-panel>
-            <v-expansion-panel-header> Feb 12 changes </v-expansion-panel-header>
+            <v-expansion-panel-header>
+              Feb 12 changes <span style="color: red; font-weight: bold">&nbsp; (New word game for everyone)</span>
+            </v-expansion-panel-header>
             <v-expansion-panel-content>
               <img src="https://cdn.discordapp.com/attachments/648620063045189656/809797817194905610/unknown.png" /><img />
+
+              <img src="https://cdn.discordapp.com/attachments/648620063045189656/809877427345817640/unknown.png" /><img />
+              <br />
+              <span class="pa-2 ma-2">
+                <a href="https://cdn.discordapp.com/attachments/807289103920922684/809867117443678208/SPOILER_HALF-LIFE_2_ASCENDS.mp4"> VIDEO (download)</a>
+              </span>
+              <br />
+              <img class="mt-2" src="https://cdn.discordapp.com/attachments/648620063045189656/809877877415084072/unknown.png" /><img />
+              <img src="https://cdn.discordapp.com/attachments/648620063045189656/809877971753107477/unknown.png" /><img />
             </v-expansion-panel-content>
           </v-expansion-panel>
         </v-expansion-panels>

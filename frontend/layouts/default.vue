@@ -4,9 +4,16 @@
       <v-btn to="/"> Home </v-btn>
 
       <v-switch hide-details v-model="official" label="Show Official Discord votes" class="ml-2" @change="on_official_change"> </v-switch>
+
+      <div v-if="official" class="d-flex flex-column ml-2">
+        <audio style="width: 400px; height: 15px" controls loop>
+          <source src="https://cdn.discordapp.com/attachments/666328917237563419/809868357956403240/Voting_theme.mp3" type="audio/mpeg" />
+          Your browser does not support the audio element.
+        </audio>
+        Voting theme by tieff (WIP).
+      </div>
       <template v-if="!official">
         <v-spacer />
-
         <game-search-bar />
       </template>
 
