@@ -49,6 +49,14 @@ async def _get_vote_file(file: str):
     return get_vote_file(file)
 
 
+@router.get("/game_discord/weeb_status/")
+async def _weeb_status(votes: int):
+    from app.discordbot import bot
+
+    await bot.check_weeb()
+    await sio.emit("votes_discord", data=bot.votes, namespace="/gamevotes")
+
+
 @router.get("/game_discord/test/{votes}")
 async def _test(votes: int):
     if votes > 0:
