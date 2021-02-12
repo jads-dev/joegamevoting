@@ -70,7 +70,9 @@
                   max-width="25"
                   :src="get_emoji_url(emote.emote, emote.emote_unicode)"
                 ></v-img>
-                <div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{ item.name }}</div>
+                <div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis">
+                  <span v-if="item.weeb_status && show_weeb_status">({{ item.weeb_status }})</span> {{ item.name }}
+                </div>
               </div>
             </td>
           </tr>
@@ -123,6 +125,7 @@ var emoji_urls = {
   "🟨": "https://discord.com/assets/0ca363e545e2f490cf4b852f5c8e0404.svg",
   "📗": "https://discord.com/assets/2f62701a0bd9896f10ba600e9bb3ee6d.svg",
   "🙏": "https://discord.com/assets/1904291ab1aa5d14b2adaaff23a578dd.svg",
+  "🫂": "https://discord.com/assets/16e50cf15d1cfdc28964072544f55043.svg",
 };
 export default {
   props: {
@@ -258,6 +261,14 @@ export default {
         return this.$store.state.votos_time;
       },
       set(value) {},
+    },
+    show_weeb_status: {
+      get() {
+        return this.$store.state.localStorage.show_weeb_status;
+      },
+      set(value) {
+        this.$store.commit("localStorage/set_show_weeb_status", value);
+      },
     },
   },
   created() {

@@ -6,6 +6,7 @@ import os
 import discord
 
 from app.routers.socketio import sio
+from app.models.game_discord import get_weeb_games
 
 
 intents = discord.Intents.default()
@@ -86,7 +87,6 @@ class DiscordBot(discord.Client):
                     self.votos_time = datetime.datetime.fromisoformat(data.get("votos_time", ""))
                 except (ValueError, TypeError):
                     self.votos_time = None
-                print(type(self.votos_time))
             except IOError:
                 print("Error loading votes")
 
@@ -106,6 +106,14 @@ class DiscordBot(discord.Client):
                 json.dump(data, f)
         except IOError:
             print("Error saving votes")
+
+    async def check_weeb(self):
+        weeb_games = get_weeb_games()
+
+        for game in weeb_games:
+            key = str(game["message_id"])
+            if key in self.votes:
+                self.votes[key]["weeb_status"] = game["weeb_status"]
 
     def get_games_by_user(self, user_id):
         _user_id = str(user_id)
@@ -252,6 +260,7 @@ class DiscordBot(discord.Client):
     async def fetch_changed(self):
         self.ready = False
         _changed = set(self.changed)
+        await self.check_weeb()
         for message_id in _changed:
             key = str(message_id)
             message = await self.channel.fetch_message(id=message_id)
@@ -302,6 +311,7 @@ class DiscordBot(discord.Client):
         self.votes["partial"] = False
         self.ready = True
         print("Done fetching votes")
+        await self.check_weeb()
         self.save_data()
 
         await sio.emit("votes_discord", data=self.votes, namespace="/gamevotes")
@@ -314,10 +324,10 @@ class DiscordBot(discord.Client):
                 self.last_save = datetime.datetime.now()
             else:
                 await self.fetch_changed()
-
             if self.last_save is None or self.last_save < datetime.datetime.now() - datetime.timedelta(seconds=60):
                 self.save_data()
                 self.last_save = datetime.datetime.now()
+
             await asyncio.sleep(20)
 
     async def count_change(self, reaction):

@@ -6,7 +6,8 @@ export const state = () => ({
     can_vote: false
   },
   official: true,
-  dark_mode: true
+  dark_mode: true,
+  show_weeb_status: true
 });
 
 export const mutations = {
@@ -31,5 +32,8 @@ export const mutations = {
   },
   set_dark_mode(state, dark_mode) {
     state.dark_mode = dark_mode;
+  },
+  set_show_weeb_status(state, value) {
+    state.show_weeb_status = value;
   }
 };

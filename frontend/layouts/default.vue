@@ -4,8 +4,6 @@
       <v-btn to="/"> Home </v-btn>
 
       <v-switch hide-details v-model="official" label="Show Official Discord votes" class="ml-2" @change="on_official_change"> </v-switch>
-      <v-switch hide-details v-model="dark_mode" label="Dark Mode" class="ml-2"> </v-switch>
-
       <template v-if="!official">
         <v-spacer />
 
@@ -91,14 +89,6 @@ export default {
       },
       set(value) {
         this.$store.commit("localStorage/set_official", value);
-      },
-    },
-    dark_mode: {
-      get() {
-        return this.$store.state.localStorage.dark_mode;
-      },
-      set(value) {
-        this.$store.commit("localStorage/set_dark_mode", value);
       },
     },
   },

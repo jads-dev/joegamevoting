@@ -1,6 +1,11 @@
 <template>
   <v-container>
     <v-card class="overflow-hidden">
+      <v-row class="mt-2 mb-1">
+        <v-switch hide-details dense v-model="dark_mode" label="Dark Mode" class="ml-2 ma-0 pa-0"> </v-switch>
+        <v-switch hide-details dense v-model="show_weeb_status" label="Show Weeb Status" class="ml-2 ma-0 pa-0"> </v-switch>
+      </v-row>
+
       <v-card-title class="ma-0 pa-0 ml-2"> Discord poll results: </v-card-title>
       <v-expansion-panels multiple v-model="panel">
         <v-expansion-panel>
@@ -120,6 +125,7 @@ export default {
           emote2: this.votes[key].emote2,
           emote2_unicode: this.votes[key].emote2_unicode,
           extra_emotes: this.votes[key].extra_emotes,
+          weeb_status: this.votes[key].weeb_status,
         };
 
         if (vote_data.message_id == "809130993507237919" || vote_data.message_id == "809410955880562701" || vote_data.message_id == "809535003406893082") {
@@ -134,7 +140,7 @@ export default {
 
       var c = 0;
       for (var i = 0; i < _vote_list.length; i++) {
-        if (["807296983286415411", "807291135633522789"].includes(_vote_list[i].message_id)) {
+        if (["807296983286415411", "807291135633522789", "809131141776015472"].includes(_vote_list[i].message_id)) {
           _vote_list[i]["rank"] = "-";
         } else {
           c += 1;
@@ -162,6 +168,22 @@ export default {
         return Object.keys(this.historical_votes).length > 0;
       },
       set(value) {},
+    },
+    dark_mode: {
+      get() {
+        return this.$store.state.localStorage.dark_mode;
+      },
+      set(value) {
+        this.$store.commit("localStorage/set_dark_mode", value);
+      },
+    },
+    show_weeb_status: {
+      get() {
+        return this.$store.state.localStorage.show_weeb_status;
+      },
+      set(value) {
+        this.$store.commit("localStorage/set_show_weeb_status", value);
+      },
     },
   },
   watch: {

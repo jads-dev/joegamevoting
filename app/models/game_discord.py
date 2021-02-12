@@ -181,3 +181,17 @@ def get_vote_file(file):
     with open(f"{base_dir}/{file}", "r") as f:
         data = json.load(f)
     return data["votes"]
+
+
+def get_weeb_games():
+    cursor = dbc.cursor()
+
+    sql = """
+        select message_id, weeb_status
+        from joes_weeblist
+    """
+
+    cursor.execute(sql)
+    games = cursor.fetchall()
+    games = [row_to_dictionary(cursor, row) for row in games]
+    return games
