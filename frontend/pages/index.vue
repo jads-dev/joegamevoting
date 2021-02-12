@@ -73,6 +73,12 @@
               <img src="https://cdn.discordapp.com/attachments/648620063045189656/809645968609771560/unknown.png" /><img />
             </v-expansion-panel-content>
           </v-expansion-panel>
+          <v-expansion-panel>
+            <v-expansion-panel-header> Feb 12 changes </v-expansion-panel-header>
+            <v-expansion-panel-content>
+              <img src="https://cdn.discordapp.com/attachments/648620063045189656/809797817194905610/unknown.png" /><img />
+            </v-expansion-panel-content>
+          </v-expansion-panel>
         </v-expansion-panels>
       </v-col>
       <v-col cols="12" md="6">
