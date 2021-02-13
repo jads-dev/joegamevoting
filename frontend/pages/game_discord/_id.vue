@@ -27,7 +27,7 @@
               >Browser
             </v-btn>
           </v-card-subtitle>
-          <v-card-subtitle class="mt-0 pt-0">(App button might need you to reinstall discord.) </v-card-subtitle>
+          <v-card-subtitle class="mt-0 pt-0">(You might need to reinstall discord for the app button to work.) </v-card-subtitle>
           <v-card-text>
             <div class="overflow-y-auto" style="white-space: pre-wrap; max-height: 200px">{{ game_data.summary }}</div>
           </v-card-text>
