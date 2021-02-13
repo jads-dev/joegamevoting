@@ -18,11 +18,15 @@
               {{ game_platforms.join(", ") }}
             </span>
           </v-card-subtitle>
-          <v-card-subtitle>
+          <v-card-subtitle class="mb-0 pb-0">
+            <v-btn color="#7289da" :href="`discord://discord.com/channels/308515582817468420/807289103920922684/${this.$route.params.id}`" target="_blank"
+              >Discord Message (app)
+            </v-btn>
             <v-btn color="#7289da" :href="`https://discord.com/channels/308515582817468420/807289103920922684/${this.$route.params.id}`" target="_blank"
-              >Discord Message
+              >Discord Message (browser)
             </v-btn>
           </v-card-subtitle>
+          <v-card-subtitle class="mt-0 pt-0">(App button might need you to reinstall discord.) </v-card-subtitle>
           <v-card-text>
             <div class="overflow-y-auto" style="white-space: pre-wrap; max-height: 200px">{{ game_data.summary }}</div>
           </v-card-text>
