@@ -329,8 +329,6 @@ class DiscordBot(discord.Client):
         for message_id in _failed:
             self.extra_messages.remove(message_id)
 
-        messages.append(await self.get_channel(648620063045189656).fetch_message(810087426453798922))
-
         async for message in self.channel.history(after=start_dt, before=end_dt, limit=1000):
             # print(f"{message.id}\t{message.created_at}\t{message.content}")
             messages.append(message)

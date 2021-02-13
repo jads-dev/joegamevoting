@@ -77,7 +77,6 @@ async def _test(votes: int):
     reaction = discord.RawReactionActionEvent(data, emoji, event_type)
     for _ in range(1000):
         await bot.on_raw_reaction_remove(reaction)
-        print("sent")
     return "123"
 
 
