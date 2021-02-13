@@ -223,11 +223,6 @@ class DiscordBot(discord.Client):
 
             reaction = message.reactions[0]
             _vote["yay"] = reaction.count
-            reactors = await reaction.users().flatten()
-            for reactor in reactors:
-                # print(reactor.name, reactor.avatar_url)
-                # await self.check_valid(reactor)
-                self.voters[key] = {str(reactor.id): {"name": reactor.name, "avatar_url": reactor.avatar_url._url} for reactor in reactors}
 
             if len(message.reactions) > 1:
                 _vote["downvote_emoji"] = str(message.reactions[1].emoji)
@@ -242,11 +237,6 @@ class DiscordBot(discord.Client):
 
                 reaction = message.reactions[1]
                 _vote["nay"] = reaction.count
-                reactors = await reaction.users().flatten()
-                for reactor in reactors:
-                    # print(reactor.name, reactor.avatar_url)
-                    # await self.check_valid(reactor)
-                    self.downvoters[key] = {reactor.id: {"name": reactor.name, "avatar_url": reactor.avatar_url._url} for reactor in reactors}
 
             for reaction in message.reactions[2:]:
                 if type(reaction.emoji) is str:
@@ -260,6 +250,24 @@ class DiscordBot(discord.Client):
             # check votos
             await self.check_votos()
             self.votes[key] = _vote
+
+    async def parse_message_voters(self, message):
+        key = str(message.id)
+        if len(message.reactions) > 0:
+            reaction = message.reactions[0]
+            reactors = await reaction.users().flatten()
+            for reactor in reactors:
+                # print(reactor.name, reactor.avatar_url)
+                # await self.check_valid(reactor)
+                self.voters[key] = {str(reactor.id): {"name": reactor.name, "avatar_url": reactor.avatar_url._url} for reactor in reactors}
+
+        if len(message.reactions) > 1:
+            reaction = message.reactions[1]
+            reactors = await reaction.users().flatten()
+            for reactor in reactors:
+                # print(reactor.name, reactor.avatar_url)
+                # await self.check_valid(reactor)
+                self.downvoters[key] = {reactor.id: {"name": reactor.name, "avatar_url": reactor.avatar_url._url} for reactor in reactors}
 
     async def fetch_changed(self):
         self.ready = False
@@ -278,6 +286,12 @@ class DiscordBot(discord.Client):
             vote_data.update(self.votes[key])
 
             await sio.emit("votes_discord", data=vote_data, namespace="/gamevotes")
+
+        for message_id in _changed:
+            key = str(message_id)
+            message = await self.channel.fetch_message(id=message_id)
+            await self.parse_message_voters(message)
+
         self.changed = []
         self.ready = True
 
@@ -304,7 +318,6 @@ class DiscordBot(discord.Client):
 
         for message in messages:
             await self.parse_message(message)
-            await self.fetch_changed()  # more responsive
 
         if "partial" in self.votes:
             del self.votes["partial"]
@@ -316,6 +329,10 @@ class DiscordBot(discord.Client):
         self.votes["partial"] = False
         self.ready = True
         print("Done fetching votes")
+        print("Fetching voter data.")
+        for message in messages:
+            await self.parse_message_voters(message)
+        print("Done fetching voter data.")
         self.save_data()
 
         await sio.emit("votes_discord", data=self.votes, namespace="/gamevotes")
