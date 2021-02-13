@@ -222,6 +222,10 @@ export default {
         steps_str += `, transparent ${last_percent - 1}% 100%`;
 
         background_image = `linear-gradient(to right${steps_str})`;
+      } else if (vote.message_id == "810207947661508608") {
+        const percent = (vote.absolute / 350) * 100;
+        var color = this.get_row_color(vote);
+        background_image = `linear-gradient(to right,${color} ${percent}%,transparent ${percent}%)`;
       } else {
         const percent = (vote.absolute / this.vote_list[0].absolute) * 100;
         var color = this.get_row_color(vote);
