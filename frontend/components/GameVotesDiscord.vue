@@ -82,6 +82,7 @@ export default {
     culled_hell: culled.culled_games,
     double_hell: culled.double_hell_games,
     votos: [],
+    votes_changed: false,
   }),
 
   mounted() {
@@ -100,8 +101,7 @@ export default {
       } else {
         this.votes = msg;
       }
-
-      this.parse_votes();
+      this.votes_changed = true;
     });
     this.socket.on("latest_pitches", (msg, cb) => {
       this.$store.commit("set_latest_pitches", msg);
@@ -111,6 +111,16 @@ export default {
     });
 
     this.socket.emit("votes_pls", "discordvotes");
+
+    this.vote_timer = setInterval(
+      function () {
+        if (this.votes_changed) {
+          this.parse_votes();
+          this.votes_changed = false;
+        }
+      }.bind(this),
+      500
+    );
   },
   methods: {
     parse_votes: async function () {

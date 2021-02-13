@@ -27,17 +27,6 @@ allowed_roles = [
     309517708309954560,  # mods
 ]
 
-extra_messages = [
-    809130993507237919,  # votos
-    809131104320618546,
-    809131123099041832,
-    809131141776015472,
-    809131166321213471,
-    809131185569005598,
-    809410955880562701,  # kill purple chan
-    809535003406893082,  # hug purple chan
-]
-
 
 class DiscordBot(discord.Client):
     def __init__(self, *args, **kwargs):
@@ -57,6 +46,16 @@ class DiscordBot(discord.Client):
         self.load_data()
         self.votos_time = None
         self.weeb_games = None
+        self.extra_messages = [
+            809130993507237919,  # votos
+            809131104320618546,
+            809131123099041832,
+            809131141776015472,
+            809131166321213471,
+            809131185569005598,
+            809410955880562701,  # kill purple chan
+            809535003406893082,  # hug purple chan
+        ]
 
         # self.clean_up()
 
@@ -275,8 +274,13 @@ class DiscordBot(discord.Client):
         await self.get_weeb()
         for message_id in _changed:
             key = str(message_id)
-            message = await self.channel.fetch_message(id=message_id)
-            await self.parse_message(message)
+            try:
+                message = await self.channel.fetch_message(id=message_id)
+            except discord.errors.NotFound:
+                print(f"Failed to fetch {message_id}")
+                if message_id in self.extra_messages:
+                    self.extra_messages.remove(message_id)
+                continue
 
             vote_data = {
                 "message_id": key,
@@ -289,7 +293,13 @@ class DiscordBot(discord.Client):
 
         for message_id in _changed:
             key = str(message_id)
-            message = await self.channel.fetch_message(id=message_id)
+            try:
+                message = await self.channel.fetch_message(id=message_id)
+            except discord.errors.NotFound:
+                print(f"Failed to fetch {message_id}")
+                if message_id in self.extra_messages:
+                    self.extra_messages.remove(message_id)
+                continue
             await self.parse_message_voters(message)
 
         self.changed = []
@@ -306,9 +316,20 @@ class DiscordBot(discord.Client):
         start_dt = datetime.datetime(2021, 2, 5, 16, 40, 47)
         end_dt = datetime.datetime(2021, 2, 5, 17, 55, 27)
 
-        for message_id in extra_messages:
-            message = await self.channel.fetch_message(message_id)
+        _failed = []
+        for message_id in self.extra_messages:
+            try:
+                message = await self.channel.fetch_message(message_id)
+            except discord.errors.NotFound:
+                print(f"Failed to fetch {message_id}")
+                _failed.append(message_id)
+                continue
             messages.append(message)
+
+        for message_id in _failed:
+            self.extra_messages.remove(message_id)
+
+        messages.append(await self.get_channel(648620063045189656).fetch_message(810087426453798922))
 
         async for message in self.channel.history(after=start_dt, before=end_dt, limit=1000):
             # print(f"{message.id}\t{message.created_at}\t{message.content}")
@@ -329,13 +350,13 @@ class DiscordBot(discord.Client):
         self.votes["partial"] = False
         self.ready = True
         print("Done fetching votes")
+        await sio.emit("votes_discord", data=self.votes, namespace="/gamevotes")
+
         print("Fetching voter data.")
         for message in messages:
             await self.parse_message_voters(message)
         print("Done fetching voter data.")
         self.save_data()
-
-        await sio.emit("votes_discord", data=self.votes, namespace="/gamevotes")
 
     async def fetch_votes(self):
         while True:
@@ -391,7 +412,7 @@ class DiscordBot(discord.Client):
         if str(message.message_id) in self.votes:
             del self.votes[str(message.message_id)]
 
-    async def on_raw_message_delete(self, message):
+    async def on_raw_message_edit(self, message):
         if str(message.message_id) in self.votes:
             self.changed.append(message.message_id)
 

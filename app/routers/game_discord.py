@@ -59,11 +59,26 @@ async def _weeb_status():
 
 @router.get("/game_discord/test/{votes}")
 async def _test(votes: int):
-    if votes > 0:
-        await sio.emit("votos_time", data=datetime.datetime.now().isoformat(), namespace="/gamevotes")
+    from app.discordbot import bot
+
+    import discord
+
+    data = {
+        "message_id": 810087426453798922,
+        "channel_id": 648620063045189656,
+        "user_id": 102795037498167296,
+    }
+    if votes == 1:
+        event_type = "REACTION_ADD"
     else:
-        await sio.emit("votos_time", data=None, namespace="/gamevotes")
-    return ""
+        event_type = "REACTION_REMOVE"
+    emoji = 458329445741101056
+
+    reaction = discord.RawReactionActionEvent(data, emoji, event_type)
+    for _ in range(1000):
+        await bot.on_raw_reaction_remove(reaction)
+        print("sent")
+    return "123"
 
 
 @router.get("/game_discord/votes/")
