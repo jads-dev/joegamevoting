@@ -7,14 +7,14 @@
             <td style="max-width: 24px; width: 24px" v-if="item.rank" class="pl-2">{{ item.rank }}</td>
             <td style="min-width: 85px; width: 85px">
               <v-row v-if="item.downvotes == 0">
-                <v-img max-width="25" class="mr-1" :src="get_emoji_url(item.emote, item.emote_unicode)"></v-img>
+                <v-img v-if="show_emojis" max-width="25" class="mr-1" :src="get_emoji_url(item.emote, item.emote_unicode)"></v-img>
                 <span>x {{ item.votes }}</span>
               </v-row>
 
               <v-menu v-if="item.downvotes > 0" open-on-hover right class="ma-0 pa-0">
                 <template v-slot:activator="{ on, attrs }">
                   <v-row v-bind="attrs" v-on="on">
-                    <v-img max-width="25" :src="get_emoji_url(item.emote, item.emote_unicode)"></v-img>
+                    <v-img v-if="show_emojis" max-width="25" :src="get_emoji_url(item.emote, item.emote_unicode)"></v-img>
                     <span> x {{ item.absolute }} </span>
                   </v-row>
                 </template>
@@ -270,6 +270,14 @@ export default {
       },
       set(value) {
         this.$store.commit("localStorage/set_show_weeb_status", value);
+      },
+    },
+    show_emojis: {
+      get() {
+        return this.$store.state.localStorage.show_emojis;
+      },
+      set(value) {
+        this.$store.commit("localStorage/set_show_emojis", value);
       },
     },
   },

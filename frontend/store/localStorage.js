@@ -9,7 +9,8 @@ export const state = () => ({
   dark_mode: true,
   show_weeb_status: true,
   wide_mode: false,
-  show_hells: true
+  show_hells: true,
+  show_emojis: false
 });
 
 export const mutations = {
@@ -43,5 +44,8 @@ export const mutations = {
   },
   set_show_hells(state, value) {
     state.show_hells = value;
+  },
+  set_show_emojis(state, value) {
+    state.show_emojis = value;
   }
 };
