@@ -24,7 +24,7 @@
           </v-expansion-panel-content>
         </v-expansion-panel>
         <v-expansion-panel>
-          <v-expansion-panel-header class="ml-5"> VOTOS </v-expansion-panel-header>
+          <v-expansion-panel-header class="ml-5"> SPECIALS </v-expansion-panel-header>
           <v-expansion-panel-content>
             <vote-list :vote_list="votos" :hide_header="true"></vote-list>
           </v-expansion-panel-content>
@@ -76,7 +76,7 @@ export default {
   data: () => ({
     panel: [0, 1, 2, 3],
     votes: {},
-    outer_heaven: culled.outer_heaven,
+    outer_heaven: culled.outer_heaven.sort(comparator_votes),
     halls_ascension: culled.ascended_games,
     vote_list: [],
     culled_hell: culled.culled_games,
@@ -92,15 +92,7 @@ export default {
     });
     this.socket.on("votes_discord", (msg, cb) => {
       if (this.has_historical_votes) return;
-
-      const partial = msg.partial;
-      if (partial) {
-        this.votes[msg.message_id]["yay"] = msg["yay"];
-        this.votes[msg.message_id]["nay"] = msg["nay"];
-        this.votes[msg.message_id]["game"] = msg["game"];
-      } else {
-        this.votes = msg;
-      }
+      this.votes = msg;
       this.votes_changed = true;
     });
 
@@ -112,6 +104,7 @@ export default {
         this.votes[vote.message_id]["yay"] = vote["yay"];
         this.votes[vote.message_id]["nay"] = vote["nay"];
         this.votes[vote.message_id]["game"] = vote["game"];
+        this.votes[vote.message_id]["extra_emotes"] = vote["extra_emotes"];
       }
 
       this.votes_changed = true;
@@ -155,7 +148,12 @@ export default {
           weeb_status: this.votes[key].weeb_status,
         };
 
-        if (vote_data.message_id == "809130993507237919" || vote_data.message_id == "809410955880562701" || vote_data.message_id == "809535003406893082") {
+        if (
+          vote_data.message_id == "809130993507237919" ||
+          vote_data.message_id == "809410955880562701" ||
+          vote_data.message_id == "809535003406893082" ||
+          vote_data.message_id == "810207947661508608"
+        ) {
           _votos.push(vote_data);
         } else if (vote_data.votes > 0) {
           _vote_list.push(vote_data);

@@ -7,7 +7,7 @@ with open("round1.json", "r", encoding="utf-8") as f:
 
 games = data["votes"]
 
-files = ["round2p1.json", "round2p2.json", "round3p1.json"]
+files = ["round2p1.json", "round2p2.json", "round3p1.json", "round3p1.json"]
 for file in files:
     with open(file, "r", encoding="utf-8") as f:
         data = json.load(f)
@@ -30,11 +30,14 @@ outer_heaven_ids = [
     807308420104323103,
     807297766970753044,
     807296278668115978,
+    807293645057163285,
+    807297543825653801,
+    807303944002994186,
+    807304931588964362,
 ]
 
 ascended_ids = [
-    807297543825653801,
-    807303944002994186,
+    807298868194050068,
 ]
 
 double_hell_ids = [

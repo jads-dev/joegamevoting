@@ -57,6 +57,7 @@ class DiscordBot(discord.Client):
             809131185569005598,
             809410955880562701,  # kill purple chan
             809535003406893082,  # hug purple chan
+            810207947661508608,  # Davina Cage
         ]
         self.pending_votes = []
 
@@ -182,7 +183,7 @@ class DiscordBot(discord.Client):
             return False
         return False
 
-    def parse_emoji(self, emoji):
+    def parse_emoji(self, emoji, emoji_unicode=None):
         if type(emoji) is str:
             _emoji = emoji
             _emoji_unicode = True
@@ -200,11 +201,15 @@ class DiscordBot(discord.Client):
             _emoji_unicode = False
         return _emoji, _emoji_unicode
 
-    def is_same_emoji(self, emoji_a, emoji_b):
+    def is_same_emoji(self, emoji_a, emoji_b, a_is_parsed=False):
         if emoji_a is None or emoji_b is None:
             return False
+        if a_is_parsed:
+            print(emoji_a, emoji_b)
+            _emoji_a = emoji_a
+        else:
+            _emoji_a, _emoji_a_unicode = self.parse_emoji(emoji_a)
 
-        _emoji_a, _emoji_a_unicode = self.parse_emoji(emoji_a)
         _emoji_b, _emoji_b_unicode = self.parse_emoji(emoji_b)
 
         return _emoji_a == _emoji_b
@@ -272,7 +277,8 @@ class DiscordBot(discord.Client):
                 else:
                     emote_unicode = False
                     emote = str(reaction.emoji.id)
-                _vote["extra_emotes"].append({"emote_unicode": emote_unicode, "emote": emote})
+                _vote["nay"] += reaction.count
+                _vote["extra_emotes"].append({"emote_unicode": emote_unicode, "emote": emote, "count": reaction.count})
 
             # check votos
             await self.check_votos()
@@ -372,7 +378,6 @@ class DiscordBot(discord.Client):
             if int(key) not in self.valid_message_ids:
                 del self.votes[key]
 
-        self.votes["partial"] = False
         self.ready = True
         print("Done fetching votes")
         await sio.emit("votes_discord", data=self.votes, namespace="/gamevotes")
@@ -389,6 +394,10 @@ class DiscordBot(discord.Client):
             if key in self.votes:
                 upvote = self.is_same_emoji(self.votes[key]["upvote_emoji"], reaction.emoji)
                 downvote = self.is_same_emoji(self.votes[key]["downvote_emoji"], reaction.emoji)
+                for extra_emoji in self.votes[key]["extra_emotes"]:
+                    if self.is_same_emoji(extra_emoji["emote"], reaction.emoji, a_is_parsed=True):
+                        downvote = True
+
                 change = 0
                 if reaction.event_type == "REACTION_ADD":
                     change = 1

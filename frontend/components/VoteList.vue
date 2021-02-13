@@ -11,18 +11,11 @@
                 <span>x {{ item.votes }}</span>
               </v-row>
 
-              <v-menu v-if="item.downvotes > 0" open-on-hover right>
+              <v-menu v-if="item.downvotes > 0" open-on-hover right class="ma-0 pa-0">
                 <template v-slot:activator="{ on, attrs }">
                   <v-row v-bind="attrs" v-on="on">
-                    <v-col cols="6" class="ma-0 pa-0">
-                      <!--- v-if="item.absolute >= 0" -->
-                      <v-img max-width="25" :src="get_emoji_url(item.emote, item.emote_unicode)"></v-img>
-                      <v-img max-width="25" :src="get_emoji_url(item.emote2, item.emote2_unicode)"></v-img>
-                    </v-col>
-                    <!-- <v-col cols="6" class="ma-0 pa-0 pt-3" v-if="item.absolute < 0">
-                      <v-img max-width="25" src="https://cdn.discordapp.com/emojis/562048513614151691"></v-img>
-                    </v-col> -->
-                    <v-col cols="6" class="ml-n2 pa-0 pt-4 full-height"> x {{ item.absolute }} </v-col>
+                    <v-img max-width="25" :src="get_emoji_url(item.emote, item.emote_unicode)"></v-img>
+                    <span> x {{ item.absolute }} </span>
                   </v-row>
                 </template>
                 <div :style="{ 'background-color': get_row_color(item) }" class="pa-1">
@@ -33,6 +26,10 @@
                   <div class="d-flex">
                     <v-img max-width="25" :src="get_emoji_url(item.emote2, item.emote2_unicode)"></v-img>
                     <span>x {{ item.downvotes }}</span>
+                  </div>
+                  <div class="d-flex" v-for="emote in item.extra_emotes" :key="`${item.message_id}-${emote.emote}`">
+                    <v-img max-width="25" :src="get_emoji_url(emote.emote, emote.emote_unicode)"></v-img>
+                    <span>x {{ emote.count }}</span>
                   </div>
                 </div>
               </v-menu>
@@ -64,12 +61,6 @@
                 <span v-if="item.message_id == '807297543825653801'" style="padding-left: 75px"></span>
                 <span v-if="item.message_id == '807293645057163285'" class="pl-12"></span>
 
-                <v-img
-                  v-for="emote in item.extra_emotes"
-                  :key="`${item.message_id}-${emote.emote}`"
-                  max-width="25"
-                  :src="get_emoji_url(emote.emote, emote.emote_unicode)"
-                ></v-img>
                 <div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis">
                   <span v-if="item.weeb_status && show_weeb_status">({{ item.weeb_status }})</span> {{ item.name }}
                 </div>
@@ -80,7 +71,7 @@
       </template>
     </v-data-table>
 
-    <div v-if="vote_list.length > 0 && vote_list[0].message_id == '809130993507237919'">
+    <!-- <div v-if="vote_list.length > 0 && vote_list[0].message_id == '809130993507237919'">
       <span v-if="votos_time" :style="votos_minutes >= 10 ? 'color: red' : ''"
         >RECKONING TIMER: {{ votos_minutes }} minutes and {{ votos_seconds }} seconds <br />
       </span>
@@ -94,7 +85,7 @@
         >Votos reaches full power, unleashing a reckoning through every game and culling half the list in alternating order STARTING with the Number 1 spot. So
         1 -> 3 -> 5 -> 7, and so on. This ends the round immediately.</span
       >
-    </div>
+    </div> -->
   </v-col>
 </template>
 
@@ -127,6 +118,8 @@ var emoji_urls = {
   "📗": "https://discord.com/assets/2f62701a0bd9896f10ba600e9bb3ee6d.svg",
   "🙏": "https://discord.com/assets/1904291ab1aa5d14b2adaaff23a578dd.svg",
   "🫂": "https://discord.com/assets/16e50cf15d1cfdc28964072544f55043.svg",
+  "👎": "https://discord.com/assets/66e3cbf517993ee5261f23687a2bc032.svg",
+  "👇": "https://discord.com/assets/985bb2d2398be71e1b68bc7e2103c993.svg",
 };
 export default {
   props: {
@@ -233,7 +226,7 @@ export default {
       }
 
       if (vote.downvotes > 0) {
-        height = "50px";
+        // height = "50px";
       }
 
       return {
