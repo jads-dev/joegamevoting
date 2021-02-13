@@ -103,6 +103,20 @@ export default {
       }
       this.votes_changed = true;
     });
+
+    this.socket.on("votes_discord_partial", (msg, cb) => {
+      if (this.has_historical_votes) return;
+
+      for (var i = 0; i < msg.length; i++) {
+        const vote = msg[i];
+        this.votes[vote.message_id]["yay"] = vote["yay"];
+        this.votes[vote.message_id]["nay"] = vote["nay"];
+        this.votes[vote.message_id]["game"] = vote["game"];
+      }
+
+      this.votes_changed = true;
+    });
+
     this.socket.on("latest_pitches", (msg, cb) => {
       this.$store.commit("set_latest_pitches", msg);
     });

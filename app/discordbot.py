@@ -5,6 +5,8 @@ import os
 
 import discord
 
+from discord.ext import tasks
+
 from app.routers.socketio import sio
 from app.models.game_discord import get_weeb_games
 
@@ -56,6 +58,7 @@ class DiscordBot(discord.Client):
             809410955880562701,  # kill purple chan
             809535003406893082,  # hug purple chan
         ]
+        self.pending_votes = []
 
         # self.clean_up()
 
@@ -71,7 +74,27 @@ class DiscordBot(discord.Client):
         members = await self.guild.fetch_members(limit=None, after=cut_date).flatten()
         self.recent_members = [member.id for member in members]
 
-        await self.fetch_votes()
+        self.vote_sweep.start()
+        self.vote_sweep_changed.start()
+        self.save.start()
+        self.send_changes.start()
+
+    @tasks.loop(seconds=900)
+    async def vote_sweep(self):
+        await self.fetch_all()
+
+    @tasks.loop(seconds=10)
+    async def vote_sweep_changed(self):
+        await self.fetch_changed()
+
+    @tasks.loop(seconds=60)
+    async def save(self):
+        self.save_data()
+
+    @tasks.loop(seconds=0.2)
+    async def send_changes(self):
+        await sio.emit("votes_discord_partial", data=self.pending_votes, namespace="/gamevotes")
+        self.pending_votes = []
 
     def load_data(self):
         base_dir = "./data/votes"
@@ -102,7 +125,12 @@ class DiscordBot(discord.Client):
         filename = f"{base_dir}/{base_filename}.json"
         try:
             with open(filename, "w") as f:
-                data = {"votes": self.votes, "voters": self.voters, "votos_time": self.votos_time}
+                if not self.votos_time:
+                    _votos_time = None
+                else:
+                    _votos_time = self.votos_time.isoformat()
+
+                data = {"votes": self.votes, "voters": self.voters, "votos_time": _votos_time}
                 json.dump(data, f)
         except IOError:
             print("Error saving votes")
@@ -284,12 +312,11 @@ class DiscordBot(discord.Client):
 
             vote_data = {
                 "message_id": key,
-                "partial": True,
             }
 
             vote_data.update(self.votes[key])
 
-            await sio.emit("votes_discord", data=vote_data, namespace="/gamevotes")
+            self.pending_votes.append(vote_data)
 
         for message_id in _changed:
             key = str(message_id)
@@ -356,20 +383,6 @@ class DiscordBot(discord.Client):
         print("Done fetching voter data.")
         self.save_data()
 
-    async def fetch_votes(self):
-        while True:
-            if self.last_scan is None or self.last_scan < datetime.datetime.now() - datetime.timedelta(seconds=900):
-                await self.fetch_all()
-                self.last_scan = datetime.datetime.now()
-                self.last_save = datetime.datetime.now()
-            else:
-                await self.fetch_changed()
-            if self.last_save is None or self.last_save < datetime.datetime.now() - datetime.timedelta(seconds=60):
-                self.save_data()
-                self.last_save = datetime.datetime.now()
-
-            await asyncio.sleep(20)
-
     async def count_change(self, reaction):
         if reaction.message_id in self.valid_message_ids:
             key = str(reaction.message_id)
@@ -388,12 +401,12 @@ class DiscordBot(discord.Client):
 
                 vote_data = {
                     "message_id": key,
-                    "partial": True,
                 }
 
                 vote_data.update(self.votes[key])
 
-                await sio.emit("votes_discord", data=vote_data, namespace="/gamevotes")
+                self.pending_votes.append(vote_data)
+
                 await self.check_votos()
 
                 while not self.ready:

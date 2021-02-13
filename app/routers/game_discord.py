@@ -64,15 +64,15 @@ async def _test(votes: int):
     import discord
 
     data = {
-        "message_id": 810087426453798922,
-        "channel_id": 648620063045189656,
+        "message_id": 809130993507237919,
+        "channel_id": 807289103920922684,
         "user_id": 102795037498167296,
     }
     if votes == 1:
         event_type = "REACTION_ADD"
     else:
         event_type = "REACTION_REMOVE"
-    emoji = 458329445741101056
+    emoji = "🙏"
 
     reaction = discord.RawReactionActionEvent(data, emoji, event_type)
     for _ in range(1000):
