@@ -205,7 +205,6 @@ class DiscordBot(discord.Client):
         if emoji_a is None or emoji_b is None:
             return False
         if a_is_parsed:
-            print(emoji_a, emoji_b)
             _emoji_a = emoji_a
         else:
             _emoji_a, _emoji_a_unicode = self.parse_emoji(emoji_a)
