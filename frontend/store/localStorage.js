@@ -10,7 +10,7 @@ export const state = () => ({
   show_weeb_status: true,
   wide_mode: false,
   show_hells: true,
-  show_emojis: false
+  show_emojis: true
 });
 
 export const mutations = {

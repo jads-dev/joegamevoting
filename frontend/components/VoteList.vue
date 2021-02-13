@@ -236,6 +236,7 @@ export default {
       if (vote.downvotes > 0) {
         // height = "50px";
       }
+      if (vote.message_id == "807297543825653801" || vote.message_id == "807293645057163285") height = "50px";
 
       return {
         "background-image": background_image,
