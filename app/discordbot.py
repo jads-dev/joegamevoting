@@ -261,13 +261,13 @@ class DiscordBot(discord.Client):
                 # await self.check_valid(reactor)
                 self.voters[key] = {str(reactor.id): {"name": reactor.name, "avatar_url": reactor.avatar_url._url} for reactor in reactors}
 
-        if len(message.reactions) > 1:
-            reaction = message.reactions[1]
-            reactors = await reaction.users().flatten()
-            for reactor in reactors:
-                # print(reactor.name, reactor.avatar_url)
-                # await self.check_valid(reactor)
-                self.downvoters[key] = {reactor.id: {"name": reactor.name, "avatar_url": reactor.avatar_url._url} for reactor in reactors}
+        # if len(message.reactions) > 1:
+        #     reaction = message.reactions[1]
+        #     reactors = await reaction.users().flatten()
+        #     for reactor in reactors:
+        #         # print(reactor.name, reactor.avatar_url)
+        #         # await self.check_valid(reactor)
+        #         self.downvoters[key] = {reactor.id: {"name": reactor.name, "avatar_url": reactor.avatar_url._url} for reactor in reactors}
 
     async def fetch_changed(self):
         self.ready = False
