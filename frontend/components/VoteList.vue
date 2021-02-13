@@ -36,13 +36,13 @@
             </td>
             <td class="pl-0">
               <div class="d-flex ml-0 pl-0">
-                <v-img
+                <!-- <v-img
                   v-if="item.message_id == '807307201949204520'"
                   style="position: absolute; margin-top: -25px; margin-left: -20px"
                   max-height="70"
                   max-width="70"
                   src="https://cdn.discordapp.com/attachments/648620063045189656/809085570558459924/defusal_fairy.png"
-                ></v-img>
+                ></v-img> -->
                 <v-img
                   v-if="item.message_id == '807293645057163285'"
                   style="position: absolute; margin-top: -25px; margin-left: -30px"
@@ -57,7 +57,7 @@
                   max-width="100"
                   src="https://cdn.discordapp.com/attachments/648620063045189656/808196974859124756/dragon_angel.png"
                 ></v-img>
-                <span v-if="item.message_id == '807307201949204520'" class="pl-12"></span>
+                <!-- <span v-if="item.message_id == '807307201949204520'" class="pl-12"></span> -->
                 <span v-if="item.message_id == '807297543825653801'" style="padding-left: 75px"></span>
                 <span v-if="item.message_id == '807293645057163285'" class="pl-12"></span>
 
