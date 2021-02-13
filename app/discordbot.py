@@ -391,17 +391,20 @@ class DiscordBot(discord.Client):
         if reaction.message_id in self.valid_message_ids:
             key = str(reaction.message_id)
             if key in self.votes:
-                upvote = self.is_same_emoji(self.votes[key]["upvote_emoji"], reaction.emoji)
-                downvote = self.is_same_emoji(self.votes[key]["downvote_emoji"], reaction.emoji)
-                for extra_emoji in self.votes[key]["extra_emotes"]:
-                    if self.is_same_emoji(extra_emoji["emote"], reaction.emoji, a_is_parsed=True):
-                        downvote = True
-
                 change = 0
                 if reaction.event_type == "REACTION_ADD":
                     change = 1
                 elif reaction.event_type == "REACTION_REMOVE":
                     change = -1
+
+                upvote = self.is_same_emoji(self.votes[key]["upvote_emoji"], reaction.emoji)
+                downvote = self.is_same_emoji(self.votes[key]["downvote_emoji"], reaction.emoji)
+
+                for extra_emoji in self.votes[key]["extra_emotes"]:
+                    if self.is_same_emoji(extra_emoji["emote"], reaction.emoji, a_is_parsed=True):
+                        extra_emoji["count"] += change
+                        downvote = True
+
                 if upvote:
                     self.votes[key]["yay"] += change
                 if downvote:
