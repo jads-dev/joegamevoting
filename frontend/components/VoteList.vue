@@ -229,7 +229,8 @@ export default {
       } else {
         const percent = (vote.absolute / this.vote_list[0].absolute) * 100;
         var color = this.get_row_color(vote);
-        background_image = `linear-gradient(to right,${color} ${percent}%,transparent ${percent}%)`;
+        if (percent >= 0) background_image = `linear-gradient(to right,${color} ${percent}%,transparent ${percent}%)`;
+        else background_image = `linear-gradient(to right,transparent ${percent + 100}%,${color} ${percent + 100}%)`;
       }
 
       if (vote.downvotes > 0) {
