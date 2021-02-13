@@ -6,50 +6,59 @@
           <v-switch hide-details dense v-model="dark_mode" label="Dark Mode" class="ml-2 ma-0 pa-0"> </v-switch>
           <v-switch hide-details dense v-model="wide_mode" label="Wide Mode" class="ml-2 ma-0 pa-0"> </v-switch>
           <v-switch hide-details dense v-model="show_weeb_status" label="Show Weeb Status" class="ml-2 ma-0 pa-0"> </v-switch>
+          <v-switch hide-details dense v-model="show_hells" label="Show Hells" class="ml-2 ma-0 pa-0"> </v-switch>
         </no-ssr>
       </v-row>
 
       <v-card-title class="ma-0 pa-0 ml-2"> Discord poll results: </v-card-title>
-      <v-expansion-panels multiple v-model="panel">
-        <v-expansion-panel>
-          <v-expansion-panel-header class="ml-5"> Outer Heaven </v-expansion-panel-header>
-          <v-expansion-panel-content>
-            <vote-list :vote_list="outer_heaven" :hide_header="true"></vote-list>
-          </v-expansion-panel-content>
-        </v-expansion-panel>
-        <v-expansion-panel>
-          <v-expansion-panel-header class="ml-5"> Halls of Ascension </v-expansion-panel-header>
-          <v-expansion-panel-content>
-            <vote-list :vote_list="halls_ascension" :hide_header="true"></vote-list>
-          </v-expansion-panel-content>
-        </v-expansion-panel>
-        <v-expansion-panel>
-          <v-expansion-panel-header class="ml-5"> SPECIALS </v-expansion-panel-header>
-          <v-expansion-panel-content>
-            <vote-list :vote_list="votos" :hide_header="true"></vote-list>
-          </v-expansion-panel-content>
-        </v-expansion-panel>
-        <span v-if="has_historical_votes" style="color: red">Not Receiving Vote Updates</span>
-        <span v-if="has_historical_votes" style="color: red">Not Receiving Vote Updates</span>
-        <v-expansion-panel>
-          <v-expansion-panel-header class="ml-5"> The Voting Veldt </v-expansion-panel-header>
-          <v-expansion-panel-content>
-            <vote-list :vote_list="vote_list"></vote-list>
-          </v-expansion-panel-content>
-        </v-expansion-panel>
-        <v-expansion-panel>
-          <v-expansion-panel-header class="ml-5"> The Hell of Culled Things </v-expansion-panel-header>
-          <v-expansion-panel-content>
-            <vote-list :vote_list="culled_hell"></vote-list>
-          </v-expansion-panel-content>
-        </v-expansion-panel>
-        <v-expansion-panel>
-          <v-expansion-panel-header class="ml-5"> Double Hell </v-expansion-panel-header>
-          <v-expansion-panel-content>
-            <vote-list :vote_list="double_hell" :hide_header="true"></vote-list>
-          </v-expansion-panel-content>
-        </v-expansion-panel>
-      </v-expansion-panels>
+      <v-row>
+        <v-col :cols="show_hells ? '6' : '12'">
+          <v-expansion-panels multiple v-model="panel">
+            <v-expansion-panel>
+              <v-expansion-panel-header class="ml-5"> Outer Heaven </v-expansion-panel-header>
+              <v-expansion-panel-content>
+                <vote-list :vote_list="outer_heaven" :hide_header="true"></vote-list>
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+            <v-expansion-panel>
+              <v-expansion-panel-header class="ml-5"> Halls of Ascension </v-expansion-panel-header>
+              <v-expansion-panel-content>
+                <vote-list :vote_list="halls_ascension" :hide_header="true"></vote-list>
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+            <v-expansion-panel>
+              <v-expansion-panel-header class="ml-5"> SPECIALS </v-expansion-panel-header>
+              <v-expansion-panel-content>
+                <vote-list :vote_list="votos" :hide_header="true"></vote-list>
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+            <span v-if="has_historical_votes" style="color: red">Not Receiving Vote Updates</span>
+            <span v-if="has_historical_votes" style="color: red">Not Receiving Vote Updates</span>
+            <v-expansion-panel>
+              <v-expansion-panel-header class="ml-5"> The Voting Veldt </v-expansion-panel-header>
+              <v-expansion-panel-content>
+                <vote-list :vote_list="vote_list"></vote-list>
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+          </v-expansion-panels>
+        </v-col>
+        <v-col v-if="show_hells" cols="6">
+          <v-expansion-panels multiple v-model="panel2">
+            <v-expansion-panel>
+              <v-expansion-panel-header class="ml-5"> The Hell of Culled Things </v-expansion-panel-header>
+              <v-expansion-panel-content>
+                <vote-list :vote_list="hellgate_hell"></vote-list>
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+            <v-expansion-panel>
+              <v-expansion-panel-header class="ml-5"> Double Hell </v-expansion-panel-header>
+              <v-expansion-panel-content>
+                <vote-list :vote_list="double_hell" :hide_header="true"></vote-list>
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+          </v-expansion-panels>
+        </v-col>
+      </v-row>
     </v-card>
   </v-container>
 </template>
@@ -75,12 +84,16 @@ export default {
   components: { VoteList, VoteListSimple },
   data: () => ({
     panel: [0, 1, 2, 3],
+    panel2: [0, 0],
     votes: {},
     outer_heaven: culled.outer_heaven.sort(comparator_votes),
     halls_ascension: culled.ascended_games,
     vote_list: [],
+    hellgates: [],
     culled_hell: culled.culled_games,
     double_hell: culled.double_hell_games,
+    hellgates: [],
+    hellgate_hell: [],
     votos: [],
     votes_changed: false,
   }),
@@ -133,6 +146,8 @@ export default {
     parse_votes: async function () {
       var _vote_list = [];
       var _votos = [];
+      var _hellgates = [];
+      var _hellgate_hell = [];
       for (var key in this.votes) {
         var vote_data = {
           message_id: key,
@@ -158,22 +173,27 @@ export default {
         } else if (vote_data.votes > 0) {
           _vote_list.push(vote_data);
         }
+
+        if (vote_data.name.toLowerCase().includes("hellgate")) {
+          _hellgates.push(vote_data);
+        }
       }
+
+      _hellgate_hell = culled.culled_games.concat(_hellgates);
 
       _vote_list.sort(comparator_name);
       _vote_list.sort(comparator_votes);
 
+      _hellgate_hell.sort(comparator_name);
+      _hellgate_hell.sort(comparator_votes);
+
       var c = 0;
       for (var i = 0; i < _vote_list.length; i++) {
-        if (["807296983286415411", "807291135633522789"].includes(_vote_list[i].message_id)) {
-          _vote_list[i]["rank"] = "-";
-        } else {
-          c += 1;
-          _vote_list[i]["rank"] = c;
-        }
+        _vote_list[i]["rank"] = i + 1;
       }
 
       this.vote_list = _vote_list;
+      this.hellgate_hell = _hellgate_hell;
       this.votos = _votos;
 
       var _discord_games = this.outer_heaven.concat(this.halls_ascension, this.vote_list, this.culled_hell, this.double_hell, this.votos);
@@ -216,6 +236,14 @@ export default {
       },
       set(value) {
         this.$store.commit("localStorage/set_wide_mode", value);
+      },
+    },
+    show_hells: {
+      get() {
+        return this.$store.state.localStorage.show_hells;
+      },
+      set(value) {
+        this.$store.commit("localStorage/set_show_hells", value);
       },
     },
   },

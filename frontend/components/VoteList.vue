@@ -167,6 +167,9 @@ export default {
           color = this.dark_mode ? "#949425" : "#dada72";
         }
       }
+      if (vote.name.toLowerCase().includes("hellgate")) {
+        color = this.dark_mode ? "#7d2121" : "#da7272";
+      }
       return color;
     },
     get_row_style: function (vote) {

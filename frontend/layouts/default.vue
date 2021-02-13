@@ -34,11 +34,11 @@
     </v-app-bar>
     <v-main style="height: 100vh">
       <v-row style="height: 100%" no-gutters>
-        <v-col cols="6" sm="3" :md="wide_mode ? '4' : '2'" style="height: 100%; scrollbar-width: thin" class="overflow-y-auto">
+        <v-col cols="6" sm="3" :md="calc_wideness_left()" style="height: 100%; scrollbar-width: thin" class="overflow-y-auto">
           <game-votes-discord v-if="official" class="ma-0 pa-0" />
           <game-votes v-else class="ma-0 pa-0" />
         </v-col>
-        <v-col cols="6" sm="9" :md="wide_mode ? '8' : '10'" style="height: 100%" class="overflow-y-auto pl-2 pr-3">
+        <v-col cols="6" sm="9" :md="calc_wideness_right()" style="height: 100%" class="overflow-y-auto pl-2 pr-3">
           <nuxt />
         </v-col>
       </v-row>
@@ -82,6 +82,24 @@ export default {
         path: "/",
       });
     },
+    calc_wideness_left() {
+      if (this.wide_mode) {
+        if (this.show_hells) return "6";
+        else return "4";
+      } else {
+        if (this.show_hells) return "4";
+        else return "2";
+      }
+    },
+    calc_wideness_right() {
+      if (this.wide_mode) {
+        if (this.show_hells) return "6";
+        else return "8";
+      } else {
+        if (this.show_hells) return "8";
+        else return "10";
+      }
+    },
   },
   computed: {
     user: {
@@ -104,6 +122,14 @@ export default {
       },
       set(value) {
         this.$store.commit("localStorage/set_wide_mode", value);
+      },
+    },
+    show_hells: {
+      get() {
+        return this.$store.state.localStorage.show_hells;
+      },
+      set(value) {
+        this.$store.commit("localStorage/set_show_hells", value);
       },
     },
   },

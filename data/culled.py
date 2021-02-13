@@ -67,6 +67,8 @@ double_hell_ids = [str(id_) for id_ in double_hell_ids]
 
 for game in games:
     game_data = games[game]
+    if game == "partial":
+        continue
     # print(game, ascended_ids[0], type(game), type(ascended_ids[0]))
 
     if game in outer_heaven_ids:
@@ -119,8 +121,13 @@ for game in games:
                 "downvotes": game_data.get("nay", 0),
                 "absolute": game_data["yay"] - game_data.get("nay", 0),
                 "extra_emotes": [],
+                "rank": "-",
             },
         )
+
+        #   emote2: this.votes[key].emote2,
+        #   emote2_unicode: this.votes[key].emote2_unicode,
+        #   weeb_status: this.votes[key].weeb_status,
 
 data = {
     "outer_heaven": sorted(outer_heaven_games, key=lambda k: k["votes"], reverse=True),

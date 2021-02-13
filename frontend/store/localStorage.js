@@ -8,7 +8,8 @@ export const state = () => ({
   official: true,
   dark_mode: true,
   show_weeb_status: true,
-  wide_mode: false
+  wide_mode: false,
+  show_hells: false
 });
 
 export const mutations = {
@@ -39,5 +40,8 @@ export const mutations = {
   },
   set_wide_mode(state, value) {
     state.wide_mode = value;
+  },
+  set_show_hells(state, value) {
+    state.show_hells = value;
   }
 };
