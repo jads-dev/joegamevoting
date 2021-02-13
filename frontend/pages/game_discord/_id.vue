@@ -20,9 +20,7 @@
           </v-card-subtitle>
           <v-card-subtitle class="mb-0 pb-0">
             Discord Message:
-            <v-btn color="#7289da" :href="`discord://discord.com/channels/308515582817468420/807289103920922684/${this.$route.params.id}`" target="_blank"
-              >App
-            </v-btn>
+            <v-btn color="#7289da" :href="`discord://discord.com/channels/308515582817468420/807289103920922684/${this.$route.params.id}`">App </v-btn>
             <v-btn color="#7289da" :href="`https://discord.com/channels/308515582817468420/807289103920922684/${this.$route.params.id}`" target="_blank"
               >Browser
             </v-btn>
