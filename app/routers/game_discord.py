@@ -49,6 +49,13 @@ async def _get_vote_file(file: str):
     return get_vote_file(file)
 
 
+@router.get("/roll/{max}")
+async def _roll(max: int):
+    import random
+
+    return random.randint(1, max)
+
+
 @router.get("/game_discord/weeb_status/")
 async def _weeb_status():
     from app.discordbot import bot
