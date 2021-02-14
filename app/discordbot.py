@@ -94,8 +94,9 @@ class DiscordBot(discord.Client):
 
     @tasks.loop(seconds=0.2)
     async def send_changes(self):
-        await sio.emit("votes_discord_partial", data=self.pending_votes, namespace="/gamevotes")
-        self.pending_votes = []
+        if self.pending_votes:
+            await sio.emit("votes_discord_partial", data=self.pending_votes, namespace="/gamevotes")
+            self.pending_votes = []
 
     def load_data(self):
         base_dir = "./data/votes"
