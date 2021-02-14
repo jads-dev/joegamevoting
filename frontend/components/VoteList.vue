@@ -8,7 +8,7 @@
             <td style="min-width: 85px; width: 85px">
               <v-row v-if="item.downvotes == 0">
                 <v-img v-if="show_emojis" max-width="25" class="mr-1" :src="get_emoji_url(item.emote, item.emote_unicode)"></v-img>
-                <span>x {{ item.votes }}</span>
+                <span v-if="item.message_id != '69'">x {{ item.votes }}</span>
               </v-row>
 
               <v-menu v-if="item.downvotes > 0" open-on-hover right class="ma-0 pa-0">
@@ -120,6 +120,7 @@ var emoji_urls = {
   "🫂": "https://discord.com/assets/16e50cf15d1cfdc28964072544f55043.svg",
   "👎": "https://discord.com/assets/66e3cbf517993ee5261f23687a2bc032.svg",
   "👇": "https://discord.com/assets/985bb2d2398be71e1b68bc7e2103c993.svg",
+  "🔆": "https://discord.com/assets/d3d76c82a46964a19a8c96e222bd414a.svg",
 };
 export default {
   props: {

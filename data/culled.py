@@ -65,6 +65,19 @@ ascended_ids = [str(id_) for id_ in ascended_ids]
 double_hell_ids = [str(id_) for id_ in double_hell_ids]
 
 
+outer_heaven_games.append(
+    {
+        "message_id": "69",
+        "name": "A Glowing Light",
+        "emote": "🔆",
+        "emote_unicode": True,
+        "votes": 29.1,
+        "downvotes": 0,
+        "absolute": 29.1,
+        "extra_emotes": [],
+    },
+)
+
 for game in games:
     game_data = games[game]
     if game == "partial":
