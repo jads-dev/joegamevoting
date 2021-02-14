@@ -120,8 +120,7 @@ export default {
         this.votes[vote.message_id]["game"] = vote["game"];
         this.votes[vote.message_id]["extra_emotes"] = vote["extra_emotes"];
       }
-
-      this.votes_changed = true;
+      if (msg.length > 0) this.votes_changed = true;
     });
 
     this.socket.on("latest_pitches", (msg, cb) => {
@@ -136,6 +135,7 @@ export default {
     this.vote_timer = setInterval(
       function () {
         if (this.votes_changed) {
+          console.log("test timer");
           this.parse_votes();
           this.votes_changed = false;
         }
@@ -188,9 +188,10 @@ export default {
         _vote_list[i]["rank"] = i + 1;
       }
 
+      var _culled = JSON.parse(JSON.stringify(culled.culled_games));
+
       _hellgates.sort(comparator_name);
       var distances = [];
-      var _culled = JSON.parse(JSON.stringify(culled.culled_games));
 
       for (var i = 0; i < _hellgates.length; i++) {
         distances[i] = [];
@@ -276,6 +277,7 @@ export default {
   },
   watch: {
     historical_votes: function (val) {
+      console.log("test historical");
       this.votes = val;
       this.parse_votes();
     },
