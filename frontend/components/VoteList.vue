@@ -164,9 +164,9 @@ export default {
         if (vote.message_id == "807297543825653801") {
           color = this.dark_mode ? "#3e7d21" : "#7cda72";
         }
-        if (vote.message_id == "807307201949204520") {
-          color = this.dark_mode ? "#949425" : "#dada72";
-        }
+        // if (vote.message_id == "807307201949204520") {
+        //   color = this.dark_mode ? "#949425" : "#dada72";
+        // }
       }
       if (vote.name.toLowerCase().includes("hellgate")) {
         color = this.dark_mode ? "#7d2121" : "#da7272";
