@@ -91,7 +91,7 @@ export default {
     halls_ascension: culled.ascended_games,
     vote_list: [],
     hellgates: [],
-    culled_hell: culled.culled_games,
+    // culled_hell: culled.culled_games,
     double_hell: culled.double_hell_games,
     hellgates: [],
     hellgate_hell: [],
@@ -180,24 +180,42 @@ export default {
         }
       }
 
-      _hellgate_hell = culled.culled_games.concat(_hellgates);
-
       _vote_list.sort(comparator_name);
       _vote_list.sort(comparator_votes);
-
-      _hellgate_hell.sort(comparator_name);
-      _hellgate_hell.sort(comparator_votes);
 
       var c = 0;
       for (var i = 0; i < _vote_list.length; i++) {
         _vote_list[i]["rank"] = i + 1;
       }
 
+      _hellgates.sort(comparator_name);
+      var distances = [];
+      var _culled = JSON.parse(JSON.stringify(culled.culled_games));
+
+      for (var i = 0; i < _hellgates.length; i++) {
+        distances[i] = [];
+        for (var j = 0; j < _culled.length; j++) {
+          // console.log(i, j);
+          distances[i][j] = Math.abs(_culled[j]["absolute"] - _hellgates[i]["absolute"]);
+        }
+        const min = Math.min.apply(null, distances[i]);
+        for (var j = 0; j < distances[i].length; j++) {
+          if (distances[i][j] == min) {
+            if (_culled[j]["rank"] == "-") _culled[j]["rank"] = _hellgates[i]["name"].substr(9, 1);
+            else _culled[j]["rank"] += _hellgates[i]["name"].substr(9, 1);
+          }
+        }
+      }
+
+      _hellgate_hell = _culled.concat(_hellgates);
+      _hellgate_hell.sort(comparator_name);
+      _hellgate_hell.sort(comparator_votes);
+
       this.vote_list = _vote_list;
       this.hellgate_hell = _hellgate_hell;
       this.votos = _votos;
 
-      var _discord_games = this.outer_heaven.concat(this.halls_ascension, this.vote_list, this.culled_hell, this.double_hell, this.votos);
+      var _discord_games = this.outer_heaven.concat(this.halls_ascension, this.vote_list, culled.culled_games, this.double_hell, this.votos);
 
       this.$store.commit("set_discord_games", _discord_games);
     },
