@@ -25,7 +25,7 @@
                   </div>
                   <div class="d-flex">
                     <v-img max-width="25" :src="get_emoji_url(item.emote2, item.emote2_unicode)"></v-img>
-                    <span>x {{ item.downvotes }}</span>
+                    <span>x {{ item.emote2_count }}</span>
                   </div>
                   <div class="d-flex" v-for="emote in item.extra_emotes" :key="`${item.message_id}-${emote.emote}`">
                     <v-img max-width="25" :src="get_emoji_url(emote.emote, emote.emote_unicode)"></v-img>

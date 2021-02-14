@@ -160,6 +160,7 @@ export default {
           emote_unicode: this.votes[key].emote_unicode,
           emote2: this.votes[key].emote2,
           emote2_unicode: this.votes[key].emote2_unicode,
+          emote2_count: this.votes[key].emote2_count,
           extra_emotes: this.votes[key].extra_emotes,
           weeb_status: this.votes[key].weeb_status,
         };

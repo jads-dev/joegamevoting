@@ -54,7 +54,6 @@ class DiscordBot(discord.Client):
             809131123099041832,
             809131141776015472,
             809131166321213471,
-            809131185569005598,
             809410955880562701,  # kill purple chan
             809535003406893082,  # hug purple chan
             810207947661508608,  # Davina Cage
@@ -262,10 +261,12 @@ class DiscordBot(discord.Client):
                 if type(message.reactions[1].emoji) is str:
                     _vote["emote2"] = message.reactions[1].emoji
                     _vote["emote2_unicode"] = True
+                    _vote["emote2_count"] = message.reactions[1].count
                     _vote["downvote_emoji"] = str(message.reactions[1].emoji)
                 else:
                     _vote["emote2"] = str(message.reactions[1].emoji.id)
                     _vote["emote2_unicode"] = False
+                    _vote["emote2_count"] = message.reactions[1].count
                     _vote["downvote_emoji"] = message.reactions[1].emoji.id
 
                 reaction = message.reactions[1]
