@@ -146,6 +146,7 @@ def get_stats():
         "809130993507237919",  # votos
         "809410955880562701",  # kill purple chan
         "809535003406893082",  # hug purple chan
+        "810207947661508608",  # davina cage
     ]
 
     voters_games = [list(bot.voters[game].keys()) for game in bot.voters]
