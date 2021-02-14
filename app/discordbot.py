@@ -58,6 +58,7 @@ class DiscordBot(discord.Client):
             809410955880562701,  # kill purple chan
             809535003406893082,  # hug purple chan
             810207947661508608,  # Davina Cage
+            807308502921904158,  # fire emblem
         ]
         self.pending_votes = []
 
