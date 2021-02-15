@@ -36,13 +36,6 @@
             </td>
             <td class="pl-0">
               <div class="d-flex ml-0 pl-0">
-                <!-- <v-img
-                  v-if="item.message_id == '807307201949204520'"
-                  style="position: absolute; margin-top: -25px; margin-left: -20px"
-                  max-height="70"
-                  max-width="70"
-                  src="https://cdn.discordapp.com/attachments/648620063045189656/809085570558459924/defusal_fairy.png"
-                ></v-img> -->
                 <v-img
                   v-if="item.message_id == '807293645057163285'"
                   style="position: absolute; margin-top: -25px; margin-left: -30px"
@@ -57,7 +50,6 @@
                   max-width="100"
                   src="https://cdn.discordapp.com/attachments/648620063045189656/808196974859124756/dragon_angel.png"
                 ></v-img>
-                <!-- <span v-if="item.message_id == '807307201949204520'" class="pl-12"></span> -->
                 <span v-if="item.message_id == '807297543825653801'" style="padding-left: 75px"></span>
                 <span v-if="item.message_id == '807293645057163285'" class="pl-12"></span>
 
@@ -70,22 +62,6 @@
         </tbody>
       </template>
     </v-data-table>
-
-    <!-- <div v-if="vote_list.length > 0 && vote_list[0].message_id == '809130993507237919'">
-      <span v-if="votos_time" :style="votos_minutes >= 10 ? 'color: red' : ''"
-        >RECKONING TIMER: {{ votos_minutes }} minutes and {{ votos_seconds }} seconds <br />
-      </span>
-
-      Current Effect: <br />
-      <span v-if="vote_list[0].absolute <= 50">Votos remains dormant.</span>
-      <span v-if="vote_list[0].absolute > 50 && vote_list[0].absolute <= 150">Votos will cull the bottom 10 entries on the list.</span>
-      <span v-if="vote_list[0].absolute > 150 && vote_list[0].absolute <= 250">Votos will cull the middle 10.</span>
-      <span v-if="vote_list[0].absolute > 250 && vote_list[0].absolute <= 400">Votos will cull the top 10.</span>
-      <span v-if="vote_list[0].absolute > 400"
-        >Votos reaches full power, unleashing a reckoning through every game and culling half the list in alternating order STARTING with the Number 1 spot. So
-        1 -> 3 -> 5 -> 7, and so on. This ends the round immediately.</span
-      >
-    </div> -->
   </v-col>
 </template>
 
