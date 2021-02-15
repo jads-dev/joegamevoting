@@ -135,7 +135,6 @@ export default {
     this.vote_timer = setInterval(
       function () {
         if (this.votes_changed) {
-          console.log("test timer");
           this.parse_votes();
           this.votes_changed = false;
         }
@@ -197,7 +196,6 @@ export default {
       for (var i = 0; i < _hellgates.length; i++) {
         distances[i] = [];
         for (var j = 0; j < _culled.length; j++) {
-          // console.log(i, j);
           distances[i][j] = Math.abs(_culled[j]["absolute"] - _hellgates[i]["absolute"]);
         }
         const min = Math.min.apply(null, distances[i]);
@@ -278,7 +276,6 @@ export default {
   },
   watch: {
     historical_votes: function (val) {
-      console.log("test historical");
       this.votes = val;
       this.parse_votes();
     },
