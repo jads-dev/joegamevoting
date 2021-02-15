@@ -110,6 +110,7 @@
               <img src="https://cdn.discordapp.com/attachments/648620063045189656/810607702249046078/unknown.png" /><img />
               <img src="https://cdn.discordapp.com/attachments/648620063045189656/810607718476808252/unknown.png" /><img />
               <img src="https://cdn.discordapp.com/attachments/648620063045189656/810646113094860800/unknown.png" /><img />
+              <img src="https://cdn.discordapp.com/attachments/648620063045189656/810749593771573268/unknown.png" /><img />
             </v-expansion-panel-content>
           </v-expansion-panel>
         </v-expansion-panels>
