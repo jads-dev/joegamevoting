@@ -4,7 +4,7 @@
       <template v-slot:body="{ items }">
         <tbody>
           <tr v-for="item in items" :key="item.message_id" style="cursor: pointer" :style="get_row_style(item)" @click="goto_game(item)">
-            <td style="max-width: 24px; width: 24px" v-if="item.rank" class="pl-2">{{ item.rank }}</td>
+            <td style="max-width: 2em; width: 2em; text-overflow: clip" v-if="item.rank" class="pl-2">{{ item.rank }}</td>
             <td style="min-width: 85px; width: 85px">
               <v-row v-if="item.downvotes == 0">
                 <v-img v-if="show_emojis" max-width="25" class="mr-1" :src="get_emoji_url(item.emote, item.emote_unicode)"></v-img>
@@ -135,8 +135,8 @@ export default {
   },
   data: () => ({
     headers: [
-      { text: "", value: "rank", width: "24px" },
-      { text: "votes", value: "absolute", width: "80px" },
+      { text: "", value: "rank", width: "2em" },
+      { text: "votes", value: "absolute", width: "8em" },
       { text: "game", value: "name" },
     ],
     votos_seconds: 0,
