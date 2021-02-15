@@ -5,7 +5,7 @@
         <no-ssr>
           <v-switch hide-details dense v-model="dark_mode" label="Dark Mode" class="ml-2 ma-0 pa-0"> </v-switch>
           <v-switch hide-details dense v-model="wide_mode" label="Wide Mode" class="ml-2 ma-0 pa-0"> </v-switch>
-          <v-switch hide-details dense v-model="show_weeb_status" label="Show Weeb Status" class="ml-2 ma-0 pa-0"> </v-switch>
+          <!-- <v-switch hide-details dense v-model="show_weeb_status" label="Show Weeb Status" class="ml-2 ma-0 pa-0"> </v-switch> -->
           <v-switch hide-details dense v-model="show_hells" label="Show Hells" class="ml-2 ma-0 pa-0"> </v-switch>
           <v-switch hide-details dense v-model="show_emojis" label="Show Emojis" class="ml-2 ma-0 pa-0"> </v-switch>
         </no-ssr>
