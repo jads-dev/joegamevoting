@@ -7,7 +7,7 @@ with open("round1.json", "r", encoding="utf-8") as f:
 
 games = data["votes"]
 
-files = ["round2p1.json", "round2p2.json", "round3p1.json", "round3p1.json", "round3p2.json"]
+files = ["round2p1.json", "round2p2.json", "round3p1.json", "round3p1.json", "round3p2.json", "round3p3.json"]
 for file in files:
     with open(file, "r", encoding="utf-8") as f:
         data = json.load(f)
@@ -93,6 +93,8 @@ for game in games:
                 "name": game_data["game"],
                 "emote": game_data["emote"],
                 "emote_unicode": game_data["emote_unicode"],
+                "emote2": game_data.get("emote2", None),
+                "emote2_unicode": game_data.get("emote2_unicode", None),
                 "votes": game_data["yay"],
                 "downvotes": game_data.get("nay", 0),
                 "absolute": game_data["yay"] - game_data.get("nay", 0),
