@@ -92,7 +92,7 @@ class DiscordBot(discord.Client):
     async def save(self):
         self.save_data()
 
-    @tasks.loop(seconds=0.2)
+    @tasks.loop(seconds=1)
     async def send_changes(self):
         if self.pending_votes:
             await sio.emit("votes_discord_partial", data=self.pending_votes, namespace="/gamevotes")
