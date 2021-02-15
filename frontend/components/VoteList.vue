@@ -136,7 +136,7 @@ export default {
   data: () => ({
     headers: [
       { text: "", value: "rank", width: "2em" },
-      { text: "votes", value: "absolute", width: "8em" },
+      { text: "votes", value: "absolute", width: "3em" },
       { text: "game", value: "name" },
     ],
     votos_seconds: 0,
