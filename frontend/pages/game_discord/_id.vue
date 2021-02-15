@@ -75,7 +75,7 @@
       </v-col>
       <v-col cols="12" md="6" class="pl-1">
         <v-card class="mt-2">
-          <v-card-title> The {{ selected_game.votes }} users that voted for this game </v-card-title>
+          <v-card-title> The {{ Object.keys(game_voters).length }} users that have cast votes for this entry </v-card-title>
           <v-card-subtitle>Up to 30 seconds delay from real data</v-card-subtitle>
           <v-card-text>
             <v-chip pill class="ml-1 mb-1" v-for="voter in game_voters_list" v-bind:key="voter.user_id">
@@ -114,7 +114,7 @@ export default {
       return obj.name;
     });
 
-    const game_voters = await this.$axios.$get(`/api/game_discord/${this.$route.params.id}/voters`);
+    const game_voters = await this.$axios.$get(`/api/game_discord/${this.$route.params.id}/all_voters`);
     this.game_voters = game_voters;
     if (Object.keys(game_voters).length < 23) this.show_all_voters = true;
     const game_pitches = await this.$axios.$get(`/api/game_discord/${this.$route.params.id}/pitches`);

@@ -33,6 +33,18 @@ def get_game_voters(message_id):
         return {}
 
 
+def get_all_game_voters(message_id):
+    from app.discordbot import bot
+
+    _voters = {}
+    key = str(message_id)
+    if key in bot.voters:
+        _voters.update(bot.voters[key])
+    if key in bot.downvoters:
+        _voters.update(bot.downvoters[key])
+    return _voters
+
+
 def get_game_platforms(id):
     cursor = dbc.cursor()
 

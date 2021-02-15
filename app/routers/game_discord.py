@@ -16,6 +16,7 @@ from app.models.game_discord import (
     get_stats,
     get_vote_files,
     get_vote_file,
+    get_all_game_voters,
 )
 from app.routers.auth import User, get_userid, get_optional_current_user
 from app.routers.socketio import sio
@@ -112,6 +113,11 @@ async def _get_game(id: int, user_id: int = Depends(get_userid)):
 @router.get("/game_discord/{id}/voters")
 async def _get_game_voters(id: int):
     return get_game_voters(message_id=id)
+
+
+@router.get("/game_discord/{id}/all_voters")
+async def _get_all_game_voters(id: int):
+    return get_all_game_voters(message_id=id)
 
 
 @router.get("/game_discord/{id}/pitches")
