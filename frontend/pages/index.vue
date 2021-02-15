@@ -3,20 +3,13 @@
     <template v-if="official">
       <v-col cols="12" class="align-center">
         <v-row>
-          <v-col cols="6">
-            <p class="text-center text-h3 ma-0">TL;DR rules:</p>
-            <p class="text-center ma-0">Top 3 games win.</p>
-            <p class="text-center ma-0">Bottom 5 games win.</p>
-            <p class="text-center ma-0">Middle game wins (rounded up). i.e. if 34 games are on the list, number 17 wins.</p>
-            <p class="text-center ma-0">Any games tied in win positions will get culled instead (not win)</p>
-          </v-col>
-          <v-col cols="6">
+          <v-col cols="12">
             <p class="text-center ma-0">{{ stats.nr_voters }} voters have voted on {{ stats.nr_games }} games</p>
             <p class="text-center ma-0" v-if="stats.votes_average">Average of all votes: {{ stats.votes_average.toFixed(2) }}</p>
             <p class="text-center ma-0">Median of all votes: {{ stats.votes_median }}</p>
           </v-col>
         </v-row>
-        <v-expansion-panels class="pt-5">
+        <v-expansion-panels>
           <v-expansion-panel>
             <v-expansion-panel-header> Base rules </v-expansion-panel-header>
             <v-expansion-panel-content>
