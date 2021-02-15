@@ -7,9 +7,9 @@ export const state = () => ({
   },
   official: true,
   dark_mode: true,
-  show_weeb_status: true,
+  show_weeb_status: false,
   wide_mode: false,
-  show_hells: true,
+  show_hells: false,
   show_emojis: true
 });
 
