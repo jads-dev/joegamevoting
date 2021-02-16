@@ -65,6 +65,7 @@ class DiscordBot(discord.Client):
 
         self.known_invalid = []
         self.recent_members = []
+        self.force_sweep = False
 
     async def on_ready(self):
         print(f"Logged in as {self.user.name} id: {self.user.id}")
@@ -83,6 +84,12 @@ class DiscordBot(discord.Client):
     @tasks.loop(seconds=900)
     async def vote_sweep(self):
         await self.fetch_all()
+
+    @tasks.loop(seconds=1)
+    async def vote_sweep_force(self):
+        if self.force_sweep:
+            await self.fetch_all()
+            self.force_sweep = False
 
     @tasks.loop(seconds=10)
     async def vote_sweep_changed(self):
@@ -317,6 +324,8 @@ class DiscordBot(discord.Client):
                 print(f"Failed to fetch {message_id}")
                 if message_id in self.extra_messages:
                     self.extra_messages.remove(message_id)
+                if key in self.votes:
+                    del self.votes[key]
                 continue
 
             vote_data = {
@@ -332,9 +341,6 @@ class DiscordBot(discord.Client):
             try:
                 message = await self.channel.fetch_message(id=message_id)
             except discord.errors.NotFound:
-                print(f"Failed to fetch {message_id}")
-                if message_id in self.extra_messages:
-                    self.extra_messages.remove(message_id)
                 continue
             await self.parse_message_voters(message)
 
@@ -438,11 +444,12 @@ class DiscordBot(discord.Client):
 
     async def on_raw_message_delete(self, message):
         if str(message.message_id) in self.votes:
-            del self.votes[str(message.message_id)]
+            self.force_sweep = True
 
     async def on_raw_message_edit(self, message):
         if str(message.message_id) in self.votes:
             self.changed.append(message.message_id)
+            self.force_sweep = True
 
 
 bot = DiscordBot(intents=intents)
