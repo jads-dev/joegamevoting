@@ -182,9 +182,11 @@ export default {
       _vote_list.sort(comparator_name);
       _vote_list.sort(comparator_votes);
 
-      var c = 0;
+      const mid = Math.ceil(_vote_list.length / 2);
       for (var i = 0; i < _vote_list.length; i++) {
-        _vote_list[i]["rank"] = i + 1;
+        if (i + 1 == mid) _vote_list[i]["rank"] = "M";
+        else if (i + 1 > mid) _vote_list[i]["rank"] = (_vote_list.length - i) * -1;
+        else _vote_list[i]["rank"] = i + 1;
       }
 
       var _culled = JSON.parse(JSON.stringify(culled.culled_games));
