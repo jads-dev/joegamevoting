@@ -3,27 +3,38 @@
     <template v-if="official">
       <v-col cols="12" class="align-center">
         <v-row>
-          <v-col cols="12">
+          <v-col cols="8">
+            <p class="text-center ma-0 text-h4">TL;DR Rules:</p>
+            <p class="text-center ma-0">Top 3 games in the Veldt win.</p>
+            <p class="text-center ma-0">Bottom 5 games in the Veldt win .</p>
+            <p class="text-center ma-0">
+              Middle game in the Veldt wins. If 2 middle positions, the most voted wins. i.e. if 34 games are on the list, number 17 wins.
+            </p>
+            <p class="text-center ma-0">
+              Any games tied in win positions will get culled instead (not win) and others will take their place. This changes middle position.
+            </p>
+          </v-col>
+          <v-col cols="4">
             <p class="text-center ma-0">{{ stats.nr_voters }} voters have voted on {{ stats.nr_games }} games</p>
             <p class="text-center ma-0" v-if="stats.votes_average">Average of all votes: {{ stats.votes_average.toFixed(2) }}</p>
             <p class="text-center ma-0">Median of all votes: {{ stats.votes_median }}</p>
           </v-col>
         </v-row>
-        <v-expansion-panels>
+        <v-expansion-panels class="pt-4">
           <v-expansion-panel>
-            <v-expansion-panel-header> Base rules </v-expansion-panel-header>
+            <v-expansion-panel-header> Day 1 rules </v-expansion-panel-header>
             <v-expansion-panel-content>
               <img src="https://cdn.discordapp.com/attachments/648620063045189656/807712044555436052/unknown.png" /><img />
             </v-expansion-panel-content>
           </v-expansion-panel>
           <v-expansion-panel>
-            <v-expansion-panel-header> Feb 6 rules </v-expansion-panel-header>
+            <v-expansion-panel-header> Feb 6 changes </v-expansion-panel-header>
             <v-expansion-panel-content>
               <img src="https://cdn.discordapp.com/attachments/648620063045189656/807711737406160997/unknown.png" /><img />
             </v-expansion-panel-content>
           </v-expansion-panel>
           <v-expansion-panel>
-            <v-expansion-panel-header> Feb 7 rules </v-expansion-panel-header>
+            <v-expansion-panel-header> Feb 7 changes </v-expansion-panel-header>
             <v-expansion-panel-content>
               <img src="https://cdn.discordapp.com/attachments/648620063045189656/808011604447854592/unknown.png" /><img />
               <img src="https://cdn.discordapp.com/attachments/648620063045189656/808011756386910223/unknown.png" /><img />
@@ -33,7 +44,7 @@
             </v-expansion-panel-content>
           </v-expansion-panel>
           <v-expansion-panel>
-            <v-expansion-panel-header> Feb 8 rules </v-expansion-panel-header>
+            <v-expansion-panel-header> Feb 8 changes </v-expansion-panel-header>
             <v-expansion-panel-content>
               <img src="https://cdn.discordapp.com/attachments/648620063045189656/808371582460362762/unknown.png" /><img />
               <img src="https://cdn.discordapp.com/attachments/648620063045189656/808371734948085770/unknown.png" /><img />
