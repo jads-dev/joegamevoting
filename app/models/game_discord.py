@@ -162,9 +162,15 @@ def get_stats():
     ]
 
     voters_games = [list(bot.voters[game].keys()) for game in bot.voters]
+    downvoters_games = [list(bot.downvoters[game].keys()) for game in bot.downvoters]
 
     unique_voters = set()
     for voters in voters_games:
+        for voter in voters:
+            if type(voter) is str and voter not in extra_messages:
+                unique_voters.add(voter)
+
+    for voters in downvoters_games:
         for voter in voters:
             if type(voter) is str and voter not in extra_messages:
                 unique_voters.add(voter)
