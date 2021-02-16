@@ -139,9 +139,7 @@ export default {
 
 <style>
 body {
-  height: 100vh;
-  max-height: 100vh;
-  min-height: 100vh;
+  height: 100%;
 }
 
 ::-webkit-scrollbar {
