@@ -32,7 +32,7 @@
         Login with discord
       </v-btn>
     </v-app-bar>
-    <v-main style="height: 100vh">
+    <v-main style="height: 100vh; max-height: 100vh; min-height: 100vh">
       <v-row style="height: 100%" no-gutters>
         <v-col cols="6" sm="3" :md="calc_wideness_left()" style="height: 100%; scrollbar-width: thin" class="overflow-y-auto">
           <game-votes-discord v-if="official" class="ma-0 pa-0" />
