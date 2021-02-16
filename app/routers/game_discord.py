@@ -68,11 +68,12 @@ async def _weeb_status():
 @router.get("/game_discord/test/{votes}")
 async def _test(votes: int):
     from app.discordbot import bot
+    import asyncio
 
     import discord
 
     data = {
-        "message_id": 809130993507237919,
+        "message_id": 807296983286415411,
         "channel_id": 807289103920922684,
         "user_id": 102795037498167296,
     }
@@ -80,11 +81,12 @@ async def _test(votes: int):
         event_type = "REACTION_ADD"
     else:
         event_type = "REACTION_REMOVE"
-    emoji = "🙏"
+    emoji = 667825930923671567
 
     reaction = discord.RawReactionActionEvent(data, emoji, event_type)
-    for _ in range(1000):
+    for _ in range(50):
         await bot.on_raw_reaction_remove(reaction)
+        await asyncio.sleep(0.1)
     return "123"
 
 

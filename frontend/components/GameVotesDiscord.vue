@@ -116,6 +116,7 @@ export default {
         const vote = msg[i];
         this.votes[vote.message_id]["yay"] = vote["yay"];
         this.votes[vote.message_id]["nay"] = vote["nay"];
+        this.votes[vote.message_id]["emote2_count"] = vote["emote2_count"];
         this.votes[vote.message_id]["game"] = vote["game"];
         this.votes[vote.message_id]["extra_emotes"] = vote["extra_emotes"];
       }
@@ -162,6 +163,7 @@ export default {
           extra_emotes: this.votes[key].extra_emotes,
           weeb_status: this.votes[key].weeb_status,
         };
+        if (vote_data.message_id == "807296983286415411") console.log(vote_data);
 
         if (
           vote_data.message_id == "809130993507237919" ||

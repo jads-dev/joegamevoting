@@ -59,7 +59,7 @@ class DiscordBot(discord.Client):
             810207947661508608,  # Davina Cage
             807308502921904158,  # fire emblem
         ]
-        self.pending_votes = []
+        self.pending_votes = {}
 
         # self.clean_up()
 
@@ -95,8 +95,9 @@ class DiscordBot(discord.Client):
     @tasks.loop(seconds=1)
     async def send_changes(self):
         if self.pending_votes:
-            await sio.emit("votes_discord_partial", data=self.pending_votes, namespace="/gamevotes")
-            self.pending_votes = []
+            _vote_list = [self.pending_votes[key] for key in self.pending_votes]
+            await sio.emit("votes_discord_partial", data=_vote_list, namespace="/gamevotes")
+            self.pending_votes = {}
 
     def load_data(self):
         base_dir = "./data/votes"
@@ -324,7 +325,7 @@ class DiscordBot(discord.Client):
 
             vote_data.update(self.votes[key])
 
-            self.pending_votes.append(vote_data)
+            self.pending_votes[key] = vote_data
 
         for message_id in _changed:
             key = str(message_id)
@@ -402,6 +403,8 @@ class DiscordBot(discord.Client):
 
                 upvote = self.is_same_emoji(self.votes[key]["upvote_emoji"], reaction.emoji)
                 downvote = self.is_same_emoji(self.votes[key]["downvote_emoji"], reaction.emoji)
+                if downvote:
+                    self.votes[key]["emote2_count"] += change
 
                 for extra_emoji in self.votes[key]["extra_emotes"]:
                     if self.is_same_emoji(extra_emoji["emote"], reaction.emoji, a_is_parsed=True):
@@ -419,7 +422,7 @@ class DiscordBot(discord.Client):
 
                 vote_data.update(self.votes[key])
 
-                self.pending_votes.append(vote_data)
+                self.pending_votes[key] = vote_data
 
                 await self.check_votos()
 
