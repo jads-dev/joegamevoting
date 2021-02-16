@@ -3,7 +3,14 @@
     <v-data-table dense hide-default-footer :headers="_headers" :hide-default-header="hide_header" :items="vote_list" :items-per-page="700" class="elevation-1">
       <template v-slot:body="{ items }">
         <tbody>
-          <tr v-for="item in items" :key="item.message_id" style="cursor: pointer" :style="get_row_style(item)" @click="goto_game(item)">
+          <tr
+            v-for="item in items"
+            :key="item.message_id"
+            style="cursor: pointer"
+            :style="get_row_style(item)"
+            @click="goto_game(item)"
+            :class="get_border_class(item)"
+          >
             <td style="max-width: 2em; width: 2em; text-overflow: clip" v-if="item.rank" class="pl-2">{{ item.rank }}</td>
             <td style="min-width: 85px; width: 85px">
               <v-row v-if="item.downvotes == 0">
@@ -149,6 +156,13 @@ export default {
       }
       return color;
     },
+    get_border_class: function (vote) {
+      return {
+        "gold-top": vote.rank == 1 || vote.rank == "M" || vote.rank == -5,
+        "gold-mid": (vote.rank >= 1 && vote.rank <= 3) || vote.rank == "M" || (vote.rank >= -5 && vote.rank <= -1),
+        "gold-bottom": vote.rank == 3 || vote.rank == "M" || vote.rank == -1,
+      };
+    },
     get_row_style: function (vote) {
       var background_image = undefined;
       var height = undefined;
@@ -280,5 +294,20 @@ export default {
 <style>
 .v-data-table-header > tr > th {
   padding: 0 !important;
+}
+
+.v-data-table__wrapper table {
+  border-collapse: collapse;
+}
+
+.gold-top {
+  border-top: 1px double #D4AF37;
+}
+.gold-mid {
+  border-left: 1px double #D4AF37;
+  border-right: 1px double #D4AF37;
+}
+.gold-bottom {
+  border-bottom: 1px double #D4AF37;
 }
 </style>
