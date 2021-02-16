@@ -171,7 +171,7 @@ def get_stats():
 
     nr_voters = len(unique_voters)
 
-    votes = [_votes[vote]["yay"] for vote in _votes if vote != "partial" and vote not in extra_messages]
+    votes = [_votes[vote]["yay"] - _votes[vote].get("nay", 0) for vote in _votes if vote != "partial" and vote not in extra_messages]
 
     try:
         votes_avg = statistics.mean(votes)
