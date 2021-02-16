@@ -13,6 +13,11 @@
             <p class="text-center ma-0">
               Any games tied in win positions will get culled instead (not win) and others will take their place. This changes middle position.
             </p>
+            <p class="text-center ma-0">
+              Games that are far away from the pack get ascended before winner get resolved, also changing middle position (Outlier Rule).
+            </p>
+            <p class="text-center ma-0">The outlier rule and the tie rule are subjective, and are in essence at Joe's whims.</p>
+            <p class="text-center ma-0 text-h6" style="color: red; font-weight: bold">Just because a game is in a golden border doesn't mean it'll get picked.</p>
           </v-col>
           <v-col cols="4">
             <p class="text-center ma-0">{{ stats.nr_voters }} voters have voted on {{ stats.nr_games }} games</p>
