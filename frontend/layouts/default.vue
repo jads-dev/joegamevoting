@@ -138,6 +138,12 @@ export default {
 
 
 <style>
+body {
+  height: 100vh;
+  max-height: 100vh;
+  min-height: 100vh;
+}
+
 ::-webkit-scrollbar {
   width: 10px;
 }
