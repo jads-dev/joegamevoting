@@ -206,8 +206,11 @@ export default {
       } else {
         const percent = (vote.absolute / this.vote_list[0].absolute) * 100;
         var color = this.get_row_color(vote);
+        var color2 = this.dark_mode ? "#3b63ed" : "#b0c1ff";
         if (percent >= 0) background_image = `linear-gradient(to right,${color} ${percent}%,transparent ${percent}%)`;
-        else background_image = `linear-gradient(to right,transparent ${percent + 100}%,${color} ${percent + 100}%)`;
+        else if (vote.absolute + this.vote_list[0].absolute < 0) {
+          background_image = `linear-gradient(to right,${color} ${percent + 200}%,${color2} ${percent + 200}%)`;
+        } else background_image = `linear-gradient(to right,transparent ${percent + 100}%,${color} ${percent + 100}%)`;
       }
 
       if (vote.downvotes > 0) {
