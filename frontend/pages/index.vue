@@ -2,31 +2,6 @@
   <v-row class="mt-4">
     <template v-if="official">
       <v-col cols="12" class="align-center">
-        <v-row>
-          <v-col cols="8">
-            <p class="text-center ma-0 text-h4">TL;DR Rules:</p>
-            <p class="text-center ma-0">Top 3 games in the Veldt win.</p>
-            <p class="text-center ma-0">Bottom 5 games in the Veldt win .</p>
-            <p class="text-center ma-0">
-              Middle game in the Veldt wins. If 2 middle positions, the most voted wins. i.e. if 34 games are on the list, number 17 wins.
-            </p>
-            <p class="text-center ma-0">
-              Any games tied in win positions will get culled instead (not win) and others will take their place. This changes middle position.
-            </p>
-            <p class="text-center ma-0">
-              Games that are far away from the pack get ascended before winner get resolved, also changing middle position (Outlier Rule).
-            </p>
-            <p class="text-center ma-0">The outlier rule and the tie rule are subjective, and are in essence at Joe's whims.</p>
-            <p class="text-center ma-0 text-h6" style="color: red; font-weight: bold">
-              Just because a game is in a golden border doesn't mean it'll get picked.
-            </p>
-          </v-col>
-          <v-col cols="4">
-            <p class="text-center ma-0">{{ stats.nr_voters }} voters have voted on {{ stats.nr_games }} games</p>
-            <p class="text-center ma-0" v-if="stats.votes_average">Average of all votes: {{ stats.votes_average.toFixed(2) }}</p>
-            <p class="text-center ma-0">Median of all votes: {{ stats.votes_median }}</p>
-          </v-col>
-        </v-row>
         <v-expansion-panels class="pt-4">
           <v-expansion-panel>
             <v-expansion-panel-header> Day 1 rules </v-expansion-panel-header>
