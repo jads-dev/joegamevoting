@@ -17,7 +17,9 @@
               Games that are far away from the pack get ascended before winner get resolved, also changing middle position (Outlier Rule).
             </p>
             <p class="text-center ma-0">The outlier rule and the tie rule are subjective, and are in essence at Joe's whims.</p>
-            <p class="text-center ma-0 text-h6" style="color: red; font-weight: bold">Just because a game is in a golden border doesn't mean it'll get picked.</p>
+            <p class="text-center ma-0 text-h6" style="color: red; font-weight: bold">
+              Just because a game is in a golden border doesn't mean it'll get picked.
+            </p>
           </v-col>
           <v-col cols="4">
             <p class="text-center ma-0">{{ stats.nr_voters }} voters have voted on {{ stats.nr_games }} games</p>
@@ -127,6 +129,23 @@
               <img src="https://cdn.discordapp.com/attachments/648620063045189656/810607718476808252/unknown.png" /><img />
               <img src="https://cdn.discordapp.com/attachments/648620063045189656/810646113094860800/unknown.png" /><img />
               <img src="https://cdn.discordapp.com/attachments/648620063045189656/810749593771573268/unknown.png" /><img />
+            </v-expansion-panel-content>
+          </v-expansion-panel>
+
+          <v-expansion-panel>
+            <v-expansion-panel-header> FINAL UPDATE </v-expansion-panel-header>
+            <v-expansion-panel-content>
+              <img src="https://cdn.discordapp.com/attachments/648620063045189656/811411654293061632/unknown.png" /><img />
+              <img src="https://cdn.discordapp.com/attachments/648620063045189656/811411679052431390/unknown.png" /><img />
+              <img src="https://cdn.discordapp.com/attachments/648620063045189656/811411699508707339/unknown.png" /><img />
+              <img src="https://cdn.discordapp.com/attachments/648620063045189656/811411716231266312/unknown.png" /><img />
+              <img src="https://cdn.discordapp.com/attachments/648620063045189656/811411735214948402/unknown.png" /><img />
+              <img src="https://cdn.discordapp.com/attachments/648620063045189656/811411753203793940/unknown.png" /><img />
+              <img src="https://cdn.discordapp.com/attachments/648620063045189656/811412052899659786/unknown.png" /><img />
+              <img src="https://cdn.discordapp.com/attachments/648620063045189656/811412069538725908/unknown.png" /><img />
+              <img src="https://cdn.discordapp.com/attachments/648620063045189656/811412086953345074/unknown.png" /><img />
+              <img src="https://cdn.discordapp.com/attachments/648620063045189656/811412104007254096/unknown.png" /><img />
+              <img src="https://cdn.discordapp.com/attachments/648620063045189656/811412125045489715/unknown.png" /><img />
             </v-expansion-panel-content>
           </v-expansion-panel>
         </v-expansion-panels>
