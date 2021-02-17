@@ -85,7 +85,7 @@ export default {
     panel: [0, 1, 2, 3],
     panel2: [0, 0],
     votes: {},
-    outer_heaven: [],
+    outer_heaven: culled.outer_heaven,
     halls_ascension: [],
     vote_list: [],
     hellgates: [],
@@ -103,7 +103,7 @@ export default {
       persist: true,
     });
 
-    this.outer_heave = culled.outer_heaven.sort(comparator_votes);
+    this.outer_heave = culled.outer_heaven;
     this.halls_ascension = culled.ascended_games;
     this.vote_list = culled.veldt_games;
     this.double_hell = culled.double_hell_games;
