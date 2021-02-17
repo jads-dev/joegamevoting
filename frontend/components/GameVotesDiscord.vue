@@ -9,7 +9,6 @@
           <v-switch hide-details dense v-model="show_emojis" label="Show Emojis" class="ml-2 ma-0 pa-0"> </v-switch>
         </client-only>
       </v-row>
-
       <v-card-title class="ma-0 pa-0 ml-2"> Discord poll results: </v-card-title>
       <v-row>
         <v-col :cols="show_hells ? '6' : '12'">
@@ -86,23 +85,30 @@ export default {
     panel: [0, 1, 2, 3],
     panel2: [0, 0],
     votes: {},
-    outer_heaven: culled.outer_heaven.sort(comparator_votes),
-    halls_ascension: culled.ascended_games,
-    vote_list: culled.veldt_games,
+    outer_heaven: [],
+    halls_ascension: [],
+    vote_list: [],
     hellgates: [],
     // culled_hell: culled.culled_games,
-    double_hell: culled.double_hell_games,
+    double_hell: [],
     hellgates: [],
     hellgate_hell: [],
-    votos: culled.specials_games,
+    votos: [],
     votes_changed: false,
   }),
 
-  mounted() {
+  created() {
     this.socket = this.$nuxtSocket({
       channel: "/gamevotes",
       persist: true,
     });
+
+    this.outer_heave = culled.outer_heaven.sort(comparator_votes);
+    this.halls_ascension = culled.ascended_games;
+    this.vote_list = culled.veldt_games;
+    this.double_hell = culled.double_hell_games;
+    this.votos = culled.specials_games;
+
     // this.parse_votes();
     // this.socket.on("votes_discord", (msg, cb) => {
     //   if (this.has_historical_votes) return;
