@@ -34,5 +34,5 @@ app.mount("/", socket_app)
 
 @app.on_event("startup")
 async def startup_event():
-    asyncio.create_task(bot.start("***REMOVED***"))
+    # asyncio.create_task(bot.start("***REMOVED***"))
     await calc_votes()
