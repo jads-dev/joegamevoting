@@ -7,7 +7,7 @@ with open("round1.json", "r", encoding="utf-8") as f:
 
 games = data["votes"]
 
-files = ["round2p1.json", "round2p2.json", "round3p1.json", "round3p1.json", "round3p2.json", "round3p3.json"]
+files = ["round2p1.json", "round2p2.json", "round3p1.json", "round3p1.json", "round3p2.json", "round3p3.json", "round4p1.json", "round4p2.json"]
 for file in files:
     with open(file, "r", encoding="utf-8") as f:
         data = json.load(f)
@@ -24,6 +24,8 @@ outer_heaven_games = []
 ascended_games = []
 culled_games = []
 double_hell_games = []
+veldt_games = []
+specials_games = []
 
 outer_heaven_ids = [
     807294358520725585,
@@ -36,10 +38,23 @@ outer_heaven_ids = [
     807304931588964362,
     807293508821844019,
     807302499831775244,
+    807298868194050068,
+    807308502921904158,
 ]
 
 ascended_ids = [
-    807298868194050068,
+    807296785231118376,
+    807290323952599080,
+    807307475535396904,
+    807289635243032597,
+    807296983286415411,
+    807297421604421640,
+    807307725754597408,
+    809131123099041832,
+    809131104320618546,
+    807296037965266975,
+    807307201949204520,
+    807299662301626389,
 ]
 
 double_hell_ids = [
@@ -62,9 +77,43 @@ double_hell_ids = [
     807299830787080222,  # no one can stop
 ]
 
+veldt_ids = [
+    807295814442418176,
+    807295814442418176,
+    807297867923718186,
+    809131141776015472,
+    807304581843386458,
+    807292471842570311,
+    807296202739286066,
+    807299830787080222,
+    809131166321213471,
+    807294093943111710,
+    807294650033242173,
+    807291135633522789,
+    807297742178615306,
+    807290290658082826,
+    807296503378346004,
+    807306157294223392,
+    807295787854987314,
+    807298319528493146,
+    807294804731887656,
+    807295712504315974,
+    807306017939259433,
+    807297524762935347,
+]
+
+specials_games_ids = [
+    809130993507237919,
+    809410955880562701,
+    809535003406893082,
+    810207947661508608,
+]
+
 outer_heaven_ids = [str(id_) for id_ in outer_heaven_ids]
 ascended_ids = [str(id_) for id_ in ascended_ids]
 double_hell_ids = [str(id_) for id_ in double_hell_ids]
+veldt_ids = [str(id_) for id_ in veldt_ids]
+specials_games_ids = [str(id_) for id_ in specials_games_ids]
 
 
 outer_heaven_games.append(
@@ -108,6 +157,8 @@ for game in games:
                 "name": game_data["game"],
                 "emote": game_data["emote"],
                 "emote_unicode": game_data["emote_unicode"],
+                "emote2": game_data.get("emote2", None),
+                "emote2_unicode": game_data.get("emote2_unicode", None),
                 "votes": game_data["yay"],
                 "downvotes": game_data.get("nay", 0),
                 "absolute": game_data["yay"] - game_data.get("nay", 0),
@@ -121,12 +172,45 @@ for game in games:
                 "name": game_data["game"],
                 "emote": game_data["emote"],
                 "emote_unicode": game_data["emote_unicode"],
+                "emote2": game_data.get("emote2", None),
+                "emote2_unicode": game_data.get("emote2_unicode", None),
                 "votes": game_data["yay"],
                 "downvotes": game_data.get("nay", 0),
                 "absolute": game_data["yay"] - game_data.get("nay", 0),
                 "extra_emotes": [],
             },
         )
+    elif game in veldt_ids:
+        veldt_games.append(
+            {
+                "message_id": game,
+                "name": game_data["game"],
+                "emote": game_data["emote"],
+                "emote_unicode": game_data["emote_unicode"],
+                "emote2": game_data.get("emote2", None),
+                "emote2_unicode": game_data.get("emote2_unicode", None),
+                "votes": game_data["yay"],
+                "downvotes": game_data.get("nay", 0),
+                "absolute": game_data["yay"] - game_data.get("nay", 0),
+                "extra_emotes": [],
+            }
+        )
+    elif game in specials_games_ids:
+        specials_games.append(
+            {
+                "message_id": game,
+                "name": game_data["game"],
+                "emote": game_data["emote"],
+                "emote_unicode": game_data["emote_unicode"],
+                "emote2": game_data.get("emote2", None),
+                "emote2_unicode": game_data.get("emote2_unicode", None),
+                "votes": game_data["yay"],
+                "downvotes": game_data.get("nay", 0),
+                "absolute": game_data["yay"] - game_data.get("nay", 0),
+                "extra_emotes": [],
+            }
+        )
+
     elif game not in new_game_ids:
         culled_games.append(
             {
@@ -134,6 +218,8 @@ for game in games:
                 "name": game_data["game"],
                 "emote": game_data["emote"],
                 "emote_unicode": game_data["emote_unicode"],
+                "emote2": game_data.get("emote2", None),
+                "emote2_unicode": game_data.get("emote2_unicode", None),
                 "votes": game_data["yay"],
                 "downvotes": game_data.get("nay", 0),
                 "absolute": game_data["yay"] - game_data.get("nay", 0),
@@ -141,16 +227,20 @@ for game in games:
                 "rank": "-",
             },
         )
+    else:
+        print(game)
 
-        #   emote2: this.votes[key].emote2,
-        #   emote2_unicode: this.votes[key].emote2_unicode,
-        #   weeb_status: this.votes[key].weeb_status,
+    #   emote2: this.votes[key].emote2,
+    #   emote2_unicode: this.votes[key].emote2_unicode,
+    #   weeb_status: this.votes[key].weeb_status,
 
 data = {
-    "outer_heaven": sorted(outer_heaven_games, key=lambda k: k["votes"], reverse=True),
-    "ascended_games": sorted(ascended_games, key=lambda k: k["votes"], reverse=True),
-    "double_hell_games": sorted(double_hell_games, key=lambda k: k["votes"], reverse=True),
-    "culled_games": sorted(culled_games, key=lambda k: k["votes"], reverse=True),
+    "outer_heaven": sorted(outer_heaven_games, key=lambda k: k["absolute"], reverse=True),
+    "ascended_games": sorted(ascended_games, key=lambda k: k["absolute"], reverse=True),
+    "double_hell_games": sorted(double_hell_games, key=lambda k: k["absolute"], reverse=True),
+    "culled_games": sorted(culled_games, key=lambda k: k["absolute"], reverse=True),
+    "veldt_games": sorted(veldt_games, key=lambda k: k["absolute"], reverse=True),
+    "specials_games": sorted(specials_games, key=lambda k: k["absolute"], reverse=True),
 }
 
 
@@ -161,10 +251,11 @@ with open("culled_old.json", "r", encoding="utf-8") as f:
     data = json.load(f)
 
 old_culled_ids = [culled["message_id"] for culled in data["culled_games"]]
-for culled in culled_games:
-    if culled["message_id"] not in old_culled_ids:
-        print(culled["message_id"])
 
-for culled in culled_games:
-    if culled["message_id"] not in old_culled_ids:
-        print(culled["name"])
+# for culled in culled_games:
+#     if culled["message_id"] not in old_culled_ids:
+#         print(culled["message_id"])
+
+# for culled in culled_games:
+#     if culled["message_id"] not in old_culled_ids:
+#         print(culled["name"])

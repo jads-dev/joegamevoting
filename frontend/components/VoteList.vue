@@ -3,14 +3,7 @@
     <v-data-table dense hide-default-footer :headers="_headers" :hide-default-header="hide_header" :items="vote_list" :items-per-page="700" class="elevation-1">
       <template v-slot:body="{ items }">
         <tbody>
-          <tr
-            v-for="item in items"
-            :key="item.message_id"
-            style="cursor: pointer"
-            :style="get_row_style(item)"
-            @click="goto_game(item)"
-            :class="get_border_class(item)"
-          >
+          <tr v-for="item in items" :key="item.message_id" style="cursor: pointer" :style="get_row_style(item)" @click="goto_game(item)">
             <td style="max-width: 2em; width: 2em; text-overflow: clip" v-if="item.rank" class="pl-2">{{ item.rank }}</td>
             <td style="min-width: 85px; width: 85px">
               <v-row v-if="item.downvotes == 0">
@@ -301,13 +294,13 @@ export default {
 }
 
 .gold-top {
-  border-top: 1px double #D4AF37;
+  border-top: 1px double #d4af37;
 }
 .gold-mid {
-  border-left: 1px double #D4AF37;
-  border-right: 1px double #D4AF37;
+  border-left: 1px double #d4af37;
+  border-right: 1px double #d4af37;
 }
 .gold-bottom {
-  border-bottom: 1px double #D4AF37;
+  border-bottom: 1px double #d4af37;
 }
 </style>

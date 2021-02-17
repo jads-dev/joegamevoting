@@ -18,7 +18,7 @@ services:
     container_name: joegames-backend
     restart: always
     environment:
-      - MAX_WORKERS=4
+      - MAX_WORKERS=1
     volumes:
       - ./data/:/app/data/
   nginx:
@@ -33,4 +33,3 @@ services:
     environment:
       - VIRTUAL_HOST=joegames.nodja.com
       - VIRTUAL_PORT=80
-      - USE_IP_HASH=1

@@ -88,13 +88,13 @@ export default {
     votes: {},
     outer_heaven: culled.outer_heaven.sort(comparator_votes),
     halls_ascension: culled.ascended_games,
-    vote_list: [],
+    vote_list: culled.veldt_games,
     hellgates: [],
     // culled_hell: culled.culled_games,
     double_hell: culled.double_hell_games,
     hellgates: [],
     hellgate_hell: [],
-    votos: [],
+    votos: culled.specials_games,
     votes_changed: false,
   }),
 
@@ -103,44 +103,45 @@ export default {
       channel: "/gamevotes",
       persist: true,
     });
-    this.socket.on("votes_discord", (msg, cb) => {
-      if (this.has_historical_votes) return;
-      this.votes = msg;
-      this.votes_changed = true;
-    });
+    // this.parse_votes();
+    // this.socket.on("votes_discord", (msg, cb) => {
+    //   if (this.has_historical_votes) return;
+    //   this.votes = msg;
+    //   this.votes_changed = true;
+    // });
 
-    this.socket.on("votes_discord_partial", (msg, cb) => {
-      if (this.has_historical_votes) return;
+    // this.socket.on("votes_discord_partial", (msg, cb) => {
+    //   if (this.has_historical_votes) return;
 
-      for (var i = 0; i < msg.length; i++) {
-        const vote = msg[i];
-        this.votes[vote.message_id]["yay"] = vote["yay"];
-        this.votes[vote.message_id]["nay"] = vote["nay"];
-        this.votes[vote.message_id]["emote2_count"] = vote["emote2_count"];
-        this.votes[vote.message_id]["game"] = vote["game"];
-        this.votes[vote.message_id]["extra_emotes"] = vote["extra_emotes"];
-      }
-      if (msg.length > 0) this.votes_changed = true;
-    });
+    //   for (var i = 0; i < msg.length; i++) {
+    //     const vote = msg[i];
+    //     this.votes[vote.message_id]["yay"] = vote["yay"];
+    //     this.votes[vote.message_id]["nay"] = vote["nay"];
+    //     this.votes[vote.message_id]["emote2_count"] = vote["emote2_count"];
+    //     this.votes[vote.message_id]["game"] = vote["game"];
+    //     this.votes[vote.message_id]["extra_emotes"] = vote["extra_emotes"];
+    //   }
+    //   if (msg.length > 0) this.votes_changed = true;
+    // });
 
     this.socket.on("latest_pitches", (msg, cb) => {
       this.$store.commit("set_latest_pitches", msg);
     });
-    this.socket.on("votos_time", (msg, cb) => {
-      this.$store.commit("set_votos_time", msg);
-    });
+    // this.socket.on("votos_time", (msg, cb) => {
+    //   this.$store.commit("set_votos_time", msg);
+    // });
 
-    this.socket.emit("votes_pls", "discordvotes");
+    // this.socket.emit("votes_pls", "discordvotes");
 
-    this.vote_timer = setInterval(
-      function () {
-        if (this.votes_changed) {
-          this.parse_votes();
-          this.votes_changed = false;
-        }
-      }.bind(this),
-      500
-    );
+    // this.vote_timer = setInterval(
+    //   function () {
+    //     if (this.votes_changed) {
+    //       this.parse_votes();
+    //       this.votes_changed = false;
+    //     }
+    //   }.bind(this),
+    //   500
+    // );
   },
   methods: {
     parse_votes: async function () {
@@ -163,7 +164,6 @@ export default {
           extra_emotes: this.votes[key].extra_emotes,
           weeb_status: this.votes[key].weeb_status,
         };
-        if (vote_data.message_id == "807296983286415411") console.log(vote_data);
 
         if (
           vote_data.message_id == "809130993507237919" ||
