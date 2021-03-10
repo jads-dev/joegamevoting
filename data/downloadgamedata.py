@@ -1,7 +1,7 @@
 import requests
 import sqlite3
 
-params = {"client_id": "***REMOVED***", "client_secret": "***REMOVED***", "grant_type": "client_credentials"}
+params = {"client_id": "", "client_secret": "", "grant_type": "client_credentials"}
 
 
 base_url = "https://id.twitch.tv/oauth2/token"

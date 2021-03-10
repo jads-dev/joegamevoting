@@ -1,13 +1,5 @@
 __pycache__/
 *.py[cod]
 
-data/gamevotes.db
-data/gamevotes.db-journal
 
 data/votes/*.json
-data/round1_culled.json
-data/round1.json
-data/round2p2.json
-data/culled.json
-ripfun.txt
-data/round3p1.json

@@ -24,4 +24,4 @@ async def on_ready():
             f.write(f"{key}, {counts[key]}\n")
 
 
-bot.run("***REMOVED***")
+bot.run("DISCORD TOKEN")
