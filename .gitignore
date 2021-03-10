@@ -1,5 +1,7 @@
 __pycache__/
 *.py[cod]
 
+data/gamevotes.db
+data/gamevotes.db-journal
 
 data/votes/*.json
